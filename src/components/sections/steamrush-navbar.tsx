@@ -29,8 +29,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { FaWhatsapp } from "react-icons/fa";
-import { SuggestiveSearch } from "@/components/ui/suggestive-search";
-import { SEARCH_GAMES } from "@/data/games";
 
 interface GameCategory {
   href: string;
@@ -50,7 +48,6 @@ export default function SteamRushNavbar() {
   const { itemCount } = useCart();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isGamesOpen, setIsGamesOpen] = React.useState(false);
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0A0E27]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0E27]/90">
@@ -139,44 +136,16 @@ export default function SteamRushNavbar() {
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
-          {/* Desktop Search - Compact, next to cart */}
-          <div className="hidden lg:block">
-            <SuggestiveSearch 
-              gameData={SEARCH_GAMES} 
-              placeholder="Search games..."
-              className="w-56"
-            />
-          </div>
-
-          {/* Mobile Search - Expandable Icon */}
-          <div className="lg:hidden relative">
-            {isMobileSearchOpen ? (
-              <div className="fixed inset-x-0 top-16 bg-[#0A0E27] border-b border-white/10 p-4 z-50">
-                <SuggestiveSearch 
-                  gameData={SEARCH_GAMES} 
-                  placeholder="Search games..."
-                  className="w-full"
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsMobileSearchOpen(false)}
-                  className="mt-2 w-full text-[#B0B8D0]"
-                >
-                  Close
-                </Button>
-              </div>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMobileSearchOpen(true)}
-                className="text-white hover:bg-white/5"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            )}
-          </div>
+          {/* WhatsApp Contact - Desktop */}
+          <a
+            href="https://wa.me/917752805529?text=Hi! I want to buy a game"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#25D366] hover:bg-[#20BA5A] transition-colors"
+          >
+            <FaWhatsapp className="h-4 w-4" />
+            Contact Us
+          </a>
 
           {/* Cart */}
           <Button asChild variant="ghost" size="icon" className="relative hover:bg-white/5" aria-label="Shopping cart">

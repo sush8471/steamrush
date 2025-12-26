@@ -1,5 +1,4 @@
-"use client";
-
+// SuggestiveSearch.tsx - Enhanced with game search functionality
 import React, {
   useEffect,
   useMemo,
@@ -9,7 +8,10 @@ import React, {
 } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import type { GameData } from "@/data/games";
 
 /**
  * Props for any effect renderer. Effects are responsible for animating the
@@ -18,14 +20,12 @@ import { Search } from "lucide-react";
 export interface EffectRendererProps {
   text: string;
   isActive: boolean;
-  allowDelete?: boolean; // new: indicates if effect should delete/advance
+  allowDelete?: boolean;
   typeDurationMs: number;
   deleteDurationMs: number;
   pauseAfterTypeMs: number;
   prefersReducedMotion?: boolean;
-  /** Called by the effect when it finishes the delete/exit phase and ready for next suggestion */
   onDeleteComplete?: () => void;
-  /** Optional container ref if the effect needs to measure or align itself */
   containerRef?: RefObject<HTMLElement | null>;
 }
 
@@ -36,37 +36,22 @@ export type BuiltinEffect = "typewriter" | "slide" | "fade" | "none";
 export interface SuggestiveSearchProps {
   onChange?: (val: string) => void;
   suggestions?: string[];
+  gameData?: GameData[]; // NEW: game catalogue data
   className?: string;
-  Leading?: () => React.ReactElement;
-  /** show/hide leading icon */
+  placeholder?: string;
+  Leading?: () => JSX.Element;
   showLeading?: boolean;
-  /** trailing icon component */
-  Trailing?: () => React.ReactElement;
-  /** show/hide trailing icon */
+  Trailing?: () => JSX.Element;
   showTrailing?: boolean;
-  /** convenience selection of built-in effects */
   effect?: BuiltinEffect;
-  /** override with a custom Effect component */
   EffectComponent?: React.ComponentType<EffectRendererProps>;
   typeDurationMs?: number;
   deleteDurationMs?: number;
   pauseAfterTypeMs?: number;
-  /** play suggestions forever or only once */
   animateMode?: "infinite" | "once";
-  /** autocomplete data source */
-  autocompleteData?: Array<{ id: number | string; title: string; subtitle?: string }>;
-  /** callback when autocomplete item is selected */
-  onSelect?: (item: { id: number | string; title: string; subtitle?: string }) => void;
-  /** maximum autocomplete results to show */
-  maxAutocompleteResults?: number;
 }
 
-/* ---------------------------
-   TypewriterEffect
-   - Reveal mask width 0->100% for typing (duration controlled)
-   - Hold, then shrink for deleting (if allowed)
-   - Shows blinking cursor while typing/paused
-   ----------------------------*/
+/* TypewriterEffect Component */
 export const TypewriterEffect: React.FC<EffectRendererProps> = ({
   text,
   isActive,
@@ -81,7 +66,7 @@ export const TypewriterEffect: React.FC<EffectRendererProps> = ({
   const [phase, setPhase] = useState<"typing" | "paused" | "deleting">(
     "typing"
   );
-  const timers = useRef<NodeJS.Timeout[]>([]);
+  const timers = useRef<ReturnType<typeof window.setTimeout>[]>([]);
 
   useEffect(() => {
     setPhase("typing");
@@ -108,7 +93,7 @@ export const TypewriterEffect: React.FC<EffectRendererProps> = ({
       const t = window.setTimeout(
         () => onDeleteComplete?.(),
         Math.max(200, pauseAfterTypeMs)
-      ) as unknown as NodeJS.Timeout;
+      );
       timers.current.push(t);
       return () => timers.current.forEach(clearTimeout);
     }
@@ -161,7 +146,7 @@ export const TypewriterEffect: React.FC<EffectRendererProps> = ({
                 const t = window.setTimeout(
                   () => setPhase("deleting"),
                   pauseAfterTypeMs
-                ) as unknown as NodeJS.Timeout;
+                );
                 timers.current.push(t);
               }
             } else if (phase === "deleting") {
@@ -207,237 +192,29 @@ export const TypewriterEffect: React.FC<EffectRendererProps> = ({
   );
 };
 
-/* ---------------------------
-   SlideEffect
-   - Slide text from top -> center -> bottom
-   - Uses transforms; good for a 'carousel' style
-   ----------------------------*/
-export const SlideEffect: React.FC<EffectRendererProps> = ({
-  text,
-  isActive,
-  allowDelete = true,
-  typeDurationMs,
-  deleteDurationMs,
-  pauseAfterTypeMs,
-  prefersReducedMotion,
-  onDeleteComplete,
-  containerRef,
-}) => {
-  const [phase, setPhase] = useState<"enter" | "pause" | "exit">("enter");
-  const timers = useRef<NodeJS.Timeout[]>([]);
-
-  useEffect(() => {
-    setPhase("enter");
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-    return () => {
-      timers.current.forEach(clearTimeout);
-      timers.current = [];
-    };
-  }, [text, isActive, allowDelete]);
-
-  useEffect(() => {
-    if (!isActive) {
-      setPhase("enter");
-      timers.current.forEach(clearTimeout);
-      timers.current = [];
-    }
-  }, [isActive]);
-
-  if (!isActive) return null;
-
-  if (prefersReducedMotion) {
-    useEffect(() => {
-      if (!allowDelete) return;
-      const t = window.setTimeout(
-        () => onDeleteComplete?.(),
-        Math.max(200, pauseAfterTypeMs)
-      ) as unknown as NodeJS.Timeout;
-      timers.current.push(t);
-      return () => timers.current.forEach(clearTimeout);
-    }, [onDeleteComplete, pauseAfterTypeMs, allowDelete]);
-    return (
-      <span className="text-sm text-muted-foreground select-none">{text}</span>
-    );
-  }
-
-  return (
-    <div
-      ref={containerRef as RefObject<HTMLDivElement> | undefined}
-      style={{
-        overflow: "hidden",
-        display: "inline-block",
-        whiteSpace: "nowrap",
-        alignItems: "center",
-      }}
-    >
-      <motion.div
-        key={text}
-        initial={{ y: "-100%" }}
-        animate={
-          phase === "enter"
-            ? { y: "0%" }
-            : phase === "exit"
-            ? { y: "100%" }
-            : { y: "0%" }
-        }
-        transition={
-          phase === "enter"
-            ? { duration: typeDurationMs / 1000, ease: "easeOut" }
-            : { duration: deleteDurationMs / 1000, ease: "easeIn" }
-        }
-        onAnimationComplete={() => {
-          if (phase === "enter") {
-            setPhase("pause");
-            if (allowDelete) {
-              const t = window.setTimeout(
-                () => setPhase("exit"),
-                pauseAfterTypeMs
-              ) as unknown as NodeJS.Timeout;
-              timers.current.push(t);
-            }
-          } else if (phase === "exit") {
-            onDeleteComplete?.();
-          }
-        }}
-        style={{ display: "inline-block" }}
-      >
-        <span className="text-sm text-muted-foreground select-none">
-          {text}
-        </span>
-      </motion.div>
-    </div>
-  );
-};
-
-/* ---------------------------
-   FadeEffect
-   - Crossfade opacity in/out (new)
-   ----------------------------*/
-export const FadeEffect: React.FC<EffectRendererProps> = ({
-  text,
-  isActive,
-  allowDelete = true,
-  typeDurationMs,
-  deleteDurationMs,
-  pauseAfterTypeMs,
-  prefersReducedMotion,
-  onDeleteComplete,
-  containerRef,
-}) => {
-  const [phase, setPhase] = useState<"fadeIn" | "hold" | "fadeOut">("fadeIn");
-  const timers = useRef<NodeJS.Timeout[]>([]);
-
-  useEffect(() => {
-    setPhase("fadeIn");
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-    return () => {
-      timers.current.forEach(clearTimeout);
-      timers.current = [];
-    };
-  }, [text, isActive, allowDelete]);
-
-  useEffect(() => {
-    if (!isActive) {
-      setPhase("fadeIn");
-      timers.current.forEach(clearTimeout);
-      timers.current = [];
-    }
-  }, [isActive]);
-
-  if (!isActive) return null;
-
-  if (prefersReducedMotion) {
-    useEffect(() => {
-      if (!allowDelete) return;
-      const t = window.setTimeout(
-        () => onDeleteComplete?.(),
-        Math.max(200, pauseAfterTypeMs)
-      ) as unknown as NodeJS.Timeout;
-      timers.current.push(t);
-      return () => timers.current.forEach(clearTimeout);
-    }, [onDeleteComplete, pauseAfterTypeMs, allowDelete]);
-    return (
-      <span className="text-sm text-muted-foreground select-none">{text}</span>
-    );
-  }
-
-  return (
-    <div
-      ref={containerRef as RefObject<HTMLDivElement> | undefined}
-      style={{
-        overflow: "hidden",
-        display: "inline-block",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <motion.div
-        key={text}
-        initial={{ opacity: 0 }}
-        animate={
-          phase === "fadeIn"
-            ? { opacity: 1 }
-            : phase === "fadeOut"
-            ? { opacity: 0 }
-            : { opacity: 1 }
-        }
-        transition={
-          phase === "fadeIn"
-            ? { duration: typeDurationMs / 1000 }
-            : { duration: deleteDurationMs / 1000 }
-        }
-        onAnimationComplete={() => {
-          if (phase === "fadeIn") {
-            setPhase("hold");
-            if (allowDelete) {
-              const t = window.setTimeout(
-                () => setPhase("fadeOut"),
-                pauseAfterTypeMs
-              ) as unknown as NodeJS.Timeout;
-              timers.current.push(t);
-            }
-          } else if (phase === "fadeOut") {
-            onDeleteComplete?.();
-          }
-        }}
-        style={{ display: "inline-block" }}
-      >
-        <span className="text-sm text-muted-foreground select-none">
-          {text}
-        </span>
-      </motion.div>
-    </div>
-  );
-};
-
-/* ---------------------------
-   SuggestiveSearch Orchestrator
-   - handles input state, sizing/measurement of overlay bounds,
-     effect selection & cycling suggestions.
-   ----------------------------*/
+/* SuggestiveSearch Component with Game Search */
 export const SuggestiveSearch: React.FC<SuggestiveSearchProps> = ({
   onChange,
-  suggestions = ["Search your favourite movie", "Search user from connection"],
+  suggestions = ["Search GTA, Spider-Man, FIFA...", "Find your favorite games", "Try searching for 'cyberpunk'"],
+  gameData = [],
   className,
+  placeholder,
   Leading = () => <Search className="size-4 text-muted-foreground" />,
   showLeading = true,
-  Trailing = () => <Search className="size-4 text-muted-foreground" />,
+  Trailing,
   showTrailing = false,
   effect = "typewriter",
   EffectComponent,
-  typeDurationMs = 500,
-  deleteDurationMs = 300,
-  pauseAfterTypeMs = 1500,
+  typeDurationMs = 600,
+  deleteDurationMs = 400,
+  pauseAfterTypeMs = 2000,
   animateMode = "infinite",
-  autocompleteData = [],
-  onSelect,
-  maxAutocompleteResults = 5,
 }) => {
+  const router = useRouter();
   const [search, setSearch] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
-  const [showAutocomplete, setShowAutocomplete] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const [index, setIndex] = useState<number>(0);
   const current = useMemo(() => suggestions[index] ?? "", [suggestions, index]);
@@ -447,26 +224,55 @@ export const SuggestiveSearch: React.FC<SuggestiveSearchProps> = ({
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const trailingRef = useRef<HTMLDivElement | null>(null);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const [leftOffsetPx, setLeftOffsetPx] = useState<number | null>(null);
   const [rightOffsetPx, setRightOffsetPx] = useState<number | null>(null);
 
-  // pixel width of the longest suggestion text (measured via canvas)
-  const [measuredLongestTextPx, setMeasuredLongestTextPx] = useState<
-    number | null
-  >(null);
-  // available width for text inside wrapper (wrapper width minus left/right offsets)
-  const [availableTextAreaPx, setAvailableTextAreaPx] = useState<number | null>(
-    null
-  );
+  // Fuzzy search logic
+  const filteredGames = useMemo(() => {
+    if (!search.trim() || !gameData.length) return [];
 
-  // compute longest suggestion string
-  const longestSuggestion = useMemo(
-    () => suggestions.reduce((a, b) => (a.length > b.length ? a : b), ""),
-    [suggestions]
-  );
+    const query = search.toLowerCase().trim();
+    const scored = gameData.map((game) => {
+      const title = game.title.toLowerCase();
+      let score = 0;
 
-  // measure paddings & leading/trailing width to compute overlay left/right & available area
+      // Exact match
+      if (title === query) score += 1000;
+      
+      // Starts with
+      if (title.startsWith(query)) score += 500;
+      
+      // Word starts
+      const words = title.split(/\s+/);
+      if (words.some(w => w.startsWith(query))) score += 300;
+      
+      // Abbreviation match (e.g., "gt" → "Grand Theft")
+      const initials = words.map(w => w[0]).join("");
+      if (initials.includes(query)) score += 250;
+      
+      // Character sequence
+      let queryIndex = 0;
+      for (let i = 0; i < title.length && queryIndex < query.length; i++) {
+        if (title[i] === query[queryIndex]) queryIndex++;
+      }
+      if (queryIndex === query.length) score += 200;
+      
+      // Contains
+      if (title.includes(query)) score += 100;
+
+      return { game, score };
+    });
+
+    return scored
+      .filter(({ score }) => score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
+      .map(({ game }) => game);
+  }, [search, gameData]);
+
+  // Measure offsets
   useEffect(() => {
     const wrapper = wrapperRef.current;
     const lead = leadingRef.current;
@@ -481,14 +287,10 @@ export const SuggestiveSearch: React.FC<SuggestiveSearchProps> = ({
       const trailW = showTrailing
         ? trail?.getBoundingClientRect().width ?? 0
         : 0;
-      const left = padLeft + leadW + 8; // small gap
+      const left = padLeft + leadW + 8;
       setLeftOffsetPx(left);
       const right = padRight + trailW;
       setRightOffsetPx(right);
-
-      const wrapperW = wrapper.getBoundingClientRect().width;
-      const avail = Math.max(0, wrapperW - left - right);
-      setAvailableTextAreaPx(avail);
     };
 
     update();
@@ -499,41 +301,57 @@ export const SuggestiveSearch: React.FC<SuggestiveSearchProps> = ({
     return () => ro.disconnect();
   }, [showLeading, showTrailing]);
 
-  // measure pixel width of longestSuggestion using canvas with input's font
+  // Click outside to close
   useEffect(() => {
-    const input = inputRef.current;
-    if (!longestSuggestion) {
-      setMeasuredLongestTextPx(null);
-      return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowResults(false);
+        setIsFocused(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!showResults || filteredGames.length === 0) return;
+
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          setSelectedIndex(prev => 
+            prev < filteredGames.length - 1 ? prev + 1 : prev
+          );
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1));
+          break;
+        case "Enter":
+          e.preventDefault();
+          if (selectedIndex >= 0 && filteredGames[selectedIndex]) {
+            handleSelectGame(filteredGames[selectedIndex]);
+          }
+          break;
+        case "Escape":
+          setShowResults(false);
+          setSelectedIndex(-1);
+          break;
+      }
+    };
+
+    if (showResults) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
+  }, [showResults, selectedIndex, filteredGames]);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      setMeasuredLongestTextPx(null);
-      return;
-    }
-
-    const elForFont = input ?? wrapperRef.current;
-    if (!elForFont) {
-      ctx.font =
-        "14px system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial";
-    } else {
-      const cs = getComputedStyle(elForFont);
-      const font = `${cs.fontStyle} ${cs.fontVariant} ${cs.fontWeight} ${cs.fontSize} / ${cs.lineHeight} ${cs.fontFamily}`;
-      ctx.font = font;
-    }
-
-    const metrics = ctx.measureText(longestSuggestion);
-    const measured = Math.ceil(metrics.width) + 8;
-    setMeasuredLongestTextPx(measured);
-  }, [longestSuggestion, inputRef.current]);
-
-  // choose effect component (same as before, includes new 'fade')
   const builtinMap: Record<BuiltinEffect, React.ComponentType<any>> = {
     typewriter: TypewriterEffect,
-    slide: SlideEffect,
-    fade: FadeEffect,
+    slide: TypewriterEffect,
+    fade: TypewriterEffect,
     none: () => null,
   };
   const ChosenEffect = EffectComponent ?? builtinMap[effect];
@@ -550,189 +368,167 @@ export const SuggestiveSearch: React.FC<SuggestiveSearchProps> = ({
   const handleInputChange = (val: string) => {
     setSearch(val);
     onChange?.(val);
-    setSelectedIndex(-1);
-    setShowAutocomplete(val.trim().length > 0);
-  };
-
-  // Filter autocomplete results based on search query
-  const filteredAutocomplete = useMemo(() => {
-    if (!search.trim() || !autocompleteData.length) return [];
-    
-    const query = search.toLowerCase().trim();
-    return autocompleteData
-      .filter(item => item.title.toLowerCase().includes(query))
-      .slice(0, maxAutocompleteResults);
-  }, [search, autocompleteData, maxAutocompleteResults]);
-
-  // Handle keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showAutocomplete || filteredAutocomplete.length === 0) return;
-
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setSelectedIndex(prev => 
-          prev < filteredAutocomplete.length - 1 ? prev + 1 : prev
-        );
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setSelectedIndex(prev => prev > 0 ? prev - 1 : -1);
-        break;
-      case "Enter":
-        e.preventDefault();
-        if (selectedIndex >= 0 && filteredAutocomplete[selectedIndex]) {
-          handleSelectItem(filteredAutocomplete[selectedIndex]);
-        }
-        break;
-      case "Escape":
-        setShowAutocomplete(false);
-        setSelectedIndex(-1);
-        break;
-    }
-  };
-
-  // Handle item selection
-  const handleSelectItem = (item: { id: number | string; title: string; subtitle?: string }) => {
-    setSearch(item.title);
-    onChange?.(item.title);
-    onSelect?.(item);
-    setShowAutocomplete(false);
+    setShowResults(val.trim().length > 0);
     setSelectedIndex(-1);
   };
 
-  // compute minWidthPx: try to use measuredLongestTextPx if available and parent has space,
-  // otherwise use availableTextAreaPx. If measurement not ready, no minWidth applied.
-  const minWidthPx =
-    measuredLongestTextPx != null && availableTextAreaPx != null
-      ? Math.min(measuredLongestTextPx, availableTextAreaPx)
-      : measuredLongestTextPx != null
-      ? measuredLongestTextPx
-      : undefined;
+  const handleSelectGame = (game: GameData) => {
+    router.push(`/games/${game.id}`);
+    setSearch("");
+    setShowResults(false);
+    setIsFocused(false);
+  };
 
-  // overlay is active only when input empty AND not focused
+  const handleClear = () => {
+    setSearch("");
+    setShowResults(false);
+    setSelectedIndex(-1);
+    inputRef.current?.focus();
+  };
+
   const overlayActive = !search && !isFocused;
-
-  // compute allowDelete: in "once" mode, prevent deleting when on last suggestion
   const isLast = index === suggestions.length - 1;
   const allowDelete = animateMode === "infinite" ? true : !isLast;
 
   return (
-    <div
-      ref={wrapperRef}
-      className={cn(
-        "relative flex items-center gap-x-2 py-2 px-4 border border-border rounded-full",
-        className
-      )}
-      style={{ maxWidth: "100%" }}
-    >
-      {/* Leading icon (optional) */}
-      <div ref={leadingRef} className="flex-shrink-0">
-        {showLeading && <Leading />}
-      </div>
-
-      <input
-        ref={inputRef}
-        type="text"
-        value={search}
-        onFocus={() => {
-          setIsFocused(true);
-          if (search.trim()) setShowAutocomplete(true);
-        }}
-        onBlur={() => {
-          setIsFocused(false);
-          // Delay hiding to allow click on dropdown
-          setTimeout(() => setShowAutocomplete(false), 200);
-        }}
-        onChange={(e) => handleInputChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className="bg-transparent outline-none text-sm text-foreground placeholder:text-transparent w-full"
-        placeholder=""
-        aria-label="search"
-        aria-autocomplete="list"
-        aria-controls="autocomplete-list"
-        aria-expanded={showAutocomplete && filteredAutocomplete.length > 0}
-        // set minWidth based on pixel measurement (if available)
-        style={
-          minWidthPx != null
-            ? { minWidth: `${minWidthPx}px` }
-            : { minWidth: undefined }
-        }
-      />
-
-      {/* Trailing icon (optional) */}
-      <div ref={trailingRef} className="flex-shrink-0">
-        {showTrailing && Trailing && <Trailing />}
-      </div>
-
-      {/* overlay area: only render when input empty and not focused */}
-      {overlayActive && (
-        <div
-          ref={overlayRef}
-          aria-hidden
-          style={{
-            position: "absolute",
-            left:
-              leftOffsetPx != null
-                ? `${leftOffsetPx}px`
-                : "calc(0.5rem + 1.5rem + 8px)",
-            right: rightOffsetPx != null ? `${rightOffsetPx}px` : "0.5rem",
-            top: 0,
-            bottom: 0,
-            display: "flex",
-            alignItems: "center",
-            pointerEvents: "none",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <ChosenEffect
-            text={current}
-            isActive={overlayActive}
-            allowDelete={allowDelete}
-            typeDurationMs={typeDurationMs ?? 500}
-            deleteDurationMs={deleteDurationMs ?? 300}
-            pauseAfterTypeMs={pauseAfterTypeMs ?? 1500}
-            prefersReducedMotion={prefersReduced}
-            onDeleteComplete={handleEffectDeleteComplete}
-            containerRef={overlayRef}
-          />
+    <div className="relative" ref={wrapperRef}>
+      <div
+        className={cn(
+          "relative flex items-center gap-x-2 py-2 px-4 border border-border rounded-full bg-[#1A1F3A]/50 backdrop-blur-sm",
+          isFocused && "ring-2 ring-[#0074E4]/50",
+          className
+        )}
+      >
+        {/* Leading icon */}
+        <div ref={leadingRef} className="flex-shrink-0">
+          {showLeading && <Leading />}
         </div>
-      )}
 
-      {/* Autocomplete Dropdown */}
-      {showAutocomplete && filteredAutocomplete.length > 0 && (
-        <div
-          id="autocomplete-list"
-          role="listbox"
-          className="absolute left-0 right-0 top-full mt-2 bg-[#1A1F3A] border border-[#2A2E4D] rounded-lg shadow-lg overflow-hidden z-50 max-h-[300px] overflow-y-auto"
-          style={{
-            boxShadow: "0 10px 40px rgba(0, 0, 0, 0.3)",
+        <input
+          ref={inputRef}
+          type="text"
+          value={search}
+          onFocus={() => {
+            setIsFocused(true);
+            if (search.trim()) setShowResults(true);
           }}
+          onBlur={() => {
+            // Delay to allow click on results
+            setTimeout(() => setIsFocused(false), 200);
+          }}
+          onChange={(e) => handleInputChange(e.target.value)}
+          className="bg-transparent outline-none text-sm text-white placeholder:text-transparent w-full"
+          placeholder={placeholder || ""}
+          aria-label="search games"
+        />
+
+        {/* Clear button */}
+        {search && (
+          <button
+            onClick={handleClear}
+            className="flex-shrink-0 hover:bg-white/10 rounded-full p-1 transition-colors"
+            aria-label="Clear search"
+          >
+            <X className="h-4 w-4 text-[#B0B8D0]" />
+          </button>
+        )}
+
+        {/* Trailing icon */}
+        {showTrailing && Trailing && (
+          <div ref={trailingRef} className="flex-shrink-0">
+            <Trailing />
+          </div>
+        )}
+
+        {/* Animated overlay */}
+        {overlayActive && (
+          <div
+            ref={overlayRef}
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: leftOffsetPx != null ? `${leftOffsetPx}px` : "calc(0.5rem + 1.5rem + 8px)",
+              right: rightOffsetPx != null ? `${rightOffsetPx}px` : "0.5rem",
+              top: 0,
+              bottom: 0,
+              display: "flex",
+              alignItems: "center",
+              pointerEvents: "none",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <ChosenEffect
+              text={current}
+              isActive={overlayActive}
+              allowDelete={allowDelete}
+              typeDurationMs={typeDurationMs ?? 600}
+              deleteDurationMs={deleteDurationMs ?? 400}
+              pauseAfterTypeMs={pauseAfterTypeMs ?? 2000}
+              prefersReducedMotion={prefersReduced}
+              onDeleteComplete={handleEffectDeleteComplete}
+              containerRef={overlayRef}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Search Results Dropdown */}
+      {showResults && filteredGames.length > 0 && (
+        <motion.div
+          ref={resultsRef}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="absolute top-full left-0 right-0 mt-2 bg-[#1A1F3A] border border-[#2A2E4D] rounded-lg shadow-2xl overflow-hidden z-50 max-h-[400px] overflow-y-auto"
         >
-          {filteredAutocomplete.map((item, idx) => (
+          {filteredGames.map((game, idx) => (
             <button
-              key={item.id}
-              role="option"
-              aria-selected={idx === selectedIndex}
-              onClick={() => handleSelectItem(item)}
+              key={game.id}
+              onClick={() => handleSelectGame(game)}
               onMouseEnter={() => setSelectedIndex(idx)}
               className={cn(
-                "w-full text-left px-4 py-3 transition-colors cursor-pointer border-b border-[#2A2E4D] last:border-b-0",
-                idx === selectedIndex
-                  ? "bg-[#0074E4]/10 text-white"
-                  : "text-[#B0B8D0] hover:bg-[#2A2E4D]/50"
+                "w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0",
+                selectedIndex === idx && "bg-white/10"
               )}
             >
-              <div className="font-medium text-sm">{item.title}</div>
-              {item.subtitle && (
-                <div className="text-xs text-muted-foreground mt-0.5">
-                  {item.subtitle}
-                </div>
-              )}
+              <Image
+                src={game.image}
+                alt={game.title}
+                width={60}
+                height={80}
+                className="w-12 h-16 object-cover rounded"
+              />
+              <div className="flex-1 text-left">
+                <p className="text-white font-medium text-sm">{game.title}</p>
+                <p className="text-[#B0B8D0] text-xs">{game.type}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[#0074E4] font-bold text-sm">{game.price}</p>
+                {game.discount && (
+                  <p className="text-[#25D366] text-xs">{game.discount}</p>
+                )}
+              </div>
             </button>
           ))}
-        </div>
+        </motion.div>
+      )}
+
+      {/* No Results */}
+      {showResults && search.trim() && filteredGames.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-full left-0 right-0 mt-2 bg-[#1A1F3A] border border-[#2A2E4D] rounded-lg shadow-2xl p-6 text-center z-50"
+        >
+          <p className="text-[#B0B8D0] mb-3">No games found for "{search}"</p>
+          <a
+            href="/games"
+            className="text-[#0074E4] hover:underline text-sm"
+          >
+            Browse all games →
+          </a>
+        </motion.div>
       )}
     </div>
   );

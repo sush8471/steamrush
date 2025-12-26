@@ -29,7 +29,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { FaWhatsapp } from "react-icons/fa";
-import { SmartSearch } from "@/components/ui/smart-search";
+import { SuggestiveSearch } from "@/components/ui/suggestive-search";
 import { SEARCH_GAMES } from "@/data/games";
 
 interface GameCategory {
@@ -141,7 +141,7 @@ export default function SteamRushNavbar() {
         <div className="flex items-center gap-2">
           {/* Desktop Search - Compact, next to cart */}
           <div className="hidden lg:block">
-            <SmartSearch 
+            <SuggestiveSearch 
               gameData={SEARCH_GAMES} 
               placeholder="Search games..."
               className="w-56"
@@ -152,7 +152,7 @@ export default function SteamRushNavbar() {
           <div className="lg:hidden relative">
             {isMobileSearchOpen ? (
               <div className="fixed inset-x-0 top-16 bg-[#0A0E27] border-b border-white/10 p-4 z-50">
-                <SmartSearch 
+                <SuggestiveSearch 
                   gameData={SEARCH_GAMES} 
                   placeholder="Search games..."
                   className="w-full"

@@ -168,40 +168,40 @@ export default function NavigationBar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-[#121212] z-[45] pt-[52px] transition-all duration-300 ease-in-out ${
+        className={`fixed inset-0 bg-[#0A0E27] z-[45] pt-[52px] transition-all duration-300 ease-in-out ${
           isMobileMenuOpen
             ? "opacity-100 translate-x-0"
             : "opacity-0 -translate-x-full pointer-events-none"
         }`}
       >
-        <div className="flex flex-col h-full bg-[#121212] overflow-y-auto px-6 py-8">
-          <nav className="flex flex-col gap-6 text-[18px] font-medium text-[#f5f5f5]">
-            <div className="flex flex-col gap-4 pb-6 border-b border-white/10">
-              <Link href="/" className="hover:text-primary transition-colors">
+        <div className="flex flex-col h-full bg-gradient-to-b from-[#0A0E27] to-[#121212] overflow-y-auto px-6 py-8">
+          <nav className="flex flex-col gap-6 text-[18px] font-medium text-white max-h-[calc(100vh-120px)] overflow-y-auto">
+            <div className="flex flex-col gap-5 pb-6 border-b border-white/10">
+              <Link href="/" className="hover:text-primary transition-colors font-semibold">
                 Store
               </Link>
               <Link
                 href="/#faq"
-                className="hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors font-semibold"
               >
                 Support
               </Link>
             </div>
-            <div className="flex flex-col gap-4">
-              <Link href="/#hot-deals" className="hover:text-primary transition-colors">Discover</Link>
-              <Link href="/games" className="hover:text-primary transition-colors">Browse</Link>
+            <div className="flex flex-col gap-5">
+              <Link href="/#hot-deals" className="hover:text-primary transition-colors font-semibold">Discover</Link>
+              <Link href="/games" className="hover:text-primary transition-colors font-semibold">Browse</Link>
             </div>
-            <div className="mt-auto pt-8 border-t border-white/10 flex flex-col gap-4 text-[14px] text-[#9eaebc]">
+            <div className="mt-auto pt-8 border-t border-white/10 flex flex-col gap-5 text-[15px] text-white/90">
               <Link
                 href="#"
-                className="flex items-center gap-3 hover:text-white transition-colors"
+                className="flex items-center gap-3 hover:text-primary transition-colors font-medium"
               >
                 <Globe size={20} />
                 <span>English (US)</span>
               </Link>
               <Link
                 href="#"
-                className="flex items-center gap-3 hover:text-white transition-colors"
+                className="flex items-center gap-3 hover:text-primary transition-colors font-medium"
               >
                 <User size={20} />
                 <span>Sign In</span>

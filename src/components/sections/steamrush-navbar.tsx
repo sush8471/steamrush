@@ -52,28 +52,8 @@ export default function SteamRushNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0A0E27]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0E27]/90">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Mobile: Hamburger + Logo */}
-        <div className="flex items-center gap-3 lg:hidden">
-          {/* Hamburger - Mobile Left */}
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setIsOpen(true)}>
-            <Menu className="h-5 w-5 text-white" />
-          </Button>
-          
-          {/* Logo - Mobile */}
-          <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
-            <Image
-              src="/new-logo.png"
-              alt="Steam Rush"
-              width={140}
-              height={50}
-              className="h-8 w-auto"
-              priority
-            />
-          </Link>
-        </div>
-
-        {/* Desktop: Logo */}
-        <Link href="/" className="hidden lg:flex items-center hover:opacity-90 transition-opacity">
+        {/* Logo */}
+        <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
           <Image
             src="/new-logo.png"
             alt="Steam Rush - Affordable Gaming, Instant Rush"
@@ -161,10 +141,14 @@ export default function SteamRushNavbar() {
               )}
             </Link>
           </Button>
-        </div>
 
-        {/* Mobile Menu Sheet */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          {/* Mobile Menu Trigger */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden hover:bg-white/5" aria-label="Menu">
+                <Menu className="h-5 w-5 text-white" />
+              </Button>
+            </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-[#0A0E27] border-[#2A2E4D]">
               <SheetHeader>
                 <SheetTitle className="flex items-center">
@@ -263,6 +247,7 @@ export default function SteamRushNavbar() {
               </nav>
             </SheetContent>
           </Sheet>
+        </div>
       </div>
     </header>
   );

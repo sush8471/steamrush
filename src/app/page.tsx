@@ -9,7 +9,7 @@ import SocialProof from "@/components/sections/social-proof";
 import UpcomingGames from "@/components/sections/upcoming-games";
 import FAQ from "@/components/sections/faq";
 import Footer from "@/components/sections/footer";
-import { Navbar1 } from "@/components/ui/navbar-1";
+import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import { Typewriter } from "@/components/ui/typewriter-text";
 
 const GAME_POSTERS = [
@@ -27,7 +27,7 @@ const GAME_POSTERS = [
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0A0E27]">
-      <Navbar1 />
+      <SteamRushNavbar />
       <AnimatedMarqueeHero
         tagline={
           <Typewriter

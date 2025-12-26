@@ -37,11 +37,11 @@ interface GameCategory {
 }
 
 const gameCategories: GameCategory[] = [
-  { href: "/games?category=action", label: "Action Games", description: "Fast-paced adventures" },
-  { href: "/games?category=rpg", label: "RPG Games", description: "Immersive role-playing" },
-  { href: "/games?category=strategy", label: "Strategy Games", description: "Tactical gameplay" },
-  { href: "/games?category=indie", label: "Indie Games", description: "Unique indie titles" },
-  { href: "/games?category=multiplayer", label: "Multiplayer", description: "Play with friends" },
+  { href: "/games#action", label: "Action Games", description: "Fast-paced adventures" },
+  { href: "/games#rpg", label: "RPG Games", description: "Immersive role-playing" },
+  { href: "/games#fps", label: "FPS/TPS Games", description: "Shooter experiences" },
+  { href: "/games#sports", label: "Sports Games", description: "Athletic competitions" },
+  { href: "/games#horror", label: "Horror Games", description: "Spine-chilling thrills" },
 ];
 
 export default function SteamRushNavbar() {

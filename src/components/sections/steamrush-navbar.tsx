@@ -243,11 +243,11 @@ export default function SteamRushNavbar() {
                     href="https://wa.me/917752805529?text=Hi! I want to buy a game"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm text-white bg-[#25D366] rounded-full hover:bg-[#20BA5A] transition-colors font-bold"
+                    className="flex items-center justify-center gap-2 px-6 py-3 text-sm text-white bg-[#25D366] rounded-lg hover:bg-[#20BA5A] transition-colors font-semibold"
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaWhatsapp className="h-5 w-5" />
-                    Contact on WhatsApp
+                    <FaWhatsapp className="h-4 w-4" />
+                    Contact Us
                   </a>
                 </div>
               </nav>

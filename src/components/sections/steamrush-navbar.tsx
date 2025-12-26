@@ -128,15 +128,6 @@ export default function SteamRushNavbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Search Box */}
-          <div className="mx-2">
-            <SmartSearch 
-              gameData={SEARCH_GAMES} 
-              placeholder="Search games..."
-              className="w-64"
-            />
-          </div>
-
           <Link
             href="/#faq"
             className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-[#B0B8D0] transition-colors hover:bg-white/5 hover:text-white"
@@ -148,16 +139,44 @@ export default function SteamRushNavbar() {
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
-          {/* WhatsApp Contact - Desktop */}
-          <a
-            href="https://wa.me/917752805529?text=Hi! I want to buy a game"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center justify-center gap-2 px-3 lg:px-4 py-2 text-xs lg:text-sm text-white bg-[#25D366] rounded-full hover:bg-[#20BA5A] transition-colors font-medium whitespace-nowrap"
-          >
-            <FaWhatsapp className="h-4 w-4" />
-            <span className="hidden lg:inline">Contact Us</span>
-          </a>
+          {/* Desktop Search - Compact, next to cart */}
+          <div className="hidden lg:block">
+            <SmartSearch 
+              gameData={SEARCH_GAMES} 
+              placeholder="Search games..."
+              className="w-56"
+            />
+          </div>
+
+          {/* Mobile Search - Expandable Icon */}
+          <div className="lg:hidden relative">
+            {isMobileSearchOpen ? (
+              <div className="fixed inset-x-0 top-16 bg-[#0A0E27] border-b border-white/10 p-4 z-50">
+                <SmartSearch 
+                  gameData={SEARCH_GAMES} 
+                  placeholder="Search games..."
+                  className="w-full"
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsMobileSearchOpen(false)}
+                  className="mt-2 w-full text-[#B0B8D0]"
+                >
+                  Close
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileSearchOpen(true)}
+                className="text-white hover:bg-white/5"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            )}
+          </div>
 
           {/* Cart */}
           <Button asChild variant="ghost" size="icon" className="relative hover:bg-white/5" aria-label="Shopping cart">
@@ -173,14 +192,10 @@ export default function SteamRushNavbar() {
               )}
             </Link>
           </Button>
+        </div>
 
-          {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden hover:bg-white/5" aria-label="Menu">
-                <Menu className="h-5 w-5 text-white" />
-              </Button>
-            </SheetTrigger>
+        {/* Mobile Menu Sheet */}
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-[#0A0E27] border-[#2A2E4D]">
               <SheetHeader>
                 <SheetTitle className="flex items-center">
@@ -279,7 +294,6 @@ export default function SteamRushNavbar() {
               </nav>
             </SheetContent>
           </Sheet>
-        </div>
       </div>
     </header>
   );

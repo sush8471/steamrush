@@ -2858,8 +2858,20 @@ export default function GamesPage() {
             </div>
           ) : (
             <div className="space-y-12">
-              {filteredGamesByGenre.map((section) => (
-                <section key={section.genre} className="w-full">
+              {filteredGamesByGenre.map((section) => {
+                // Generate section ID from genre name for hash navigation
+                const sectionId = section.genre
+                  .toLowerCase()
+                  .replace(/\s+/g, '-')
+                  .replace(/[\/]/g, '')
+                  .replace('action-adventure-open-world', 'action')
+                  .replace('fps-tps', 'fps')
+                  .replace('rpg', 'rpg')
+                  .replace('sports', 'sports')
+                  .replace('horror-survival', 'horror');
+                
+                return (
+                <section key={section.genre} id={sectionId} className="w-full scroll-mt-20">
                   <div className="flex items-center justify-between gap-4 mb-4 lg:mb-6">
                     <div>
                       <h2 className="text-xl lg:text-3xl font-black text-white mb-1">
@@ -2952,7 +2964,8 @@ export default function GamesPage() {
                     })}
                   </div>
                 </section>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

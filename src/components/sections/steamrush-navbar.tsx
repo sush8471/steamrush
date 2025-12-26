@@ -167,8 +167,13 @@ export default function SteamRushNavbar() {
             <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-[#0A0E27] border-[#2A2E4D]">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <Gamepad2 className="h-6 w-6 text-[#0074E4]" />
-                  <span className="text-white">STEAM<span className="text-[#0074E4]">RUSH</span></span>
+                  <Image
+                    src="/logo.png"
+                    alt="Steam Rush Logo"
+                    width={120}
+                    height={35}
+                    className="h-7 w-auto"
+                  />
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-6 flex flex-col gap-1">

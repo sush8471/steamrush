@@ -3,6 +3,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { SmartSearch } from "@/components/ui/smart-search";
+import { GameData } from "@/data/games";
 
 interface AnimatedMarqueeHeroProps {
   tagline: React.ReactNode;
@@ -10,6 +12,7 @@ interface AnimatedMarqueeHeroProps {
   description: string;
   ctaText: string;
   images: string[];
+  gameData?: GameData[];
   className?: string;
 }
 
@@ -30,6 +33,7 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
   description,
   ctaText,
   images,
+  gameData = [],
   className,
 }) => {
   const handleBrowseGames = () => {
@@ -98,11 +102,27 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
           {description}
         </motion.p>
 
+        {/* Search Bar */}
+        {gameData.length > 0 && (
           <motion.div
             initial="hidden"
             animate="show"
             variants={FADE_IN_ANIMATION_VARIANTS}
             transition={{ delay: 0.6 }}
+            className="mt-8 w-full max-w-2xl px-4"
+          >
+            <SmartSearch 
+              gameData={gameData} 
+              placeholder="Search for GTA, Spider-Man, FIFA..." 
+            />
+          </motion.div>
+        )}
+
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={FADE_IN_ANIMATION_VARIANTS}
+            transition={{ delay: 0.7 }}
           >
             <ActionButton onClick={handleBrowseGames}>{ctaText}</ActionButton>
           </motion.div>

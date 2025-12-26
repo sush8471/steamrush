@@ -11,7 +11,6 @@ import FAQ from "@/components/sections/faq";
 import Footer from "@/components/sections/footer";
 import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import { Typewriter } from "@/components/ui/typewriter-text";
-import { SEARCH_GAMES } from "@/data/games";
 
 const GAME_POSTERS = [
   "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/image-1765891250718.png?width=8000&height=8000&resize=contain",
@@ -53,7 +52,6 @@ export default function Home() {
         description="Original Steam games delivered instantly via WhatsApp. Easy payment, fast delivery, trusted by thousands."
         ctaText="Browse Games"
         images={GAME_POSTERS}
-        gameData={SEARCH_GAMES}
       />
 
       <HowItWorks />

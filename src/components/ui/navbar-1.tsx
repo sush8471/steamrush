@@ -128,7 +128,7 @@ const Navbar1 = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 bg-[#0A0E27] z-50 pt-24 px-6 sm:hidden"
+            className="fixed inset-0 bg-gradient-to-b from-[#0A0E27] to-[#121212] z-50 pt-24 px-6 sm:hidden overflow-y-auto"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
@@ -144,7 +144,7 @@ const Navbar1 = () => {
             >
               <X className="h-6 w-6 text-white" />
             </motion.button>
-            <div className="flex flex-col space-y-6">
+            <div className="flex flex-col space-y-8 max-h-[calc(100vh-120px)] overflow-y-auto pb-8">
               {[
                 { name: "Home", href: "/" },
                 { name: "Browse Games", href: "/games" },
@@ -160,7 +160,7 @@ const Navbar1 = () => {
                 >
                   <Link 
                     href={item.href} 
-                    className="text-base text-white font-medium" 
+                    className="text-lg text-white font-semibold hover:text-[#0074E4] transition-colors" 
                     onClick={toggleMenu}
                   >
                     {item.name}
@@ -173,15 +173,16 @@ const Navbar1 = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="pt-6"
+                className="pt-6 border-t border-white/10"
               >
                 <a
                   href="https://wa.me/917752805529?text=Hi! I want to buy a game"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full px-5 py-3 text-base text-white bg-[#0074E4] rounded-full hover:bg-[#0062C4] transition-colors font-medium"
+                  className="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-base text-white bg-[#25D366] rounded-full hover:bg-[#20BA5A] transition-colors font-semibold"
                   onClick={toggleMenu}
                 >
+                  <FaWhatsapp className="h-5 w-5" />
                   Contact on WhatsApp
                 </a>
               </motion.div>

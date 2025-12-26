@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import NavigationBar from "@/components/sections/navigation-bar";
+import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import Footer from "@/components/sections/footer";
 import { MessageCircle, ArrowLeft, Check, Monitor, HardDrive, Cpu } from "lucide-react";
 import Link from "next/link";
@@ -68,7 +68,7 @@ export default function GameDetailPage() {
   if (!game) {
     return (
       <main className="min-h-screen bg-[#0A0E27]">
-        <NavigationBar />
+        <SteamRushNavbar />
         <div className="pt-32 pb-16 text-center">
           <h1 className="text-3xl text-white mb-4">Game not found</h1>
           <Link href="/games" className="text-[#0074E4] hover:underline">
@@ -82,7 +82,7 @@ export default function GameDetailPage() {
 
   return (
     <main className="min-h-screen bg-[#0A0E27]">
-      <NavigationBar />
+      <SteamRushNavbar />
       
       <div className="pt-20 lg:pt-24 pb-12">
         <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">

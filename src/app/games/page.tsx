@@ -5,7 +5,7 @@ import Image from "next/image";
 import Footer from "@/components/sections/footer";
 import { Search, SlidersHorizontal, X, ShoppingCart, Check } from "lucide-react";
 import SuggestiveSearch from "@/components/ui/suggestive-search";
-import { Navbar1 } from "@/components/ui/navbar-1";
+import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 
@@ -2607,7 +2607,7 @@ export default function GamesPage() {
 
   return (
     <main className="min-h-screen bg-[#0A0E27]">
-      <Navbar1 />
+      <SteamRushNavbar />
       <div className="pt-8 lg:pt-12 pb-12">
         <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
           <div className="mb-8">

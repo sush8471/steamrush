@@ -72,7 +72,7 @@ const Navbar1 = () => {
           ))}
         </nav>
 
-        {/* Right side buttons - Contact Us + Cart */}
+        {/* Right side buttons - Contact Us + Cart + Mobile Menu */}
         <div className="flex items-center gap-3">
           {/* Contact Us Button - visible on tablets and up */}
           <motion.div
@@ -112,23 +112,23 @@ const Navbar1 = () => {
               )}
             </motion.div>
           </Link>
-        </div>
 
-        {/* Mobile Menu Button - only on phones */}
-        <motion.button 
-          className="sm:hidden flex items-center" 
-          onClick={toggleMenu} 
-          whileTap={{ scale: 0.9 }}
-        >
-          <Menu className="h-6 w-6 text-white" />
-        </motion.button>
+          {/* Mobile Menu Button - only on phones */}
+          <motion.button 
+            className="sm:hidden flex items-center" 
+            onClick={toggleMenu} 
+            whileTap={{ scale: 0.9 }}
+          >
+            <Menu className="h-6 w-6 text-white" />
+          </motion.button>
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 bg-gradient-to-b from-[#0A0E27] to-[#121212] z-50 pt-24 px-6 sm:hidden overflow-y-auto"
+            className="fixed inset-0 bg-gradient-to-b from-[#0A0E27] to-[#121212] z-50 pt-20 px-6 sm:hidden overflow-y-auto"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}

@@ -182,21 +182,34 @@ export default function SteamRushNavbar() {
 
                 {/* Mobile Browse Games Collapsible */}
                 <Collapsible open={isGamesOpen} onOpenChange={setIsGamesOpen}>
-                  <CollapsibleTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start gap-3 px-3 py-2.5 text-sm font-medium text-white hover:bg-white/5"
+                  <div className="flex items-center w-full">
+                    {/* Browse Games Link */}
+                    <Link
+                      href="/games"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5 flex-1"
                     >
                       <Store className="h-4 w-4" />
                       Browse Games
-                      <ChevronDown
-                        className={cn(
-                          "ml-auto h-4 w-4 transition-transform duration-200",
-                          isGamesOpen && "rotate-180"
-                        )}
-                      />
-                    </Button>
-                  </CollapsibleTrigger>
+                    </Link>
+                    
+                    {/* Chevron Toggle */}
+                    <CollapsibleTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9 hover:bg-white/5"
+                      >
+                        <ChevronDown
+                          className={cn(
+                            "h-4 w-4 text-white transition-transform duration-200",
+                            isGamesOpen && "rotate-180"
+                          )}
+                        />
+                      </Button>
+                    </CollapsibleTrigger>
+                  </div>
+                  
                   <CollapsibleContent className="ml-7 mt-1 space-y-1 border-l-2 border-[#0074E4] pl-4">
                     {gameCategories.map((cat) => (
                       <Link

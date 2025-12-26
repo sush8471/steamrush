@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Trash2, ShoppingBag, ArrowLeft } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Navbar1 } from '@/components/ui/navbar-1'
+import SteamRushNavbar from '@/components/sections/steamrush-navbar'
 import Footer from '@/components/sections/footer'
 import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card'
 
@@ -37,7 +37,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-[#0A0E27]">
-      <Navbar1 />
+      <SteamRushNavbar />
       
       <div className="py-20 px-4">
         <div className="max-w-6xl mx-auto">

@@ -128,64 +128,71 @@ const Navbar1 = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 bg-gradient-to-b from-[#0A0E27] to-[#121212] z-50 pt-20 px-6 sm:hidden overflow-y-auto"
+            className="fixed inset-0 bg-gradient-to-b from-[#0A0E27] to-[#121212] z-[60] flex flex-col sm:hidden"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
           >
+            {/* Close Button */}
             <motion.button
-              className="absolute top-6 right-6 p-2"
+              className="absolute top-8 right-8 p-2 z-10"
               onClick={toggleMenu}
               whileTap={{ scale: 0.9 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <X className="h-6 w-6 text-white" />
+              <X className="h-7 w-7 text-white" />
             </motion.button>
-            <div className="flex flex-col space-y-8 max-h-[calc(100vh-120px)] overflow-y-auto pb-8">
-              {[
-                { name: "Home", href: "/" },
-                { name: "Browse Games", href: "/games" },
-                { name: "Hot Deals", href: "/#hot-deals" },
-                { name: "FAQ", href: "/#faq" }
-              ].map((item, i) => (
+
+            {/* Menu Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto pt-24 pb-8 px-6">
+              <div className="flex flex-col space-y-6">
+                {/* Menu Items */}
+                {[
+                  { name: "Home", href: "/" },
+                  { name: "Browse Games", href: "/games" },
+                  { name: "Hot Deals", href: "/#hot-deals" },
+                  { name: "FAQ", href: "/#faq" }
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 + 0.1 }}
+                    exit={{ opacity: 0, x: 20 }}
+                  >
+                    <Link 
+                      href={item.href} 
+                      className="block text-xl text-white font-bold hover:text-[#0074E4] transition-colors py-2" 
+                      onClick={toggleMenu}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                ))}
+
+                {/* WhatsApp Button */}
                 <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 + 0.1 }}
-                  exit={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  className="pt-8 border-t border-white/10 mt-4"
                 >
-                  <Link 
-                    href={item.href} 
-                    className="text-lg text-white font-semibold hover:text-[#0074E4] transition-colors" 
+                  <a
+                    href="https://wa.me/917752805529?text=Hi! I want to buy a game"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 text-base text-white bg-[#25D366] rounded-full hover:bg-[#20BA5A] transition-all font-bold shadow-lg"
                     onClick={toggleMenu}
                   >
-                    {item.name}
-                  </Link>
+                    <FaWhatsapp className="h-5 w-5" />
+                    Contact on WhatsApp
+                  </a>
                 </motion.div>
-              ))}
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="pt-6 border-t border-white/10"
-              >
-                <a
-                  href="https://wa.me/917752805529?text=Hi! I want to buy a game"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full px-5 py-3 text-base text-white bg-[#25D366] rounded-full hover:bg-[#20BA5A] transition-colors font-semibold"
-                  onClick={toggleMenu}
-                >
-                  <FaWhatsapp className="h-5 w-5" />
-                  Contact on WhatsApp
-                </a>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}

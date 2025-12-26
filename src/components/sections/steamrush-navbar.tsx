@@ -26,7 +26,6 @@ import {
 import { ShoppingCart, Gamepad2, Home, Store, Flame, HelpCircle, Menu, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -52,22 +51,12 @@ export default function SteamRushNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0A0E27]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0E27]/90">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/logo.png"
-            alt="Steam Rush Logo"
-            width={140}
-            height={40}
-            className="hidden sm:block h-8 w-auto"
-            priority
-          />
-          <div className="flex items-center gap-2 sm:hidden">
-            <Gamepad2 className="w-6 h-6 text-[#0074E4]" />
-            <span className="text-lg font-black text-white">
-              STEAM<span className="text-[#0074E4]">RUSH</span>
-            </span>
-          </div>
+        {/* Logo - Icon Based Branding */}
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+          <Gamepad2 className="w-7 h-7 text-[#0074E4]" />
+          <span className="text-lg font-black text-white">
+            STEAM<span className="text-[#0074E4]">RUSH</span>
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -167,13 +156,8 @@ export default function SteamRushNavbar() {
             <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-[#0A0E27] border-[#2A2E4D]">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <Image
-                    src="/logo.png"
-                    alt="Steam Rush Logo"
-                    width={120}
-                    height={35}
-                    className="h-7 w-auto"
-                  />
+                  <Gamepad2 className="h-6 w-6 text-[#0074E4]" />
+                  <span className="text-white font-black">STEAM<span className="text-[#0074E4]">RUSH</span></span>
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-6 flex flex-col gap-1">

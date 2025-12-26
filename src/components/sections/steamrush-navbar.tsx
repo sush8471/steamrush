@@ -23,12 +23,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ShoppingCart, Gamepad2, Home, Store, Flame, HelpCircle, Menu, ChevronDown } from "lucide-react";
+import { ShoppingCart, Gamepad2, Home, Store, HelpCircle, Menu, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { FaWhatsapp } from "react-icons/fa";
+import { SmartSearch } from "@/components/ui/smart-search";
+import { SEARCH_GAMES } from "@/data/games";
 
 interface GameCategory {
   href: string;
@@ -105,14 +107,14 @@ export default function SteamRushNavbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Link
-            href="/#hot-deals"
-            className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-[#B0B8D0] transition-colors hover:bg-white/5 hover:text-white"
-          >
-            <Flame className="h-4 w-4" />
-            Hot Deals
-            <Badge variant="destructive" className="ml-0 text-[10px] px-1.5 py-0">Sale</Badge>
-          </Link>
+          {/* Search Box */}
+          <div className="mx-2">
+            <SmartSearch 
+              gameData={SEARCH_GAMES} 
+              placeholder="Search games..."
+              className="w-64"
+            />
+          </div>
 
           <Link
             href="/#faq"
@@ -230,16 +232,6 @@ export default function SteamRushNavbar() {
                     </Link>
                   </CollapsibleContent>
                 </Collapsible>
-
-                <Link
-                  href="/#hot-deals"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5"
-                >
-                  <Flame className="h-4 w-4" />
-                  Hot Deals
-                  <Badge variant="destructive" className="ml-auto text-[10px] px-1.5 py-0">Sale</Badge>
-                </Link>
 
                 <Link
                   href="/#faq"

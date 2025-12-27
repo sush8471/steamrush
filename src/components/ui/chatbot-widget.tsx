@@ -17,7 +17,7 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
-  gameData?: GameData;
+  games?: GameData[]; // Changed to array to support multiple games
 }
 
 export function ChatbotWidget() {
@@ -221,6 +221,54 @@ export function ChatbotWidget() {
     return { name, price, id, image };
   };
 
+  // Helper function to extract ALL games from a message
+  const extractAllGames = (content: string): GameData[] => {
+    const games: GameData[] = [];
+    
+    // Find all occurrences of price pattern with game names
+    // Pattern: Game Name - ₹XXX or Game Name: ₹XXX
+    const gamePattern = /(?:🎮\s*)?([^\n₹]+?)[\s\-:]+₹(\d+)/g;
+    let match;
+    
+    while ((match = gamePattern.exec(content)) !== null) {
+      const rawName = match[1].trim();
+      const price = parseInt(match[2]);
+      
+      // Clean up the game name
+      let gameName = rawName;
+      
+      // Remove leading numbers and bullets (1., 2., -, *, etc.)
+      gameName = gameName.replace(/^[\d\.\-\*\•\→]+\s*/, '').trim();
+      
+      // Remove emoji from the start
+      gameName = gameName.replace(/^[🎮\s]+/, '').trim();
+      
+      // Remove conversational prefixes
+      const conversationalPrefixes = [
+        'absolutely', 'here', 'sure', 'great', 'perfect', 'yes',
+        'dive into', 'check out', 'take a look at', 'how about', 'here is', "here's"
+      ];
+      
+      const lowerName = gameName.toLowerCase();
+      for (const prefix of conversationalPrefixes) {
+        if (lowerName.startsWith(prefix)) {
+          gameName = gameName.substring(prefix.length).trim();
+          gameName = gameName.replace(/^[:!,]\s*/, '').trim();
+        }
+      }
+      
+      // Skip if name is too short or invalid
+      if (!gameName || gameName.length < 2) continue;
+      
+      const id = gameName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const image = getGameImage(gameName);
+      
+      games.push({ name: gameName, price, id, image });
+    }
+    
+    return games;
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -278,7 +326,7 @@ export function ChatbotWidget() {
         role: "assistant",
         content: data.message || data.response || "How can I help you find games?",
         timestamp: new Date(),
-        gameData: extractGameData(data.message || data.response || ""),
+        games: extractAllGames(data.message || data.response || ""),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -388,36 +436,56 @@ export function ChatbotWidget() {
                   </div>
                 </div>
 
-                {/* Action Buttons for Game Replies */}
-                {msg.role === "assistant" && msg.gameData && (
+                {/* Formatted Game List for Multiple Games */}
+                {msg.role === "assistant" && msg.games && msg.games.length > 0 && (
                   <div className="flex justify-start mt-2 ml-1 animate-in fade-in slide-in-from-bottom duration-300 delay-100">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          addToCart({
-                            id: msg.gameData!.id,
-                            name: msg.gameData!.name,
-                            price: msg.gameData!.price,
-                            image: msg.gameData!.image,
-                          });
-                        }}
-                        className="group flex items-center gap-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 px-2.5 py-1.5 rounded-lg text-[11px] font-medium border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 hover:scale-105 active:scale-95"
-                      >
-                        <ShoppingCart className="w-3 h-3" strokeWidth={2.5} />
-                        <span>Add to Cart</span>
-                      </button>
-                      
-                      <button
-                        onClick={() => {
-                          const message = `Hi! I'm interested in ${msg.gameData!.name} (₹${msg.gameData!.price}). Can you help me?`;
-                          const whatsappUrl = `https://wa.me/917752805529?text=${encodeURIComponent(message)}`;
-                          window.open(whatsappUrl, '_blank');
-                        }}
-                        className="group flex items-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 hover:text-green-300 px-2.5 py-1.5 rounded-lg text-[11px] font-medium border border-green-500/30 hover:border-green-500/50 transition-all duration-200 hover:scale-105 active:scale-95"
-                      >
-                        <FaWhatsapp className="w-3 h-3" />
-                        <span>Contact Us</span>
-                      </button>
+                    <div className="flex flex-col gap-2 w-full max-w-[85%]">
+                      {msg.games.map((game, gameIdx) => (
+                        <div 
+                          key={gameIdx}
+                          className="bg-slate-800/60 border border-slate-700/50 rounded-lg p-2.5 hover:border-blue-500/30 transition-all"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex-1">
+                              <h4 className="text-slate-100 font-semibold text-[12px] leading-tight mb-0.5">
+                                {game.name}
+                              </h4>
+                              <p className="text-blue-400 font-bold text-[13px]">
+                                ₹{game.price}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-1.5">
+                            <button
+                              onClick={() => {
+                                addToCart({
+                                  id: game.id,
+                                  name: game.name,
+                                  price: game.price,
+                                  image: game.image,
+                                });
+                              }}
+                              className="flex-1 flex items-center justify-center gap-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 px-2 py-1.5 rounded-md text-[10px] font-medium border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                            >
+                              <ShoppingCart className="w-2.5 h-2.5" strokeWidth={2.5} />
+                              <span>Add</span>
+                            </button>
+                            
+                            <button
+                              onClick={() => {
+                                const message = `Hi! I'm interested in ${game.name} (₹${game.price}). Can you help me?`;
+                                const whatsappUrl = `https://wa.me/917752805529?text=${encodeURIComponent(message)}`;
+                                window.open(whatsappUrl, '_blank');
+                              }}
+                              className="flex-1 flex items-center justify-center gap-1 bg-green-500/10 hover:bg-green-500/20 text-green-400 hover:text-green-300 px-2 py-1.5 rounded-md text-[10px] font-medium border border-green-500/30 hover:border-green-500/50 transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                            >
+                              <FaWhatsapp className="w-2.5 h-2.5" />
+                              <span>Contact</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}

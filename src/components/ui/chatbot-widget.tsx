@@ -1,16 +1,26 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, ShoppingCart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/context/CartContext";
+import { FaWhatsapp } from "react-icons/fa";
+
+interface GameData {
+  name: string;
+  price: number;
+  id: string;
+}
 
 interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  gameData?: GameData;
 }
 
 export function ChatbotWidget() {
+  const { addToCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -23,6 +33,30 @@ export function ChatbotWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Helper function to extract game data from message content
+  const extractGameData = (content: string): GameData | undefined => {
+    // Pattern to detect game name and price
+    // Looking for patterns like: "Game Name - ₹299" or "🎮 Game Name - ₹199"
+    const priceRegex = /₹(\d+)/;
+    const priceMatch = content.match(priceRegex);
+    
+    if (!priceMatch) return undefined;
+    
+    const price = parseInt(priceMatch[1]);
+    
+    // Try to extract game name (text before the price)
+    const nameRegex = /(?:🎮\s*)?([^-₹]+)\s*-\s*₹/;
+    const nameMatch = content.match(nameRegex);
+    
+    if (!nameMatch) return undefined;
+    
+    const name = nameMatch[1].trim();
+    // Create a simple ID from the name
+    const id = name.toLowerCase().replace(/\s+/g, '-');
+    
+    return { name, price, id };
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -87,6 +121,7 @@ export function ChatbotWidget() {
         role: "assistant",
         content: data.message || data.response || "How can I help you find games?",
         timestamp: new Date(),
+        gameData: extractGameData(data.message || data.response || ""),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -158,26 +193,61 @@ export function ChatbotWidget() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto px-3 py-4 space-y-3.5 bg-slate-950/50 scroll-smooth">
             {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom duration-200`}
-              >
+              <div key={idx}>
                 <div
-                  className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl shadow-lg ${
-                    msg.role === "user"
-                      ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-br-md"
-                      : "bg-slate-800/90 backdrop-blur-sm text-slate-100 border border-slate-700/50 rounded-bl-md"
-                  }`}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom duration-200`}
                 >
-                  <p className="text-[13px] sm:text-[14px] leading-relaxed font-normal antialiased" style={{ letterSpacing: '0.01em' }}>
-                    {msg.content}
-                  </p>
-                  <span className={`text-[10px] font-medium mt-1.5 block ${
-                    msg.role === "user" ? "text-blue-100" : "text-slate-400"
-                  }`}>
-                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                  <div
+                    className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl shadow-lg ${
+                      msg.role === "user"
+                        ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-br-md"
+                        : "bg-slate-800/90 backdrop-blur-sm text-slate-100 border border-slate-700/50 rounded-bl-md"
+                    }`}
+                  >
+                    <p className="text-[13px] sm:text-[14px] leading-relaxed font-normal antialiased" style={{ letterSpacing: '0.01em' }}>
+                      {msg.content}
+                    </p>
+                    <span className={`text-[10px] font-medium mt-1.5 block ${
+                      msg.role === "user" ? "text-blue-100" : "text-slate-400"
+                    }`}>
+                      {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
                 </div>
+
+                {/* Action Buttons for Game Replies */}
+                {msg.role === "assistant" && msg.gameData && (
+                  <div className="flex justify-start mt-2 ml-1 animate-in fade-in slide-in-from-bottom duration-300 delay-100">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          addToCart({
+                            id: msg.gameData!.id,
+                            name: msg.gameData!.name,
+                            price: msg.gameData!.price,
+                            image: "/placeholder-game.jpg" // You might want to extract this from the message or use a default
+                          });
+                        }}
+                        className="group flex items-center gap-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 px-2.5 py-1.5 rounded-lg text-[11px] font-medium border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 hover:scale-105 active:scale-95"
+                      >
+                        <ShoppingCart className="w-3 h-3" strokeWidth={2.5} />
+                        <span>Add to Cart</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => {
+                          const message = `Hi! I'm interested in ${msg.gameData!.name} (₹${msg.gameData!.price}). Can you help me?`;
+                          const whatsappUrl = `https://wa.me/917752805529?text=${encodeURIComponent(message)}`;
+                          window.open(whatsappUrl, '_blank');
+                        }}
+                        className="group flex items-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-400 hover:text-green-300 px-2.5 py-1.5 rounded-lg text-[11px] font-medium border border-green-500/30 hover:border-green-500/50 transition-all duration-200 hover:scale-105 active:scale-95"
+                      >
+                        <FaWhatsapp className="w-3 h-3" />
+                        <span>Contact Us</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
             

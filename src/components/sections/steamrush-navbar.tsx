@@ -62,15 +62,15 @@ export default function SteamRushNavbar() {
                 <Menu className="h-5 w-5 text-white" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[350px] bg-[#0A0E27] border-[#2A2E4D]">
+            <SheetContent side="left" className="w-[180px] bg-[#0A0E27] border-[#2A2E4D]">
               <SheetHeader>
                 <SheetTitle className="flex items-center">
                   <Image
                     src="/new-logo.png"
                     alt="Steam Rush"
-                    width={160}
-                    height={50}
-                    className="h-9 w-auto"
+                    width={120}
+                    height={40}
+                    className="h-7 w-auto"
                     priority
                   />
                 </SheetTitle>
@@ -80,9 +80,9 @@ export default function SteamRushNavbar() {
                 <Link
                   href="/"
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5"
+                  className="flex items-center gap-2 rounded-md px-2 py-2 text-xs font-medium text-white transition-colors hover:bg-white/5"
                 >
-                  <Home className="h-4 w-4" />
+                  <Home className="h-3.5 w-3.5" />
                   Home
                 </Link>
 
@@ -93,10 +93,10 @@ export default function SteamRushNavbar() {
                     <Link
                       href="/games"
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5 flex-1"
+                      className="flex items-center gap-2 rounded-md px-2 py-2 text-xs font-medium text-white transition-colors hover:bg-white/5 flex-1"
                     >
-                      <Store className="h-4 w-4" />
-                      Browse Games
+                      <Store className="h-3.5 w-3.5" />
+                      Games
                     </Link>
                     
                     {/* Chevron Toggle */}
@@ -140,9 +140,9 @@ export default function SteamRushNavbar() {
                 <Link
                   href="/#faq"
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5"
+                  className="flex items-center gap-2 rounded-md px-2 py-2 text-xs font-medium text-white transition-colors hover:bg-white/5"
                 >
-                  <HelpCircle className="h-4 w-4" />
+                  <HelpCircle className="h-3.5 w-3.5" />
                   FAQ
                 </Link>
 
@@ -152,11 +152,11 @@ export default function SteamRushNavbar() {
                     href="https://wa.me/917752805529?text=Hi! I want to buy a game"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 text-sm text-white bg-[#25D366] rounded-lg hover:bg-[#20BA5A] transition-colors font-semibold"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 text-xs text-white bg-[#25D366] rounded-lg hover:bg-[#20BA5A] transition-colors font-semibold"
                     onClick={() => setIsOpen(false)}
                   >
-                    <FaWhatsapp className="h-4 w-4" />
-                    Contact Us
+                    <FaWhatsapp className="h-3.5 w-3.5" />
+                    Contact
                   </a>
                 </div>
               </nav>

@@ -208,7 +208,7 @@ export default function CartPage() {
                   hour12: true
                 })}
                 totalAmount={`₹${totalPrice}`}
-                onGoToWhatsApp={handleWhatsAppRedirect}
+                onGoToAccount={handleWhatsAppRedirect}
                 title="Your order is ready!"
                 buttonText="Continue to WhatsApp"
               />

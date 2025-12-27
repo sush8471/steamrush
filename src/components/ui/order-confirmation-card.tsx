@@ -1,76 +1,117 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
-import { FaWhatsapp } from 'react-icons/fa'
+import * as React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button, ButtonProps } from "@/components/ui/button";
 
+/**
+ * @interface OrderConfirmationCardProps
+ * @description Props for the OrderConfirmationCard component.
+ */
 interface OrderConfirmationCardProps {
-  orderId: string
-  paymentMethod: string
-  dateTime: string
-  totalAmount: string
-  onGoToWhatsApp: () => void
-  title: string
-  buttonText: string
+  orderId: string;
+  paymentMethod: string;
+  dateTime: string;
+  totalAmount: string;
+  onGoToAccount: () => void;
+  title?: string;
+  buttonText?: string;
+  icon?: React.ReactNode;
+  className?: string;
 }
 
-export function OrderConfirmationCard({
+/**
+ * A reusable UI component to display an order confirmation.
+ * Theme-adaptive, responsive, with subtle animations.
+ */
+export const OrderConfirmationCard: React.FC<OrderConfirmationCardProps> = ({
   orderId,
   paymentMethod,
   dateTime,
   totalAmount,
-  onGoToWhatsApp,
-  title,
-  buttonText,
-}: OrderConfirmationCardProps) {
+  onGoToAccount,
+  title = "Your order has been successfully submitted",
+  buttonText = "Go to my account",
+  icon = <CheckCircle2 className="h-12 w-12 text-green-500" />,
+  className,
+}) => {
+  const details = [
+    { label: "Order ID", value: orderId },
+    { label: "Payment Method", value: paymentMethod },
+    { label: "Date & Time", value: dateTime },
+    { label: "Total", value: totalAmount, isBold: true },
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeInOut",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } },
+  };
+
   return (
-    <motion.div
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700/50 rounded-2xl p-8 max-w-md w-full shadow-2xl"
-    >
-      {/* Success Icon */}
-      <div className="flex justify-center mb-6">
-        <div className="bg-green-500/10 p-4 rounded-full">
-          <CheckCircle className="w-16 h-16 text-green-500" />
-        </div>
-      </div>
-
-      {/* Title */}
-      <h2 className="text-2xl font-bold text-white text-center mb-2">{title}</h2>
-      <p className="text-slate-400 text-center mb-8">Complete your payment via WhatsApp</p>
-
-      {/* Order Details */}
-      <div className="space-y-4 mb-8">
-        <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
-          <span className="text-slate-400 text-sm">Order ID</span>
-          <span className="text-white font-semibold">{orderId}</span>
-        </div>
-        <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
-          <span className="text-slate-400 text-sm">Date & Time</span>
-          <span className="text-white font-semibold text-sm">{dateTime}</span>
-        </div>
-        <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
-          <span className="text-slate-400 text-sm">Payment Method</span>
-          <span className="text-white font-semibold">{paymentMethod}</span>
-        </div>
-        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-600/20 to-blue-700/20 border border-blue-500/30 rounded-lg">
-          <span className="text-white font-semibold">Total Amount</span>
-          <span className="text-2xl font-bold text-white">{totalAmount}</span>
-        </div>
-      </div>
-
-      {/* WhatsApp Button */}
-      <button
-        onClick={onGoToWhatsApp}
-        className="w-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-4 rounded-xl transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-2 active:scale-95"
+    <AnimatePresence>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        aria-live="polite"
+        className={cn(
+          "w-full max-w-sm rounded-xl border bg-card text-card-foreground shadow-lg p-6 sm:p-8",
+          className
+        )}
       >
-        <FaWhatsapp className="w-5 h-5" />
-        {buttonText}
-      </button>
+        <div className="flex flex-col items-center space-y-6 text-center">
+          {/* Success Icon */}
+          <motion.div variants={itemVariants}>{icon}</motion.div>
 
-      <p className="text-xs text-slate-500 text-center mt-4">
-        You'll be redirected to WhatsApp to complete your order
-      </p>
-    </motion.div>
-  )
-}
+          {/* Title */}
+          <motion.h2 variants={itemVariants} className="text-2xl font-semibold">
+            {title}
+          </motion.h2>
+
+          {/* Order Details Section */}
+          <motion.div variants={itemVariants} className="w-full space-y-4 pt-4">
+            {details.map((item, index) => (
+              <div
+                key={item.label}
+                className={cn(
+                  "flex items-center justify-between border-b pb-4 text-sm text-muted-foreground",
+                  {
+                    "border-none pb-0": index === details.length - 1,
+                    "font-bold text-card-foreground": item.isBold,
+                  }
+                )}
+              >
+                <span>{item.label}</span>
+                <span className={cn({ "text-lg": item.isBold })}>{item.value}</span>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Action Button */}
+          <motion.div variants={itemVariants} className="w-full pt-4">
+            <Button
+              onClick={onGoToAccount}
+              className="w-full h-12 text-md"
+              size="lg"
+            >
+              {buttonText}
+            </Button>
+          </motion.div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};

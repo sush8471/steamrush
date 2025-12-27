@@ -139,21 +139,28 @@ export function ChatbotWidget() {
       return gameImageMap[name];
     }
 
-    // Fuzzy match - check if game name contains any keys
+    // Fuzzy match - improved logic
+    // First try: check if the game name contains any key
     for (const [key, value] of Object.entries(gameImageMap)) {
-      if (name.includes(key) || key.includes(name)) {
+      if (name.includes(key)) {
+        return value;
+      }
+    }
+    
+    // Second try: check if any key contains the game name (for shorter names)
+    for (const [key, value] of Object.entries(gameImageMap)) {
+      if (key.includes(name) && name.length > 3) {
         return value;
       }
     }
 
-    // Default fallback - use a generic gaming image or the first available
+    // Default fallback - use a generic gaming image
     return "/gta-v.jpg"; // Using GTA V as default since it's popular
   };
 
   // Helper function to extract game data from message content
   const extractGameData = (content: string): GameData | undefined => {
-    // Pattern to detect game name and price
-    // Looking for patterns like: "Game Name - ₹299" or "🎮 Game Name - ₹199"
+    // Pattern to detect price
     const priceRegex = /₹(\d+)/;
     const priceMatch = content.match(priceRegex);
     
@@ -161,15 +168,53 @@ export function ChatbotWidget() {
     
     const price = parseInt(priceMatch[1]);
     
-    // Try to extract game name (text before the price)
-    const nameRegex = /(?:🎮\s*)?([^-₹]+)\s*-\s*₹/;
-    const nameMatch = content.match(nameRegex);
+    // Extract the text right before the price (the actual game name)
+    // This handles patterns like:
+    // "Absolutely! Dive into the wizarding world: Hogwarts Legacy - ₹349"
+    // "🎮 Shadow of the Tomb Raider - ₹199"
+    // "Here you go: GTA V - ₹299"
     
-    if (!nameMatch) return undefined;
+    // Get everything before the price
+    const textBeforePrice = content.substring(0, content.indexOf('₹')).trim();
     
-    const name = nameMatch[1].trim();
+    // Remove trailing dash and spaces
+    const cleanText = textBeforePrice.replace(/\s*-\s*$/, '').trim();
+    
+    // Split by common separators (: or multiple spaces) and take the last part
+    // This gets "Hogwarts Legacy" from "Absolutely! Dive into the wizarding world: Hogwarts Legacy"
+    const parts = cleanText.split(/:\s+|[.!?]\s+/);
+    let gameName = parts[parts.length - 1].trim();
+    
+    // Remove emoji and other special characters from the start
+    gameName = gameName.replace(/^[🎮\s]+/, '').trim();
+    
+    // If the name is too long or contains multiple sentences, take the last meaningful part
+    if (gameName.length > 100 || gameName.includes('!')) {
+      // Look for the pattern: capitalize words after special chars
+      const lastPart = gameName.split(/[!.?]\s+/).pop() || gameName;
+      gameName = lastPart.trim();
+    }
+    
+    // Final cleanup - remove any remaining conversational words
+    const conversationalPrefixes = [
+      'absolutely', 'here', 'sure', 'great', 'perfect', 'yes',
+      'dive into', 'check out', 'take a look at', 'how about'
+    ];
+    
+    const lowerName = gameName.toLowerCase();
+    for (const prefix of conversationalPrefixes) {
+      if (lowerName.startsWith(prefix)) {
+        gameName = gameName.substring(prefix.length).trim();
+        // Remove any colon or exclamation that might follow
+        gameName = gameName.replace(/^[:!]\s*/, '').trim();
+      }
+    }
+    
+    if (!gameName || gameName.length < 2) return undefined;
+    
+    const name = gameName;
     // Create a simple ID from the name
-    const id = name.toLowerCase().replace(/\s+/g, '-');
+    const id = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     // Get the appropriate image for the game
     const image = getGameImage(name);
     

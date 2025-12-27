@@ -66,12 +66,6 @@ export function ChatbotWidget() {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
-
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 

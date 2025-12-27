@@ -273,25 +273,42 @@ export function ChatbotWidget() {
   const cleanMessageContent = (content: string, hasGames: boolean): string => {
     if (!hasGames) return content;
     
-    // Remove all game entries with prices (pattern: anything with ₹ and price)
-    let cleaned = content.replace(/🎮\s*[^\n]+?₹\d+[^\n]*/g, '');
+    // Strategy: Find where the game list starts and keep only the intro text before it
     
-    // Remove excessive line breaks
-    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    // Look for the first occurrence of a price pattern (₹ followed by digits)
+    const firstPriceIndex = content.search(/₹\d+/);
     
-    // Remove trailing/leading whitespace
-    cleaned = cleaned.trim();
-    
-    // If the cleaned message is too short or empty, provide a default intro
-    if (cleaned.length < 10) {
-      cleaned = "Here are your requested games:";
+    if (firstPriceIndex === -1) {
+      // No price found, return original (shouldn't happen if hasGames is true)
+      return content;
     }
     
-    // Clean up common patterns left after removal
-    cleaned = cleaned.replace(/:\s*$/, ':'); // Remove trailing colons with spaces
-    cleaned = cleaned.replace(/\s+:/g, ':'); // Clean up spaces before colons
+    // Get everything before the first price
+    let intro = content.substring(0, firstPriceIndex).trim();
     
-    return cleaned;
+    // Clean up the intro:
+    // 1. Remove trailing emojis (🎮)
+    intro = intro.replace(/[🎮\s]+$/, '').trim();
+    
+    // 2. Remove game names that might be at the end without prices
+    // Look for patterns like "- GameName" or ": GameName" at the end
+    intro = intro.replace(/[-:]\s*[A-Z][^-:]*$/, '').trim();
+    
+    // 3. Remove trailing dashes, colons, or "games"
+    intro = intro.replace(/[-:,]\s*$/, '').trim();
+    intro = intro.replace(/\s+games?\s*:?\s*$/i, '').trim();
+    
+    // 4. Add back a nice ending if it makes sense
+    if (intro && !intro.match(/[:!?.]$/)) {
+      intro += ':';
+    }
+    
+    // If the intro is too short or empty, provide a default
+    if (intro.length < 5) {
+      intro = "Here are your requested games:";
+    }
+    
+    return intro;
   };
 
   const scrollToBottom = () => {

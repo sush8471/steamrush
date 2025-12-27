@@ -161,9 +161,9 @@ export function NavbarSearch() {
 
       {/* Mobile: Full-Screen Search Modal (Epic Games Style) */}
       {isExpanded && (
-        <div className="fixed inset-0 bg-[#0A0E27] z-[100] flex flex-col lg:hidden">
-          {/* Search Header */}
-          <div className="flex items-center gap-3 p-4 border-b border-white/10">
+        <div className="fixed inset-0 bg-[#0A0E27] z-[100] lg:hidden min-h-screen flex flex-col">
+          {/* Search Header - Fixed at top */}
+          <div className="flex-shrink-0 flex items-center gap-3 p-4 border-b border-white/10 bg-[#0A0E27]">
             <Search className="h-5 w-5 text-[#B0B8D0] flex-shrink-0" />
             <input
               ref={inputRef}
@@ -172,6 +172,10 @@ export function NavbarSearch() {
               onChange={(e) => setLocalQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Search games..."
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
               className="flex-1 bg-transparent text-white text-lg placeholder:text-[#B0B8D0] focus:outline-none"
             />
             <button
@@ -182,71 +186,73 @@ export function NavbarSearch() {
             </button>
           </div>
 
-          {/* Results - Epic Games Style Spacious Layout */}
-          <div className="flex-1 overflow-y-auto p-4 pb-safe">
-            {suggestions.length > 0 ? (
-              <div className="space-y-4 pb-4">
-                {suggestions.map((game) => (
-                  <button
-                    key={game.id}
-                    onClick={() => {
-                      addToCart({
-                        id: game.id,
-                        name: game.title,
-                        price: game.price,
-                        image: game.image,
-                      });
-                      handleClose();
-                    }}
-                    className="w-full flex items-start gap-4 p-4 bg-[#1A1F3A]/50 rounded-xl hover:bg-[#1A1F3A] active:bg-[#1A1F3A] transition-all border border-white/5 hover:border-[#0074E4]/30"
-                  >
-                    {/* Game Image */}
-                    <div className="relative w-20 h-28 flex-shrink-0 rounded-lg overflow-hidden">
-                      <Image src={game.image} alt={game.title} fill className="object-cover" sizes="80px" />
-                      {game.discount && (
-                        <div className="absolute top-1 right-1 bg-[#0074E4] text-white text-xs font-bold px-2 py-1 rounded">
-                          {game.discount}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Game Info - Full Names Visible */}
-                    <div className="flex-1 text-left min-w-0">
-                      <h3 className="text-white font-semibold text-base leading-snug mb-2">
-                        {game.title}
-                      </h3>
-                      <p className="text-[#B0B8D0] text-sm mb-3">
-                        {game.genre.slice(0, 2).join(" • ")}
-                      </p>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-[#0074E4] font-bold text-lg">₹{game.price}</span>
-                        <span className="text-[#B0B8D0] text-sm line-through">₹{game.originalPrice}</span>
+          {/* Results - Scrollable content area */}
+          <div className="flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <div className="p-4 pb-8">
+              {suggestions.length > 0 ? (
+                <div className="space-y-4">
+                  {suggestions.map((game) => (
+                    <button
+                      key={game.id}
+                      onClick={() => {
+                        addToCart({
+                          id: game.id,
+                          name: game.title,
+                          price: game.price,
+                          image: game.image,
+                        });
+                        handleClose();
+                      }}
+                      className="w-full flex items-start gap-4 p-4 bg-[#1A1F3A]/50 rounded-xl hover:bg-[#1A1F3A] active:bg-[#1A1F3A] transition-all border border-white/5 hover:border-[#0074E4]/30"
+                    >
+                      {/* Game Image */}
+                      <div className="relative w-20 h-28 flex-shrink-0 rounded-lg overflow-hidden">
+                        <Image src={game.image} alt={game.title} fill className="object-cover" sizes="80px" />
+                        {game.discount && (
+                          <div className="absolute top-1 right-1 bg-[#0074E4] text-white text-xs font-bold px-2 py-1 rounded">
+                            {game.discount}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </button>
-                ))}
 
-                {/* View All Link */}
-                {localQuery && (
-                  <button
-                    onClick={() => handleSearch(localQuery)}
-                    className="w-full p-4 text-center text-[#0074E4] font-semibold hover:bg-white/5 active:bg-white/5 rounded-xl transition-colors mt-4"
-                  >
-                    View all results for "{localQuery}" →
-                  </button>
-                )}
-              </div>
-            ) : localQuery ? (
-              <div className="text-center text-[#B0B8D0] mt-12 px-4">
-                <p className="text-lg mb-2">No games found</p>
-                <p className="text-sm">Try searching for "GTA", "FIFA", or "Racing"</p>
-              </div>
-            ) : (
-              <div className="text-center text-[#B0B8D0] mt-12 px-4">
-                <p className="text-lg mb-2">Start typing to search</p>
-                <p className="text-sm">Search from {GAMES_DATABASE.length}+ games</p>
-              </div>
-            )}
+                      {/* Game Info - Full Names Visible */}
+                      <div className="flex-1 text-left min-w-0">
+                        <h3 className="text-white font-semibold text-base leading-snug mb-2">
+                          {game.title}
+                        </h3>
+                        <p className="text-[#B0B8D0] text-sm mb-3">
+                          {game.genre.slice(0, 2).join(" • ")}
+                        </p>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-[#0074E4] font-bold text-lg">₹{game.price}</span>
+                          <span className="text-[#B0B8D0] text-sm line-through">₹{game.originalPrice}</span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+
+                  {/* View All Link */}
+                  {localQuery && (
+                    <button
+                      onClick={() => handleSearch(localQuery)}
+                      className="w-full p-4 text-center text-[#0074E4] font-semibold hover:bg-white/5 active:bg-white/5 rounded-xl transition-colors mt-4"
+                    >
+                      View all results for "{localQuery}" →
+                    </button>
+                  )}
+                </div>
+              ) : localQuery ? (
+                <div className="text-center text-[#B0B8D0] mt-12 px-4">
+                  <p className="text-lg mb-2">No games found</p>
+                  <p className="text-sm">Try searching for "GTA", "FIFA", or "Racing"</p>
+                </div>
+              ) : (
+                <div className="text-center text-[#B0B8D0] mt-12 px-4">
+                  <p className="text-lg mb-2">Start typing to search</p>
+                  <p className="text-sm">Search from {GAMES_DATABASE.length}+ games</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -10,6 +10,7 @@ interface GameData {
   name: string;
   price: number;
   id: string;
+  image: string;
 }
 
 interface Message {
@@ -34,6 +35,121 @@ export function ChatbotWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Helper function to get game image from name
+  const getGameImage = (gameName: string): string => {
+    const name = gameName.toLowerCase().trim();
+    
+    // Comprehensive game name to image mapping
+    const gameImageMap: Record<string, string> = {
+      // Popular games
+      "gta v": "/gta-v.jpg",
+      "grand theft auto v": "/gta-v.jpg",
+      "gta 5": "/gta-v.jpg",
+      "gta iv": "/gta-iv.png",
+      "grand theft auto iv": "/gta-iv.png",
+      "elden ring": "/elden-ring.jpg",
+      "cyberpunk 2077": "/cyberpunk-2077.jpg",
+      "red dead redemption 2": "/red-dead-redemption-2.jpg",
+      "rdr2": "/red-dead-redemption-2.jpg",
+      "hogwarts legacy": "/hogwarts-legacy.jpg",
+      "spider-man remastered": "/spiderman-remastered.png",
+      "spiderman remastered": "/spiderman-remastered.png",
+      "marvel's spider-man": "/spiderman-remastered.png",
+      "spider-man miles morales": "/spiderman-miles-morales.png",
+      "spiderman miles morales": "/spiderman-miles-morales.png",
+      "god of war": "/god-of-war.jpg",
+      "god of war ragnarok": "/god-of-war-ragnarok.jpg",
+      "the last of us": "/last-of-us-part-2.jpg",
+      "last of us": "/last-of-us-part-2.jpg",
+      "mafia definitive edition": "/mafia-definitive-edition.jpg",
+      "detroit become human": "/detroit-become-human.png",
+      "detroit: become human": "/detroit-become-human.png",
+      "days gone": "/days-gone.jpg",
+      "state of decay 2": "/state-of-decay-2.png",
+      "uncharted": "/uncharted-legacy-thieves.jpg",
+      "shadow of the tomb raider": "/shadow-tomb-raider.png",
+      "tomb raider": "/shadow-tomb-raider.png",
+      "witcher 3": "/witcher-3.jpg",
+      "the witcher 3": "/witcher-3.jpg",
+      "horizon zero dawn": "/horizon-zero-dawn.png",
+      "horizon forbidden west": "/horizon-forbidden-west.jpg",
+      "ghost of tsushima": "/ghost-of-tsushima.jpg",
+      "sekiro": "/sekiro.jpg",
+      "dark souls 3": "/dark-souls-3.jpg",
+      "resident evil 2": "/resident-evil-2.jpg",
+      "resident evil 3": "/resident-evil-3.jpg",
+      "resident evil 4": "/resident-evil-4.png",
+      "resident evil 7": "/resident-evil-7.jpg",
+      "resident evil village": "/resident-evil-village.png",
+      "silent hill 2": "/silent-hill-2.jpg",
+      "dying light": "/dying-light.jpg",
+      "dying light 2": "/dying-light-2.jpg",
+      "far cry 3": "/far-cry-3.jpg",
+      "far cry 4": "/far-cry-4.jpg",
+      "far cry 5": "/far-cry-5.jpg",
+      "far cry 6": "/far-cry-6.jpg",
+      "assassin's creed valhalla": "/ac-valhalla.jpg",
+      "ac valhalla": "/ac-valhalla.jpg",
+      "assassin's creed origins": "/ac-origins.jpg",
+      "ac origins": "/ac-origins.jpg",
+      "assassin's creed odyssey": "/ac-odyssey.jpg",
+      "ac odyssey": "/ac-odyssey.jpg",
+      "assassin's creed unity": "/ac-unity.jpg",
+      "ac unity": "/ac-unity.jpg",
+      "assassin's creed mirage": "/ac-mirage.jpg",
+      "ac mirage": "/ac-mirage.jpg",
+      "hitman": "/hitman-world-assassination.jpg",
+      "black myth wukong": "/black-myth-wukong.jpg",
+      "black myth: wukong": "/black-myth-wukong.jpg",
+      "forza horizon 5": "/forza-horizon-5.jpg",
+      "forza horizon 4": "/forza-horizon-4.jpg",
+      "need for speed heat": "/nfs-heat.jpg",
+      "nfs heat": "/nfs-heat.jpg",
+      "need for speed unbound": "/nfs-unbound.png",
+      "nfs unbound": "/nfs-unbound.png",
+      "f1 24": "/f1-24.jpg",
+      "f1 25": "/f1-25.jpg",
+      "fc 25": "/fc-25.jpg",
+      "fifa 25": "/fc-25.jpg",
+      "fc 24": "/fc-24.jpg",
+      "fifa 24": "/fc-24.jpg",
+      "tekken 8": "/tekken-8.jpg",
+      "tekken 7": "/tekken-7.png",
+      "street fighter 6": "/street-fighter-6.png",
+      "mortal kombat 1": "/mortal-kombat-1.png",
+      "mortal kombat 11": "/mortal-kombat-11.jpg",
+      "persona 5 royal": "/persona-5-royal.jpg",
+      "persona 3 reload": "/persona-3-reload.jpg",
+      "starfield": "/starfield.jpg",
+      "no man's sky": "/no-mans-sky.png",
+      "hades": "/hades.png",
+      "hollow knight": "/hollow-knight.png",
+      "celeste": "/celeste.png",
+      "terraria": "/terraria.jpg",
+      "valheim": "/valheim.jpg",
+      "the forest": "/the-forest.png",
+      "sons of the forest": "/sons-of-the-forest.jpg",
+      "subnautica": "/subnautica.jpg",
+      "phasmophobia": "/phasmophobia.jpg",
+      "lethal company": "/lethal-company.jpg",
+    };
+
+    // Direct match
+    if (gameImageMap[name]) {
+      return gameImageMap[name];
+    }
+
+    // Fuzzy match - check if game name contains any keys
+    for (const [key, value] of Object.entries(gameImageMap)) {
+      if (name.includes(key) || key.includes(name)) {
+        return value;
+      }
+    }
+
+    // Default fallback - use a generic gaming image or the first available
+    return "/gta-v.jpg"; // Using GTA V as default since it's popular
+  };
+
   // Helper function to extract game data from message content
   const extractGameData = (content: string): GameData | undefined => {
     // Pattern to detect game name and price
@@ -54,8 +170,10 @@ export function ChatbotWidget() {
     const name = nameMatch[1].trim();
     // Create a simple ID from the name
     const id = name.toLowerCase().replace(/\s+/g, '-');
+    // Get the appropriate image for the game
+    const image = getGameImage(name);
     
-    return { name, price, id };
+    return { name, price, id, image };
   };
 
   const scrollToBottom = () => {
@@ -219,7 +337,7 @@ export function ChatbotWidget() {
                             id: msg.gameData!.id,
                             name: msg.gameData!.name,
                             price: msg.gameData!.price,
-                            image: "/placeholder-game.jpg" // You might want to extract this from the message or use a default
+                            image: msg.gameData!.image,
                           });
                         }}
                         className="group flex items-center gap-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 px-2.5 py-1.5 rounded-lg text-[11px] font-medium border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 hover:scale-105 active:scale-95"

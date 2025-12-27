@@ -183,9 +183,9 @@ export function NavbarSearch() {
           </div>
 
           {/* Results - Epic Games Style Spacious Layout */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 pb-safe">
             {suggestions.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-4 pb-4">
                 {suggestions.map((game) => (
                   <button
                     key={game.id}
@@ -198,13 +198,13 @@ export function NavbarSearch() {
                       });
                       handleClose();
                     }}
-                    className="w-full flex items-start gap-4 p-3 bg-[#1A1F3A]/50 rounded-lg hover:bg-[#1A1F3A] transition-all border border-white/5 hover:border-[#0074E4]/30"
+                    className="w-full flex items-start gap-4 p-4 bg-[#1A1F3A]/50 rounded-xl hover:bg-[#1A1F3A] active:bg-[#1A1F3A] transition-all border border-white/5 hover:border-[#0074E4]/30"
                   >
                     {/* Game Image */}
-                    <div className="relative w-20 h-28 flex-shrink-0 rounded overflow-hidden">
+                    <div className="relative w-20 h-28 flex-shrink-0 rounded-lg overflow-hidden">
                       <Image src={game.image} alt={game.title} fill className="object-cover" sizes="80px" />
                       {game.discount && (
-                        <div className="absolute top-1 right-1 bg-[#0074E4] text-white text-xs font-bold px-2 py-0.5 rounded">
+                        <div className="absolute top-1 right-1 bg-[#0074E4] text-white text-xs font-bold px-2 py-1 rounded">
                           {game.discount}
                         </div>
                       )}
@@ -212,10 +212,10 @@ export function NavbarSearch() {
 
                     {/* Game Info - Full Names Visible */}
                     <div className="flex-1 text-left min-w-0">
-                      <h3 className="text-white font-semibold text-base leading-tight mb-1">
+                      <h3 className="text-white font-semibold text-base leading-snug mb-2">
                         {game.title}
                       </h3>
-                      <p className="text-[#B0B8D0] text-sm mb-2">
+                      <p className="text-[#B0B8D0] text-sm mb-3">
                         {game.genre.slice(0, 2).join(" • ")}
                       </p>
                       <div className="flex items-baseline gap-2">
@@ -230,19 +230,21 @@ export function NavbarSearch() {
                 {localQuery && (
                   <button
                     onClick={() => handleSearch(localQuery)}
-                    className="w-full p-4 text-center text-[#0074E4] font-semibold hover:bg-white/5 rounded-lg transition-colors"
+                    className="w-full p-4 text-center text-[#0074E4] font-semibold hover:bg-white/5 active:bg-white/5 rounded-xl transition-colors mt-4"
                   >
                     View all results for "{localQuery}" →
                   </button>
                 )}
               </div>
             ) : localQuery ? (
-              <div className="text-center text-[#B0B8D0] mt-8">
-                No games found for "{localQuery}"
+              <div className="text-center text-[#B0B8D0] mt-12 px-4">
+                <p className="text-lg mb-2">No games found</p>
+                <p className="text-sm">Try searching for "GTA", "FIFA", or "Racing"</p>
               </div>
             ) : (
-              <div className="text-center text-[#B0B8D0] mt-8">
-                Start typing to search games...
+              <div className="text-center text-[#B0B8D0] mt-12 px-4">
+                <p className="text-lg mb-2">Start typing to search</p>
+                <p className="text-sm">Search from {GAMES_DATABASE.length}+ games</p>
               </div>
             )}
           </div>

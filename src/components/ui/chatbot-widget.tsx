@@ -33,7 +33,7 @@ export function ChatbotWidget() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Helper function to get game image from name
   const getGameImage = (gameName: string): string => {
@@ -295,10 +295,26 @@ export function ChatbotWidget() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Check if device is mobile (simplified check)
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+    
+    if (e.key === "Enter") {
+      if (isMobile) {
+        // Mobile: Enter adds line break, user clicks button to send
+        // Do nothing, let the default behavior add line break
+        return;
+      } else {
+        // Desktop: Enter sends, Ctrl+Enter adds line break
+        if (e.ctrlKey) {
+          // Ctrl+Enter: add line break (default behavior)
+          return;
+        } else {
+          // Just Enter: send message
+          e.preventDefault();
+          sendMessage();
+        }
+      }
     }
   };
 
@@ -449,17 +465,26 @@ export function ChatbotWidget() {
 
           {/* Input */}
           <div className="px-3 py-3 bg-slate-900/80 border-t border-slate-700/30 backdrop-blur-sm">
-            <div className="flex gap-2">
-              <input
+            <div className="flex gap-2 items-end">
+              <textarea
                 ref={inputRef}
-                type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Ask about games..."
                 disabled={isLoading}
-                className="flex-1 bg-slate-800/80 border border-slate-600/50 rounded-xl px-3.5 py-2.5 text-[13px] sm:text-[14px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 disabled:opacity-50 transition-all font-normal antialiased"
-                style={{ letterSpacing: '0.01em' }}
+                rows={1}
+                className="flex-1 bg-slate-800/80 border border-slate-600/50 rounded-xl px-3.5 py-2.5 text-[13px] sm:text-[14px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 disabled:opacity-50 transition-all font-normal antialiased resize-none overflow-hidden max-h-32"
+                style={{ 
+                  letterSpacing: '0.01em',
+                  minHeight: '38px',
+                  height: 'auto',
+                }}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = 'auto';
+                  target.style.height = Math.min(target.scrollHeight, 128) + 'px';
+                }}
               />
               <Button
                 onClick={sendMessage}

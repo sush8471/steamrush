@@ -3,8 +3,7 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import Footer from "@/components/sections/footer";
-import { Search, SlidersHorizontal, X, ShoppingCart, Check } from "lucide-react";
-import SuggestiveSearch from "@/components/ui/suggestive-search";
+import { SlidersHorizontal, X, ShoppingCart, Check } from "lucide-react";
 import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
@@ -2442,89 +2441,10 @@ const extractDiscount = (discountStr: string): number => {
   return parseInt(discountStr.replace(/[^\d]/g, "")) || 0;
 };
 
-// Enhanced search with game abbreviations and franchise support
-const GAME_ABBREVIATIONS: Record<string, string[]> = {
-  gta: ["grand theft auto"],
-  rdr: ["red dead redemption"],
-  cod: ["call of duty"],
-  ac: ["assassin's creed", "assassins creed"],
-  fc: ["far cry", "fifa"],
-  nfs: ["need for speed"],
-  wwe: ["wwe 2k"],
-  nba: ["nba 2k"],
-  tlou: ["the last of us"],
-  gow: ["god of war"],
-  got: ["ghost of tsushima"],
-};
 
-const normalizeSearchTerm = (term: string): string => {
-  return term.toLowerCase().trim();
-};
-
-const matchesSearch = (game: Game, query: string): boolean => {
-  const normalizedQuery = normalizeSearchTerm(query);
-  const normalizedTitle = normalizeSearchTerm(game.title);
-  const normalizedDescription = normalizeSearchTerm(game.description);
-  const normalizedType = normalizeSearchTerm(game.type);
-
-  // Direct title match
-  if (normalizedTitle.includes(normalizedQuery)) return true;
-
-  // Description match
-  if (normalizedDescription.includes(normalizedQuery)) return true;
-
-  // Genre/type match
-  if (normalizedType.includes(normalizedQuery)) return true;
-
-  // Check abbreviations
-  for (const [abbr, fullNames] of Object.entries(GAME_ABBREVIATIONS)) {
-    if (normalizedQuery.includes(abbr)) {
-      // Check if any of the full names match
-      if (fullNames.some((name) => normalizedTitle.includes(name))) {
-        return true;
-      }
-    }
-  }
-
-  // Franchise search (e.g., "assassin" matches all AC games)
-  const franchiseKeywords = [
-    "assassin",
-    "creed",
-    "theft",
-    "auto",
-    "duty",
-    "dead",
-    "dark",
-    "souls",
-    "elder",
-    "scrolls",
-    "witcher",
-    "resident",
-    "evil",
-  ];
-  if (
-    franchiseKeywords.some(
-      (keyword) =>
-        normalizedQuery.includes(keyword) && normalizedTitle.includes(keyword)
-    )
-  ) {
-    return true;
-  }
-
-  // Number matching for series (e.g., "2" matches games with "2" in title)
-  const queryWords = normalizedQuery.split(/\s+/);
-  const titleWords = normalizedTitle.split(/\s+/);
-
-  // Check if all query words appear in title
-  const allWordsMatch = queryWords.every((qWord) =>
-    titleWords.some((tWord) => tWord.includes(qWord) || qWord.includes(tWord))
-  );
-
-  return allWordsMatch;
-};
 
 export default function GamesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+
   const [selectedGenre, setSelectedGenre] = useState("All");
   const [selectedPriceRange, setSelectedPriceRange] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
@@ -2532,11 +2452,6 @@ export default function GamesPage() {
 
   const filteredAndSortedGames = useMemo(() => {
     let filtered = [...GAMES];
-
-    // Apply search filter
-    if (searchQuery.trim()) {
-      filtered = filtered.filter((game) => matchesSearch(game, searchQuery));
-    }
 
     // Apply genre filter
     if (selectedGenre !== "All") {
@@ -2578,7 +2493,7 @@ export default function GamesPage() {
     });
 
     return filtered;
-  }, [searchQuery, selectedGenre, selectedPriceRange, sortBy]);
+  }, [selectedGenre, selectedPriceRange, sortBy]);
 
   const gamesByGenre = useMemo(() => {
     const genres =
@@ -2615,45 +2530,16 @@ export default function GamesPage() {
               Browse All Games
             </h1>
             <p className="text-[#B0B8D0] text-sm lg:text-base">
-              {searchQuery ||
-              selectedGenre !== "All" ||
+              {selectedGenre !== "All" ||
               selectedPriceRange !== "all"
-                ? `Found ${totalGames} game${totalGames !== 1 ? "s" : ""} ${searchQuery ? `matching "${searchQuery}"` : ""}`
+                ? `Found ${totalGames} game${totalGames !== 1 ? "s" : ""}`
                 : `${totalGames} games available`}{" "}
               • Original Steam keys • Instant delivery
             </p>
           </div>
 
           <div className="mb-8 space-y-4">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="relative flex-1">
-                <SuggestiveSearch
-                  onChange={(val) => setSearchQuery(val)}
-                  suggestions={[
-                    "Search for GTA 5...",
-                    "Try 'Cyberpunk 2077'",
-                    "Find 'Elden Ring'",
-                    "Looking for 'AC Mirage'?",
-                    "Search 'racing games'",
-                    "Try 'zombie survival'",
-                    "Find 'RPG adventures'",
-                  ]}
-                  effect="typewriter"
-                  className="w-full bg-[#1A1F3A] border-[#2A2E4D] hover:border-[#0074E4] transition-colors"
-                  typeDurationMs={800}
-                  deleteDurationMs={400}
-                  pauseAfterTypeMs={2000}
-                  autocompleteData={GAMES.map(game => ({
-                    id: game.id,
-                    title: game.title,
-                    subtitle: game.type
-                  }))}
-                  onSelect={(item) => {
-                    setSearchQuery(item.title);
-                  }}
-                  maxAutocompleteResults={6}
-                />
-              </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-end">
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center gap-2 px-4 py-3 bg-[#1A1F3A] border border-[#2A2E4D] rounded-lg text-white hover:border-[#0074E4] transition-colors sm:min-w-[140px] justify-center"
@@ -2663,29 +2549,15 @@ export default function GamesPage() {
               </button>
             </div>
 
+
             {/* Active Filters Chips */}
-            {(searchQuery ||
-              selectedGenre !== "All" ||
+            {(selectedGenre !== "All" ||
               selectedPriceRange !== "all" ||
               sortBy !== "popular") && (
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-[#B0B8D0] text-sm font-medium">
                   Active filters:
                 </span>
-
-                {searchQuery && (
-                  <div className="flex items-center gap-1.5 bg-[#1A1F3A] border border-[#2A2E4D] rounded-full px-3 py-1.5">
-                    <span className="text-white text-sm">
-                      Search: "{searchQuery}"
-                    </span>
-                    <button
-                      onClick={() => setSearchQuery("")}
-                      className="text-[#B0B8D0] hover:text-white transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
 
                 {selectedGenre !== "All" && (
                   <div className="flex items-center gap-1.5 bg-[#1A1F3A] border border-[#2A2E4D] rounded-full px-3 py-1.5">
@@ -2736,7 +2608,6 @@ export default function GamesPage() {
 
                 <button
                   onClick={() => {
-                    setSearchQuery("");
                     setSelectedGenre("All");
                     setSelectedPriceRange("all");
                     setSortBy("popular");
@@ -2819,7 +2690,7 @@ export default function GamesPage() {
                       setSelectedGenre("All");
                       setSelectedPriceRange("all");
                       setSortBy("popular");
-                      setSearchQuery("");
+
                     }}
                     className="px-4 py-2 bg-[#2A2E4D] text-white rounded-lg hover:bg-[#363B5E] transition-colors text-sm"
                   >
@@ -2853,7 +2724,7 @@ export default function GamesPage() {
           {filteredGamesByGenre.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-[#B0B8D0] text-lg">
-                No games found. Try a different search.
+                No games found. Try adjusting your filters.
               </p>
             </div>
           ) : (

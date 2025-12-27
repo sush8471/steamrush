@@ -23,7 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ShoppingCart, Gamepad2, Home, Store, HelpCircle, Menu, ChevronDown, Search } from "lucide-react";
+import { ShoppingCart, Home, Store, HelpCircle, Menu, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
@@ -158,9 +158,11 @@ export default function SteamRushNavbar() {
                     width={160}
                     height={50}
                     className="h-9 w-auto"
+                    priority
                   />
                 </SheetTitle>
               </SheetHeader>
+
               <nav className="mt-6 flex flex-col gap-1">
                 <Link
                   href="/"

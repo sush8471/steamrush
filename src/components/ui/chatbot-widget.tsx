@@ -269,6 +269,31 @@ export function ChatbotWidget() {
     return games;
   };
 
+  // Helper function to clean message content when games are displayed separately
+  const cleanMessageContent = (content: string, hasGames: boolean): string => {
+    if (!hasGames) return content;
+    
+    // Remove all game entries with prices (pattern: anything with ₹ and price)
+    let cleaned = content.replace(/🎮\s*[^\n]+?₹\d+[^\n]*/g, '');
+    
+    // Remove excessive line breaks
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    
+    // Remove trailing/leading whitespace
+    cleaned = cleaned.trim();
+    
+    // If the cleaned message is too short or empty, provide a default intro
+    if (cleaned.length < 10) {
+      cleaned = "Here are your requested games:";
+    }
+    
+    // Clean up common patterns left after removal
+    cleaned = cleaned.replace(/:\s*$/, ':'); // Remove trailing colons with spaces
+    cleaned = cleaned.replace(/\s+:/g, ':'); // Clean up spaces before colons
+    
+    return cleaned;
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -426,7 +451,7 @@ export function ChatbotWidget() {
                     }`}
                   >
                     <p className="text-[13px] sm:text-[14px] leading-relaxed font-normal antialiased" style={{ letterSpacing: '0.01em' }}>
-                      {msg.content}
+                      {cleanMessageContent(msg.content, !!(msg.games && msg.games.length > 0))}
                     </p>
                     <span className={`text-[10px] font-medium mt-1.5 block ${
                       msg.role === "user" ? "text-blue-100" : "text-slate-400"

@@ -380,6 +380,17 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["tomb raider", "lara croft", "shadow", "adventure", "action"],
     series: "Tomb Raider",
   },
+  {
+    id: "rise-tomb-raider",
+    title: "Rise of the Tomb Raider",
+    image: "/shadow-tomb-raider.png",
+    price: 199,
+    originalPrice: 849,
+    discount: "-77%",
+    genre: ["Action", "Adventure"],
+    tags: ["tomb raider", "rise", "lara croft", "adventure", "action"],
+    series: "Tomb Raider",
+  },
 
   // === HORIZON SERIES ===
   {
@@ -1615,7 +1626,7 @@ export const GAMES_DATABASE: Game[] = [
     discount: "-83%",
     genre: ["Action", "Adventure", "Detective"],
     tags: ["yakuza", "judgment", "detective", "action", "sega"],
-    series: "Judgment",
+    series: "Yakuza",
   },
 
   // === DRAGONS DOGMA SERIES ===

@@ -9,7 +9,7 @@ export interface SearchFilters {
 
 /**
  * Fuzzy search games by query
- * Searches in: title, tags (case-insensitive, partial match)
+ * Searches in: title, tags (case-insensitive, word boundary matching)
  */
 export const searchGames = (games: Game[], query: string): Game[] => {
   if (!query || query.trim() === "") return games;
@@ -17,15 +17,27 @@ export const searchGames = (games: Game[], query: string): Game[] => {
   const searchTerm = query.toLowerCase().trim();
 
   return games.filter((game) => {
-    // Search in title
+    // Search in title (simple substring for titles)
     if (game.title.toLowerCase().includes(searchTerm)) return true;
 
-    // Search in tags
-    if (game.tags.some((tag) => tag.includes(searchTerm))) return true;
+    // Search in tags with word boundary matching
+    // This prevents "raft" from matching "crafting"
+    if (game.tags.some((tag) => {
+      const tagLower = tag.toLowerCase();
+      // Exact match
+      if (tagLower === searchTerm) return true;
+      // Word boundary match (starts with search term followed by space or is standalone word)
+      if (tagLower.startsWith(searchTerm + " ")) return true;
+      if (tagLower.endsWith(" " + searchTerm)) return true;
+      if (tagLower.includes(" " + searchTerm + " ")) return true;
+      return false;
+    })) return true;
 
-    // Search in genres
-    if (game.genre.some((g) => g.toLowerCase().includes(searchTerm)))
-      return true;
+    // Search in genres (exact or starts with)
+    if (game.genre.some((g) => {
+      const genreLower = g.toLowerCase();
+      return genreLower === searchTerm || genreLower.startsWith(searchTerm);
+    })) return true;
 
     return false;
   });

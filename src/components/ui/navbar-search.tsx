@@ -34,7 +34,7 @@ export function NavbarSearch() {
   // Update suggestions when query changes
   useEffect(() => {
     if (localQuery.trim()) {
-      const results = getSearchSuggestions(GAMES_DATABASE, localQuery, 5);
+      const results = getSearchSuggestions(GAMES_DATABASE, localQuery, 10);
       setSuggestions(results);
     } else {
       setSuggestions([]);

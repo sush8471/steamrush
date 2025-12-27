@@ -29,6 +29,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { FaWhatsapp } from "react-icons/fa";
+import { NavbarSearch } from "@/components/ui/navbar-search";
 
 interface GameCategory {
   href: string;
@@ -51,9 +52,9 @@ export default function SteamRushNavbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0A0E27]/95 backdrop-blur-md supports-[backdrop-filter]:bg-[#0A0E27]/90">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
+        <Link href="/" className="flex items-center hover:opacity-90 transition-opacity flex-shrink-0">
           <Image
             src="/new-logo.png"
             alt="Steam Rush - Affordable Gaming, Instant Rush"
@@ -63,6 +64,11 @@ export default function SteamRushNavbar() {
             priority
           />
         </Link>
+
+        {/* Search Bar - Mobile First */}
+        <div className="flex-1 lg:flex-none lg:w-96 max-w-2xl">
+          <NavbarSearch />
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-1 lg:flex">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { SearchProvider } from "@/context/SearchContext";
 import { ChatbotWidget } from "@/components/ui/chatbot-widget";
 
 export const metadata: Metadata = {
@@ -10,15 +11,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}:  Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body>
         <CartProvider>
-          {children}
-          <ChatbotWidget />
+          <SearchProvider>
+            {children}
+            <ChatbotWidget />
+          </SearchProvider>
         </CartProvider>
       </body>
     </html>

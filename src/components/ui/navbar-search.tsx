@@ -15,7 +15,7 @@ export function NavbarSearch() {
   const { searchQuery, setSearchQuery, addRecentSearch } = useSearch();
   const [localQuery, setLocalQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false); // For mobile expand
   const [suggestions, setSuggestions] = useState(getSearchSuggestions(GAMES_DATABASE, ""));
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -25,6 +25,7 @@ export function NavbarSearch() {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setShowSuggestions(false);
+        // Don't close expanded search on mobile when clicking suggestions
       }
     };
 
@@ -158,44 +159,38 @@ export function NavbarSearch() {
         <Search className="h-5 w-5 text-white" />
       </button>
 
-      {/* Mobile: Bottom Sheet - 50% Height */}
+      {/* Mobile: Full-Screen Search Modal (Epic Games Style) */}
       {isExpanded && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black/60 z-[99] lg:hidden backdrop-blur-sm"
-            onClick={handleClose}
-          />
-          
-          {/* Bottom Sheet */}
-          <div className="fixed bottom-0 left-0 right-0 bg-[#0A0E27] z-[100] lg:hidden h-[50vh] flex flex-col rounded-t-3xl border-t-2 border-[#0074E4]/20 shadow-2xl">
-            {/* Search Header */}
-            <div className="flex-shrink-0 p-4 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <Search className="h-5 w-5 text-[#0074E4] flex-shrink-0" />
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={localQuery}
-                  onChange={(e) => setLocalQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Search games..."
-                  autoComplete="off"
-                  className="flex-1 bg-transparent text-white text-base placeholder:text-[#B0B8D0] focus:outline-none"
-                />
-                <button
-                  onClick={handleClose}
-                  className="p-1.5 hover:bg-white/10 rounded-full transition-colors flex-shrink-0"
-                >
-                  <X className="h-5 w-5 text-white" />
-                </button>
-              </div>
-            </div>
+        <div className="fixed inset-0 bg-[#0A0E27] z-[100] lg:hidden min-h-screen flex flex-col">
+          {/* Search Header - Fixed at top */}
+          <div className="flex-shrink-0 flex items-center gap-3 p-4 border-b border-white/10 bg-[#0A0E27]">
+            <Search className="h-5 w-5 text-[#B0B8D0] flex-shrink-0" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={localQuery}
+              onChange={(e) => setLocalQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search games..."
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              className="flex-1 bg-transparent text-white text-lg placeholder:text-[#B0B8D0] focus:outline-none"
+            />
+            <button
+              onClick={handleClose}
+              className="p-2 hover:bg-white/5 rounded-lg transition-colors flex-shrink-0"
+            >
+              <X className="h-5 w-5 text-white" />
+            </button>
+          </div>
 
-            {/* Scrollable Results */}
-            <div className="flex-1 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+          {/* Results - Scrollable content area */}
+          <div className="flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <div className="p-4 pb-8">
               {suggestions.length > 0 ? (
-                <div className="p-3 space-y-3">
+                <div className="space-y-4">
                   {suggestions.map((game) => (
                     <button
                       key={game.id}
@@ -208,65 +203,58 @@ export function NavbarSearch() {
                         });
                         handleClose();
                       }}
-                      className="w-full flex items-center gap-3 p-3 bg-[#1A1F3A]/60 rounded-lg hover:bg-[#1A1F3A] active:bg-[#1A1F3A] transition-all border border-white/5"
+                      className="w-full flex items-start gap-4 p-4 bg-[#1A1F3A]/50 rounded-xl hover:bg-[#1A1F3A] active:bg-[#1A1F3A] transition-all border border-white/5 hover:border-[#0074E4]/30"
                     >
-                      {/* Thumbnail - Good size */}
-                      <div className="relative w-14 h-20 flex-shrink-0 rounded-md overflow-hidden">
-                        <Image 
-                          src={game.image} 
-                          alt={game.title} 
-                          fill 
-                          className="object-cover" 
-                          sizes="56px" 
-                        />
+                      {/* Game Image */}
+                      <div className="relative w-20 h-28 flex-shrink-0 rounded-lg overflow-hidden">
+                        <Image src={game.image} alt={game.title} fill className="object-cover" sizes="80px" />
                         {game.discount && (
-                          <div className="absolute top-1 right-1 bg-[#0074E4] text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                          <div className="absolute top-1 right-1 bg-[#0074E4] text-white text-xs font-bold px-2 py-1 rounded">
                             {game.discount}
                           </div>
                         )}
                       </div>
 
-                      {/* Game Info */}
+                      {/* Game Info - Full Names Visible */}
                       <div className="flex-1 text-left min-w-0">
-                        <h3 className="text-white font-semibold text-sm leading-tight mb-1">
+                        <h3 className="text-white font-semibold text-base leading-snug mb-2">
                           {game.title}
                         </h3>
-                        <p className="text-[#B0B8D0] text-xs mb-1.5">
+                        <p className="text-[#B0B8D0] text-sm mb-3">
                           {game.genre.slice(0, 2).join(" • ")}
                         </p>
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-[#0074E4] font-bold text-base">₹{game.price}</span>
-                          <span className="text-[#B0B8D0] text-xs line-through">₹{game.originalPrice}</span>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-[#0074E4] font-bold text-lg">₹{game.price}</span>
+                          <span className="text-[#B0B8D0] text-sm line-through">₹{game.originalPrice}</span>
                         </div>
                       </div>
                     </button>
                   ))}
 
-                  {/* View All */}
+                  {/* View All Link */}
                   {localQuery && (
                     <button
                       onClick={() => handleSearch(localQuery)}
-                      className="w-full p-4 text-center text-[#0074E4] text-sm font-semibold hover:bg-white/5 rounded-lg transition-colors"
+                      className="w-full p-4 text-center text-[#0074E4] font-semibold hover:bg-white/5 active:bg-white/5 rounded-xl transition-colors mt-4"
                     >
                       View all results for "{localQuery}" →
                     </button>
                   )}
                 </div>
               ) : localQuery ? (
-                <div className="text-center text-[#B0B8D0] mt-16 px-4">
-                  <p className="text-base mb-1">No games found</p>
-                  <p className="text-xs opacity-70">Try "GTA", "FIFA", or "Racing"</p>
+                <div className="text-center text-[#B0B8D0] mt-12 px-4">
+                  <p className="text-lg mb-2">No games found</p>
+                  <p className="text-sm">Try searching for "GTA", "FIFA", or "Racing"</p>
                 </div>
               ) : (
-                <div className="text-center text-[#B0B8D0] mt-16 px-4">
-                  <Search className="h-12 w-12 mx-auto mb-3 opacity-30" />
-                  <p className="text-base mb-1">Start typing to search</p>
-                  <p className="text-xs opacity-70">{GAMES_DATABASE.length}+ games available</p>
+                <div className="text-center text-[#B0B8D0] mt-12 px-4">
+                  <p className="text-lg mb-2">Start typing to search</p>
+                  <p className="text-sm">Search from {GAMES_DATABASE.length}+ games</p>
                 </div>
               )}
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );

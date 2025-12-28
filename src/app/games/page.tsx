@@ -2765,6 +2765,24 @@ export default function GamesPage() {
                       const { addToCart, isInCart } = useCart();
                       const router = useRouter();
                       const inCart = isInCart(game.id.toString());
+                      
+                      // Generate link ID (slug) from title
+                      let linkId = "";
+                      if (game.href) {
+                         // Extract the ID from the href if it exists (e.g. "/games/gta-v" -> "gta-v")
+                         linkId = game.href.split('/').pop() || "";
+                      } else {
+                         // Fallback map for specific titles if needed, otherwise generic slugify
+                         if (game.title === "Grand Theft Auto V") linkId = "gta-v";
+                         else if (game.title === "Red Dead Redemption 2") linkId = "rdr2";
+                         else if (game.title === "Marvel's Spider-Man Remastered") linkId = "spiderman-remastered"; 
+                         else if (game.title === "The Last of Us Part I") linkId = "last-of-us";
+                         else if (game.title.includes("State of Decay")) linkId = "state-decay-2";
+                         else if (game.title.includes("Uncharted")) linkId = "uncharted";
+                         else if (game.title.includes("Detroit")) linkId = "detroit-bh";
+                         else if (game.title.includes("Mafia: Definitive")) linkId = "mafia-de";
+                         else linkId = game.title.toLowerCase().replace(/[':]/g, '').replace(/\s+/g, '-');
+                      }
 
                       const handleClick = (e: React.MouseEvent) => {
                         e.stopPropagation();
@@ -2784,8 +2802,8 @@ export default function GamesPage() {
                       return (
                       <div
                         key={game.id}
-                        onClick={() => game.href && router.push(game.href)}
-                        className={`group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start ${game.href ? 'cursor-pointer' : ''}`}
+                        onClick={() => router.push(`/games/${linkId}`)}
+                        className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start cursor-pointer"
                       >
                         <div className="relative aspect-[3/4] w-full overflow-hidden">
                           <Image
@@ -2828,7 +2846,7 @@ export default function GamesPage() {
                             {inCart ? (
                               <span className="flex items-center justify-center gap-1">
                                 <Check className="h-3 w-3" /> In Cart
-                              </span>
+                               </span>
                             ) : (
                               <span className="flex items-center justify-center gap-1">
                                 <ShoppingCart className="h-3 w-3" /> Add to Cart

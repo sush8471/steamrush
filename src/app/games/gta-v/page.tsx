@@ -189,7 +189,7 @@ export default function GTAVPage() {
                 <h1 className="text-3xl font-black text-white leading-none mb-3 tracking-tight">{game.title}</h1>
                 
                 <div className="flex flex-wrap items-center gap-3">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#00B4FF]/10 rounded-md border border-[#00B4FF]/10">
+                  <div className="flex items-center gap-1.5">
                     <ThumbsUp className="w-3.5 h-3.5 text-[#00B4FF] fill-[#00B4FF]" />
                     <span className="text-[10px] font-bold text-[#00B4FF] uppercase tracking-wide">Overwhelmingly Positive</span>
                   </div>

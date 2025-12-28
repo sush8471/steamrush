@@ -59,15 +59,6 @@ export default function GTAVPage() {
   const [showRecommended, setShowRecommended] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
   const [showAdditional, setShowAdditional] = useState(false);
-  const [isSpecsExpanded, setIsSpecsExpanded] = useState(true);
-  const [expandedSpecs, setExpandedSpecs] = useState<Record<string, boolean>>({});
-
-  const toggleSpec = (spec: string) => {
-    setExpandedSpecs(prev => ({
-      ...prev,
-      [spec]: prev[spec] === false ? true : false // default to true if undefined
-    }));
-  };
 
   useEffect(() => {
     async function fetchSteamData() {
@@ -257,170 +248,112 @@ export default function GTAVPage() {
                   whileInView="visible"
                   viewport={{ once: true, margin: "-50px" }}
                   variants={fadeInUp}
-                  className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-none lg:rounded-2xl p-5 lg:p-8 shadow-2xl mt-6 lg:mt-10 overflow-hidden"
+                  className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-none lg:rounded-3xl p-6 lg:p-12 shadow-2xl mt-8 lg:mt-16"
                 >
-                  <button 
-                    onClick={() => setIsSpecsExpanded(!isSpecsExpanded)}
-                    className="flex items-center justify-between w-full mb-4 group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Monitor className="w-5 h-5 text-[#00B4FF]" />
-                      <h2 className="text-lg lg:text-xl font-bold text-white tracking-wide">SYSTEM REQUIREMENTS</h2>
+                  <div className="flex items-center gap-3 mb-5">
+                    <Monitor className="w-5 h-5 text-[#00B4FF]" />
+                    <h2 className="text-lg lg:text-xl font-bold text-white tracking-wide">SYSTEM REQUIREMENTS</h2>
+                  </div>
+
+                  {loading ? (
+                    <div className="space-y-3">
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
                     </div>
-                    <ChevronDown className={`w-5 h-5 text-[#8F98A0] group-hover:text-white transition-transform duration-300 ${isSpecsExpanded ? 'rotate-180' : ''}`} />
-                  </button>
+                  ) : (
+                    <>
+                      {/* Mobile: Refined Toggle View */}
+                      <div className="lg:hidden">
+                        <div className="flex p-1 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 mb-8">
+                          <button 
+                            onClick={() => setShowRecommended(false)}
+                            className={`flex-1 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] rounded-lg transition-all duration-300 ${!showRecommended ? 'bg-[#00B4FF] text-white shadow-[0_0_15px_rgba(0,180,255,0.3)]' : 'text-[#8F98A0] hover:text-white'}`}
+                          >
+                            Minimum
+                          </button>
+                          <button 
+                            onClick={() => setShowRecommended(true)}
+                            className={`flex-1 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] rounded-lg transition-all duration-300 ${showRecommended ? 'bg-[#A4D007] text-white shadow-[0_0_15px_rgba(164,208,7,0.3)]' : 'text-[#8F98A0] hover:text-white'}`}
+                          >
+                            Recommended
+                          </button>
+                        </div>
+                        
+                        <div className="space-y-6">
+                          {Object.entries((showRecommended ? recRequirements : minRequirements) || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => (
+                            <div key={key} className="flex flex-col border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                              <span className="text-[#8F98A0] text-[9px] uppercase tracking-[0.2em] font-black mb-2 opacity-60">{key}</span>
+                              <span className="text-white/90 font-medium text-sm leading-relaxed">{val as string}</span>
+                            </div>
+                          ))}
+                        </div>
 
-                  <motion.div
-                    initial={false}
-                    animate={{ height: isSpecsExpanded ? 'auto' : 0, opacity: isSpecsExpanded ? 1 : 0 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="overflow-hidden"
-                  >
-                    {loading ? (
-                      <div className="space-y-3">
-                        <Skeleton className="h-4 w-full" />
-                        <Skeleton className="h-4 w-3/4" />
+                        {/* Additional Notes - Collapsible */}
+                        {((showRecommended ? recRequirements : minRequirements) as Record<string, string>)?.additional && (
+                          <div className="mt-4 border-t border-white/10 pt-3">
+                            <button
+                              onClick={() => setShowAdditional(!showAdditional)}
+                              className="w-full flex items-center justify-between py-2 text-[#8F98A0] hover:text-white transition-colors"
+                            >
+                              <span className="text-xs font-medium uppercase tracking-wide">Additional Notes</span>
+                              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showAdditional ? 'rotate-180' : ''}`} />
+                            </button>
+                            <div className={`overflow-hidden transition-all duration-300 ${showAdditional ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                              <p className="text-[#8F98A0] text-xs leading-relaxed pt-2">
+                                {((showRecommended ? recRequirements : minRequirements) as Record<string, string>)?.additional}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <>
-                        {/* Mobile: Refined Toggle View */}
-                        <div className="lg:hidden">
-                          <div className="flex p-1 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 mb-6">
-                            <button 
-                              onClick={() => setShowRecommended(false)}
-                              className={`flex-1 py-2 text-[10px] font-black uppercase tracking-[0.1em] rounded-lg transition-all duration-300 ${!showRecommended ? 'bg-[#00B4FF] text-white shadow-[0_0_15px_rgba(0,180,255,0.3)]' : 'text-[#8F98A0] hover:text-white'}`}
-                            >
-                              Minimum
-                            </button>
-                            <button 
-                              onClick={() => setShowRecommended(true)}
-                              className={`flex-1 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] rounded-lg transition-all duration-300 ${showRecommended ? 'bg-[#A4D007] text-white shadow-[0_0_15px_rgba(164,208,7,0.3)]' : 'text-[#8F98A0] hover:text-white'}`}
-                            >
-                              Recommended
-                            </button>
-                          </div>
-                          
-                          <div className="space-y-3">
-                            {Object.entries((showRecommended ? recRequirements : minRequirements) || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => {
-                              const isItemExpanded = expandedSpecs[key] !== false;
-                              return (
-                                <div key={key} className="flex flex-col border-b border-white/5 pb-3 last:border-0 last:pb-0">
-                                  <button 
-                                    onClick={() => toggleSpec(key)}
-                                    className="flex items-center justify-between w-full text-left group"
-                                  >
-                                    <span className="text-[#8F98A0] text-[9px] uppercase tracking-[0.2em] font-black mb-1 opacity-60">{key}</span>
-                                    <ChevronDown className={`w-3.5 h-3.5 text-[#00B4FF]/40 group-hover:text-[#00B4FF] transition-transform duration-300 ${isItemExpanded ? 'rotate-180' : ''}`} />
-                                  </button>
-                                  <motion.div
-                                    initial={false}
-                                    animate={{ height: isItemExpanded ? 'auto' : 0, opacity: isItemExpanded ? 1 : 0 }}
-                                    className="overflow-hidden"
-                                  >
-                                    <span className="text-white/90 font-medium text-sm leading-relaxed block pt-1">{val as string}</span>
-                                  </motion.div>
+
+                      {/* Desktop: Side by Side */}
+                      <div className="hidden lg:block">
+                        <div className="grid grid-cols-2 gap-12 divide-x divide-white/5">
+                          <div className="space-y-6">
+                            <div className="text-[#00B4FF] text-[11px] font-black uppercase tracking-[0.2em] bg-[#00B4FF]/10 w-fit px-4 py-2 rounded-full border border-[#00B4FF]/20 shadow-[0_0_20px_rgba(0,180,255,0.1)]">Minimum</div>
+                            <div className="space-y-3 text-sm">
+                              {Object.entries(minRequirements || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => (
+                                <div key={key}>
+                                  <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block mb-2 opacity-50">{key}</span>
+                                  <span className="text-white/90 font-medium leading-relaxed">{val as string}</span>
                                 </div>
-                              );
-                            })}
-                          </div>
-
-                          {/* Additional Notes - Collapsible */}
-                          {((showRecommended ? recRequirements : minRequirements) as Record<string, string>)?.additional && (
-                            <div className="mt-4 border-t border-white/10 pt-3">
-                              <button
-                                onClick={() => setShowAdditional(!showAdditional)}
-                                className="w-full flex items-center justify-between py-2 text-[#8F98A0] hover:text-white transition-colors"
-                              >
-                                <span className="text-xs font-medium uppercase tracking-wide">Additional Notes</span>
-                                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showAdditional ? 'rotate-180' : ''}`} />
-                              </button>
-                              <div className={`overflow-hidden transition-all duration-300 ${showAdditional ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-                                <p className="text-[#8F98A0] text-xs leading-relaxed pt-2">
-                                  {((showRecommended ? recRequirements : minRequirements) as Record<string, string>)?.additional}
-                                </p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Desktop: Side by Side */}
-                        <div className="hidden lg:block">
-                          <div className="grid grid-cols-2 gap-8 divide-x divide-white/5">
-                            <div className="space-y-4">
-                              <div className="text-[#00B4FF] text-[11px] font-black uppercase tracking-[0.2em] bg-[#00B4FF]/10 w-fit px-4 py-2 rounded-full border border-[#00B4FF]/20 shadow-[0_0_20px_rgba(0,180,255,0.1)] mb-2">Minimum</div>
-                              <div className="space-y-2">
-                                {Object.entries(minRequirements || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => {
-                                  const isItemExpanded = expandedSpecs[`min-${key}`] !== false;
-                                  return (
-                                    <div key={key} className="border-b border-white/5 pb-2 last:border-0 last:pb-0">
-                                      <button 
-                                        onClick={() => toggleSpec(`min-${key}`)}
-                                        className="flex items-center justify-between w-full text-left group"
-                                      >
-                                        <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block opacity-50">{key}</span>
-                                        <ChevronDown className={`w-3.5 h-3.5 text-[#00B4FF]/30 group-hover:text-[#00B4FF] transition-transform duration-300 ${isItemExpanded ? 'rotate-180' : ''}`} />
-                                      </button>
-                                      <motion.div
-                                        initial={false}
-                                        animate={{ height: isItemExpanded ? 'auto' : 0, opacity: isItemExpanded ? 1 : 0 }}
-                                        className="overflow-hidden"
-                                      >
-                                        <span className="text-white/90 font-medium text-[13px] leading-relaxed block pt-1">{val as string}</span>
-                                      </motion.div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                            <div className="space-y-4 pl-8">
-                              <div className="text-[#A4D007] text-[11px] font-black uppercase tracking-[0.2em] bg-[#A4D007]/10 w-fit px-4 py-2 rounded-full border border-[#A4D007]/20 shadow-[0_0_20px_rgba(164,208,7,0.1)] mb-2">Recommended</div>
-                              <div className="space-y-2">
-                                {Object.entries(recRequirements || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => {
-                                  const isItemExpanded = expandedSpecs[`rec-${key}`] !== false;
-                                  return (
-                                    <div key={key} className="border-b border-white/5 pb-2 last:border-0 last:pb-0">
-                                      <button 
-                                        onClick={() => toggleSpec(`rec-${key}`)}
-                                        className="flex items-center justify-between w-full text-left group"
-                                      >
-                                        <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block opacity-50">{key}</span>
-                                        <ChevronDown className={`w-3.5 h-3.5 text-[#A4D007]/30 group-hover:text-[#A4D007] transition-transform duration-300 ${isItemExpanded ? 'rotate-180' : ''}`} />
-                                      </button>
-                                      <motion.div
-                                        initial={false}
-                                        animate={{ height: isItemExpanded ? 'auto' : 0, opacity: isItemExpanded ? 1 : 0 }}
-                                        className="overflow-hidden"
-                                      >
-                                        <span className="text-white/90 font-medium text-[13px] leading-relaxed block pt-1">{val as string}</span>
-                                      </motion.div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
+                              ))}
                             </div>
                           </div>
-
-                          {/* Additional Notes - Desktop */}
-                          {((minRequirements as Record<string, string>)?.additional || (recRequirements as Record<string, string>)?.additional) && (
-                            <div className="mt-6 border-t border-white/10 pt-2 -mx-8 -mb-8">
-                              <button
-                                onClick={() => setShowAdditional(!showAdditional)}
-                                className="w-full flex items-center justify-between px-8 py-4 hover:bg-white/5 transition-all text-[#8F98A0] hover:text-white"
-                              >
-                                <span className="text-xs font-bold uppercase tracking-wide">Additional Notes</span>
-                                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showAdditional ? 'rotate-180' : ''}`} />
-                              </button>
-                              <div className={`overflow-hidden transition-all duration-300 bg-black/20 ${showAdditional ? 'max-h-[500px] opacity-100 px-8 py-4 pb-8' : 'max-h-0 opacity-0 px-8 py-0'}`}>
-                                <p className="text-[#8F98A0] text-sm leading-relaxed max-w-2xl font-light">
-                                  {(minRequirements as Record<string, string>)?.additional || (recRequirements as Record<string, string>)?.additional}
-                                </p>
-                              </div>
+                          <div className="space-y-6 pl-12">
+                            <div className="text-[#A4D007] text-[11px] font-black uppercase tracking-[0.2em] bg-[#A4D007]/10 w-fit px-4 py-2 rounded-full border border-[#A4D007]/20 shadow-[0_0_20px_rgba(164,208,7,0.1)]">Recommended</div>
+                            <div className="space-y-5 text-sm">
+                              {Object.entries(recRequirements || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => (
+                                <div key={key}>
+                                  <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block mb-2 opacity-50">{key}</span>
+                                  <span className="text-white/90 font-medium leading-relaxed">{val as string}</span>
+                                </div>
+                              ))}
                             </div>
-                          )}
+                          </div>
                         </div>
-                      </>
-                    )}
-                  </motion.div>
+
+                        {/* Additional Notes - Desktop */}
+                        {((minRequirements as Record<string, string>)?.additional || (recRequirements as Record<string, string>)?.additional) && (
+                          <div className="mt-6 border-t border-white/10 pt-2 -mx-8 -mb-8">
+                            <button
+                              onClick={() => setShowAdditional(!showAdditional)}
+                              className="w-full flex items-center justify-between px-8 py-4 hover:bg-white/5 transition-all text-[#8F98A0] hover:text-white"
+                            >
+                              <span className="text-xs font-bold uppercase tracking-wide">Additional Notes</span>
+                              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showAdditional ? 'rotate-180' : ''}`} />
+                            </button>
+                            <div className={`overflow-hidden transition-all duration-300 bg-black/20 ${showAdditional ? 'max-h-[500px] opacity-100 px-8 py-4 pb-8' : 'max-h-0 opacity-0 px-8 py-0'}`}>
+                              <p className="text-[#8F98A0] text-sm leading-relaxed max-w-2xl font-light">
+                                {(minRequirements as Record<string, string>)?.additional || (recRequirements as Record<string, string>)?.additional}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               )}
 

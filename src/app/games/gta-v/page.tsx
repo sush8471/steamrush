@@ -88,7 +88,8 @@ export default function GTAVPage() {
   const recRequirements = steamData?.pcRequirements?.recommended ? parseSystemRequirements(steamData.pcRequirements.recommended) : null;
   const screenshots = steamData?.screenshots?.map(s => s.pathFull).filter(Boolean) || [];
   const headerImage = steamData?.headerImage || game.image;
-  const allGalleryImages = [headerImage, ...screenshots];
+  // Use only screenshots for the gallery to avoid redundancy with the poster card
+  const allGalleryImages = screenshots.length > 0 ? screenshots : [headerImage];
   const description = steamData?.shortDescription || game.description || "";
 
   // Refined Similar games logic

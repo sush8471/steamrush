@@ -144,51 +144,60 @@ export default function GameCardsGridDiscover() {
 
         <div className="overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
           {games.map((game) => {
-            const CardContent = (
-              <div className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] snap-start h-full cursor-pointer">
-                <div className="relative aspect-[3/4] w-full overflow-hidden">
-                  <Image
-                    src={game.image}
-                    alt={game.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 70vw, 16vw"
-                  />
-                  {game.discount && (
-                    <div className="absolute top-2 right-2 bg-[#0074E4] text-white text-xs font-bold px-2.5 py-1 rounded-md">
-                      {game.discount}
-                    </div>
-                  )}
-                </div>
-                <div className="p-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-white font-black text-xl">
-                      {game.price}
-                    </span>
-                    <span className="text-[#B0B8D0] text-xs line-through">
-                      {game.originalPrice}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            );
-
-            if (game.href) {
-              return (
-                <Link key={game.id} href={game.href}>
-                  {CardContent}
-                </Link>
-              );
-            }
+            // Map the static IDs from this file to the actual IDs in games.ts if they differ, 
+            // or just ensure the 'game.id' (if it were a string) matches.
+            // Since this file uses integer IDs (1, 2, 3), we need to map them to string IDs used in your routing (e.g. "gta-v", "elden-ring").
+            // For now, I will construct a slug from the title as a fallback, or better yet, let's just assume we want to link.
+            
+            // To make this robust without rewriting the whole array above:
+            // I will convert titles to kebab-case slugs which matches your ID convention in games.ts
+            // e.g. "Grand Theft Auto V" -> "gta-v" (manual exception)
+            // "Elden Ring" -> "elden-ring"
+            
+            let linkId = "";
+            if (game.title === "Grand Theft Auto V") linkId = "gta-v";
+            else if (game.title === "Red Dead Redemption 2") linkId = "rdr2";
+            else if (game.title === "Marvel's Spider-Man Remastered") linkId = "spiderman-remastered"; 
+            else if (game.title === "The Last of Us Part I") linkId = "last-of-us";
+            else if (game.title.includes("State of Decay")) linkId = "state-decay-2";
+            else if (game.title.includes("Uncharted")) linkId = "uncharted";
+            else if (game.title.includes("Detroit")) linkId = "detroit-bh";
+            else if (game.title.includes("Mafia")) linkId = "mafia-de";
+            else linkId = game.title.toLowerCase().replace(/[':]/g, '').replace(/\s+/g, '-');
 
             return (
-              <button
-                key={game.id}
-                onClick={() => window.parent.postMessage({ type: "OPEN_EXTERNAL_URL", data: { url: `https://wa.me/917752805529?text=I want to buy ${game.title}` } }, "*")}
+              <Link 
+                key={game.id} 
+                href={`/games/${linkId}`}
                 className="flex-shrink-0 snap-start"
               >
-                {CardContent}
-              </button>
+                <div className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] h-full cursor-pointer">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden">
+                    <Image
+                      src={game.image}
+                      alt={game.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 70vw, 16vw"
+                    />
+                    {game.discount && (
+                      <div className="absolute top-2 right-2 bg-[#0074E4] text-white text-xs font-bold px-2.5 py-1 rounded-md">
+                        {game.discount}
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-white font-black text-xl">
+                        {game.price}
+                      </span>
+                      <span className="text-[#B0B8D0] text-xs line-through">
+                        {game.originalPrice}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             );
           })}
         </div>

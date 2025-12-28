@@ -119,18 +119,9 @@ export function NavbarSearch() {
               <button
                 key={game.id}
                 onClick={() => {
-                  if (game.id === 'gta-v' || game.title.toLowerCase().includes('grand theft auto v')) {
-                    router.push('/games/gta-v');
-                    setShowSuggestions(false);
-                    setLocalQuery("");
-                  } else {
-                    addToCart({
-                      id: game.id,
-                      name: game.title,
-                      price: game.price,
-                      image: game.image,
-                    });
-                  }
+                  router.push(`/games/${game.id}`);
+                  setShowSuggestions(false);
+                  setLocalQuery("");
                 }}
                 className="w-full flex items-center gap-3 p-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
               >
@@ -201,16 +192,7 @@ export function NavbarSearch() {
                     <button
                       key={game.id}
                       onClick={() => {
-                        if (game.id === 'gta-v' || game.title.toLowerCase().includes('grand theft auto v')) {
-                          router.push('/games/gta-v');
-                        } else {
-                          addToCart({
-                            id: game.id,
-                            name: game.title,
-                            price: game.price,
-                            image: game.image,
-                          });
-                        }
+                        router.push(`/games/${game.id}`);
                         handleClose();
                       }}
                       className="w-full flex items-start gap-4 p-4 bg-[#1A1F3A]/50 rounded-xl hover:bg-[#1A1F3A] active:bg-[#1A1F3A] transition-all border border-white/5 hover:border-[#0074E4]/30"

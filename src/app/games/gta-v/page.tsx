@@ -117,10 +117,22 @@ export default function GTAVPage() {
 
   // FAQ data
   const faqData = [
-    { question: "Is this an official Steam key?", answer: "Yes! All our keys are 100% official Steam keys sourced from authorized distributors. You'll receive a genuine key that activates directly on Steam." },
-    { question: "How fast will I receive my key?", answer: "Instantly! Once your payment is confirmed via WhatsApp, we'll send your Steam key within minutes. Most orders are fulfilled in under 5 minutes." },
-    { question: "What payment methods do you accept?", answer: "We accept UPI, bank transfers, and all major digital payment methods through WhatsApp. Just message us and we'll guide you through the process." },
-    { question: "Can I refund if there's an issue?", answer: "We stand behind every sale. If there's any issue with your key, contact us immediately on WhatsApp and we'll resolve it or provide a full refund." },
+    { 
+      question: "How does the activation process work?", 
+      answer: "After payment, we provide a complete package including specialized files, resources, and a step-by-step tutorial. By following our guide and installing these files into your Steam application, the game will be permanently activated in your personal Steam library." 
+    },
+    { 
+      question: "Is this a Steam key or a shared account?", 
+      answer: "Neither! We use a unique 'Personal Activation' method. This allows you to have the game in your own personal Steam library. You won't need to manage shared accounts or worry about keys; you'll have full access to download and play directly from Steam." 
+    },
+    { 
+      question: "How fast will I receive the resources?", 
+      answer: "Instantly! Once your payment is confirmed on WhatsApp, we'll send you the download link for the activation files and the tutorial immediately. Most customers complete the entire setup in under 5 minutes." 
+    },
+    { 
+      question: "Can I download and update via Steam?", 
+      answer: "Absolutely. Once you follow our tutorial to activate the game, it becomes part of your Steam library. You can then use Steam's official servers to download the game, receive updates, and launch it just like any other game." 
+    },
   ];
 
   const cleanText = (text: string) => text.replace(/<[^>]*>?/gm, '');

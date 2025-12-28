@@ -1,5 +1,6 @@
 export interface Game {
   id: string;
+  steamAppId?: number; // Steam App ID for API integration
   title: string;
   image: string;
   price: number; // Numeric for filtering/sorting
@@ -16,6 +17,7 @@ export const GAMES_DATABASE: Game[] = [
   // === GTA SERIES ===
   {
     id: "gta-v",
+    steamAppId: 3240220,
     title: "Grand Theft Auto V",
     image: "/gta-v.jpg",
     price: 299,
@@ -27,6 +29,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "gta-iv",
+    steamAppId: 12210,
     title: "Grand Theft Auto IV",
     image: "/gta-iv.png",
     price: 249,
@@ -40,6 +43,7 @@ export const GAMES_DATABASE: Game[] = [
   // === ASSASSIN'S CREED SERIES ===
   {
     id: "ac-valhalla",
+    steamAppId: 2208920,
     title: "Assassin's Creed Valhalla",
     image: "/ac-valhalla.jpg",
     price: 299,
@@ -51,6 +55,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ac-odyssey",
+    steamAppId: 812140,
     title: "Assassin's Creed Odyssey",
     image: "/ac-odyssey.jpg",
     price: 299,
@@ -62,6 +67,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ac-origins",
+    steamAppId: 582160,
     title: "Assassin's Creed Origins",
     image: "/ac-origins.jpg",
     price: 299,
@@ -73,6 +79,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ac-unity",
+    steamAppId: 289650,
     title: "Assassin's Creed Unity",
     image: "/ac-unity.jpg",
     price: 199,
@@ -84,6 +91,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ac-mirage",
+    steamAppId: 3035570,
     title: "Assassin's Creed Mirage",
     image: "/ac-mirage.jpg",
     price: 349,
@@ -95,6 +103,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ac-shadows",
+    steamAppId: 3159330,
     title: "Assassin's Creed Shadows",
     image: "/ac-shadows.jpg",
     price: 399,
@@ -108,6 +117,7 @@ export const GAMES_DATABASE: Game[] = [
   // === MORTAL KOMBAT SERIES ===
   {
     id: "mortal-kombat-1",
+    steamAppId: 1971870,
     title: "Mortal Kombat 1",
     image: "/mortal-kombat-1.png",
     price: 349,
@@ -119,6 +129,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "mortal-kombat-11",
+    steamAppId: 976310,
     title: "Mortal Kombat 11",
     image: "/mortal-kombat-11.jpg",
     price: 299,
@@ -130,6 +141,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "mortal-kombat-x",
+    steamAppId: 307780,
     title: "Mortal Kombat X",
     image: "/mortal-kombat-x.jpg",
     price: 249,
@@ -143,6 +155,7 @@ export const GAMES_DATABASE: Game[] = [
   // === PERSONA SERIES ===
   {
     id: "persona-5-royal",
+    steamAppId: 1687950,
     title: "Persona 5 Royal",
     image: "/persona-5-royal.jpg",
     price: 349,
@@ -154,6 +167,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "persona-5-strikers",
+    steamAppId: 1382330,
     title: "Persona 5 Strikers",
     image: "/persona-5-strikers.jpg",
     price: 299,
@@ -165,6 +179,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "persona-5-tactica",
+    steamAppId: 2254740,
     title: "Persona 5 Tactica",
     image: "/persona-5-tactica.png",
     price: 299,
@@ -176,6 +191,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "persona-3-reload",
+    steamAppId: 2161700,
     title: "Persona 3 Reload",
     image: "/persona-3-reload.jpg",
     price: 399,
@@ -187,6 +203,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "persona-4-arena-ultimax",
+    steamAppId: 1602010,
     title: "Persona 4 Arena Ultimax",
     image: "/persona-4-arena-ultimax.jpg",
     price: 249,
@@ -200,6 +217,7 @@ export const GAMES_DATABASE: Game[] = [
   // === DYING LIGHT SERIES ===
   {
     id: "dying-light",
+    steamAppId: 3008130,
     title: "Dying Light",
     image: "/dying-light.jpg",
     price: 249,
@@ -211,6 +229,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dying-light-2",
+    steamAppId: 534380,
     title: "Dying Light 2 Stay Human",
     image: "/dying-light-2.jpg",
     price: 299,
@@ -222,6 +241,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dying-light-the-beast",
+    steamAppId: 3008130,
     title: "Dying Light: The Beast",
     image: "/dying-light-the-beast.jpg",
     price: 349,
@@ -235,6 +255,7 @@ export const GAMES_DATABASE: Game[] = [
   // === FAR CRY SERIES ===
   {
     id: "far-cry-6",
+    steamAppId: 2369390,
     title: "Far Cry 6",
     image: "/far-cry-6.jpg",
     price: 299,
@@ -246,6 +267,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "far-cry-5",
+    steamAppId: 552520,
     title: "Far Cry 5",
     image: "/far-cry-5.jpg",
     price: 249,
@@ -257,6 +279,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "far-cry-4",
+    steamAppId: 298110,
     title: "Far Cry 4",
     image: "/far-cry-4.jpg",
     price: 199,
@@ -268,6 +291,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "far-cry-3",
+    steamAppId: 220240,
     title: "Far Cry 3",
     image: "/far-cry-3.jpg",
     price: 199,
@@ -279,6 +303,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "far-cry-primal",
+    steamAppId: 371660,
     title: "Far Cry Primal",
     image: "/far-cry-primal.jpg",
     price: 199,
@@ -290,6 +315,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "far-cry-new-dawn",
+    steamAppId: 939960,
     title: "Far Cry New Dawn",
     image: "/far-cry-new-dawn.jpg",
     price: 199,
@@ -303,6 +329,7 @@ export const GAMES_DATABASE: Game[] = [
   // === NEED FOR SPEED SERIES ===
   {
     id: "nfs-unbound",
+    steamAppId: 1846380,
     title: "Need for Speed Unbound",
     image: "/nfs-unbound.png",
     price: 299,
@@ -314,6 +341,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "nfs-heat",
+    steamAppId: 1222680,
     title: "Need for Speed Heat",
     image: "/nfs-heat.jpg",
     price: 249,
@@ -325,6 +353,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "nfs-payback",
+    steamAppId: 1262580,
     title: "Need for Speed Payback",
     image: "/nfs-payback.jpg",
     price: 199,
@@ -336,6 +365,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "nfs-rivals",
+    steamAppId: 1262600,
     title: "Need for Speed Rivals",
     image: "/nfs-rivals.jpg",
     price: 199,
@@ -347,6 +377,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "nfs-hot-pursuit",
+    steamAppId: 1328660,
     title: "Need for Speed Hot Pursuit",
     image: "/need-for-speed-hot-pursuit.jpg",
     price: 199,
@@ -358,6 +389,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "nfs-most-wanted",
+    steamAppId: 1262560,
     title: "Need for Speed Most Wanted",
     image: "/nfs-most-wanted.jpg",
     price: 199,
@@ -371,6 +403,7 @@ export const GAMES_DATABASE: Game[] = [
   // === TOMB RAIDER SERIES ===
   {
     id: "shadow-tomb-raider",
+    steamAppId: 750920,
     title: "Shadow of the Tomb Raider",
     image: "/shadow-tomb-raider.png",
     price: 199,
@@ -382,6 +415,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "rise-tomb-raider",
+    steamAppId: 391220,
     title: "Rise of the Tomb Raider",
     image: "/rise-tomb-raider.jpg",
     price: 179,
@@ -395,6 +429,7 @@ export const GAMES_DATABASE: Game[] = [
   // === HORIZON SERIES ===
   {
     id: "horizon-forbidden-west",
+    steamAppId: 2420110,
     title: "Horizon Forbidden West",
     image: "/horizon-forbidden-west.jpg",
     price: 349,
@@ -406,6 +441,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "horizon-zero-dawn",
+    steamAppId: 2561580,
     title: "Horizon Zero Dawn",
     image: "/horizon-zero-dawn.png",
     price: 249,
@@ -419,6 +455,7 @@ export const GAMES_DATABASE: Game[] = [
   // === FORZA HORIZON SERIES ===
   {
     id: "forza-horizon-5",
+    steamAppId: 1551360,
     title: "Forza Horizon 5",
     image: "/forza-horizon-5.jpg",
     price: 269,
@@ -443,6 +480,7 @@ export const GAMES_DATABASE: Game[] = [
   // === SPIDER-MAN SERIES ===
   {
     id: "spiderman-remastered",
+    steamAppId: 1817070,
     title: "Marvel's Spider-Man Remastered",
     image: "/spiderman-remastered.png",
     price: 299,
@@ -454,6 +492,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "spiderman-miles-morales",
+    steamAppId: 1817190,
     title: "Marvel's Spider-Man: Miles Morales",
     image: "/spiderman-miles-morales.png",
     price: 299,
@@ -467,6 +506,7 @@ export const GAMES_DATABASE: Game[] = [
   // === GOD OF WAR SERIES ===
   {
     id: "god-of-war-ragnarok",
+    steamAppId: 2322010,
     title: "God of War Ragnarök",
     image: "/god-of-war-ragnarok.jpg",
     price: 349,
@@ -478,6 +518,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "god-of-war",
+    steamAppId: 1593500,
     title: "God of War",
     image: "/god-of-war.jpg",
     price: 299,
@@ -491,6 +532,7 @@ export const GAMES_DATABASE: Game[] = [
   // === PLAGUE TALE SERIES ===
   {
     id: "plague-tale-requiem",
+    steamAppId: 1182900,
     title: "A Plague Tale: Requiem",
     image: "/plague-tale-requiem.jpg",
     price: 299,
@@ -502,6 +544,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "plague-tale-innocence",
+    steamAppId: 752590,
     title: "A Plague Tale: Innocence",
     image: "/plague-tale-innocence.jpg",
     price: 249,
@@ -515,6 +558,7 @@ export const GAMES_DATABASE: Game[] = [
   // === THE LAST OF US SERIES ===
   {
     id: "last-of-us",
+    steamAppId: 1888930,
     title: "The Last of Us Part I",
     image: "/last-of-us-part-2.jpg",
     price: 349,
@@ -528,6 +572,7 @@ export const GAMES_DATABASE: Game[] = [
   // === ADDITIONAL AAA TITLES ===
   {
     id: "cyberpunk-2077",
+    steamAppId: 1091500,
     title: "Cyberpunk 2077",
     image: "/cyberpunk-2077.jpg",
     price: 299,
@@ -538,6 +583,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "elden-ring",
+    steamAppId: 1245620,
     title: "Elden Ring",
     image: "/elden-ring.jpg",
     price: 349,
@@ -548,6 +594,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "rdr2",
+    steamAppId: 1174180,
     title: "Red Dead Redemption 2",
     image: "/red-dead-redemption-2.jpg",
     price: 299,
@@ -558,6 +605,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "hogwarts-legacy",
+    steamAppId: 990080,
     title: "Hogwarts Legacy",
     image: "/hogwarts-legacy.jpg",
     price: 349,
@@ -568,6 +616,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "sekiro",
+    steamAppId: 814380,
     title: "Sekiro: Shadows Die Twice",
     image: "/sekiro.jpg",
     price: 299,
@@ -578,6 +627,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "witcher-3",
+    steamAppId: 292030,
     title: "The Witcher 3: Wild Hunt",
     image: "/witcher-3.jpg",
     price: 249,
@@ -588,6 +638,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ghost-tsushima",
+    steamAppId: 2215430,
     title: "Ghost of Tsushima",
     image: "/ghost-of-tsushima.jpg",
     price: 349,
@@ -598,6 +649,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "days-gone",
+    steamAppId: 1259420,
     title: "Days Gone",
     image: "/days-gone.jpg",
     price: 249,
@@ -608,6 +660,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "detroit-bh",
+    steamAppId: 1222140,
     title: "Detroit: Become Human",
     image: "/detroit-become-human.png",
     price: 249,
@@ -618,6 +671,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "mafia-de",
+    steamAppId: 1030840,
     title: "Mafia: Definitive Edition",
     image: "/mafia-definitive-edition.jpg",
     price: 199,
@@ -629,6 +683,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "mafia-the-old-country",
+    steamAppId: 1941540,
     title: "Mafia: The Old Country",
     image: "/mafia-the-old-country.jpg",
     price: 399,
@@ -640,6 +695,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "state-decay-2",
+    steamAppId: 495420,
     title: "State of Decay 2: Juggernaut Edition",
     image: "/state-of-decay-2.png",
     price: 249,
@@ -650,6 +706,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "uncharted",
+    steamAppId: 1659420,
     title: "Uncharted: Legacy of Thieves Collection",
     image: "/uncharted-legacy-thieves.jpg",
     price: 299,
@@ -663,6 +720,7 @@ export const GAMES_DATABASE: Game[] = [
   // === FC/FIFA SERIES ===
   {
     id: "fc-26",
+    steamAppId: 3405690,
     title: "FC 26",
     image: "/fc-26.jpg",
     price: 349,
@@ -674,6 +732,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "fc-25",
+    steamAppId: 2669320,
     title: "FC 25",
     image: "/fc-25.jpg",
     price: 299,
@@ -698,6 +757,7 @@ export const GAMES_DATABASE: Game[] = [
   // === CRICKET SERIES ===
   {
     id: "cricket-26",
+    steamAppId: 3468650,
     title: "Cricket 26",
     image: "/cricket-26.jpg",
     price: 299,
@@ -708,6 +768,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "cricket-24",
+    steamAppId: 2358260,
     title: "Cricket 24",
     image: "/cricket-24.jpg",
     price: 249,
@@ -720,6 +781,7 @@ export const GAMES_DATABASE: Game[] = [
   // === F1 SERIES ===
   {
     id: "f1-25",
+    steamAppId: 3059520,
     title: "F1 25",
     image: "/f1-25.jpg",
     price: 349,
@@ -731,6 +793,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "f1-24",
+    steamAppId: 2488620,
     title: "F1 24",
     image: "/f1-24.jpg",
     price: 299,
@@ -742,6 +805,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "f1-23",
+    steamAppId: 2426210,
     title: "F1 23",
     image: "/f1-23.jpg",
     price: 249,
@@ -755,6 +819,7 @@ export const GAMES_DATABASE: Game[] = [
   // === TEKKEN SERIES ===
   {
     id: "tekken-8",
+    steamAppId: 1778820,
     title: "Tekken 8",
     image: "/tekken-8.jpg",
     price: 349,
@@ -766,6 +831,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "tekken-7",
+    steamAppId: 389730,
     title: "Tekken 7",
     image: "/tekken-7.png",
     price: 249,
@@ -779,6 +845,7 @@ export const GAMES_DATABASE: Game[] = [
   // === STREET FIGHTER SERIES ===
   {
     id: "street-fighter-6",
+    steamAppId: 1364780,
     title: "Street Fighter 6",
     image: "/street-fighter-6.png",
     price: 299,
@@ -792,6 +859,7 @@ export const GAMES_DATABASE: Game[] = [
   // === DARK SOULS SERIES ===
   {
     id: "dark-souls-3",
+    steamAppId: 374320,
     title: "Dark Souls 3",
     image: "/dark-souls-3.jpg",
     price: 299,
@@ -805,6 +873,7 @@ export const GAMES_DATABASE: Game[] = [
   // === RESIDENT EVIL SERIES ===
   {
     id: "resident-evil-village",
+    steamAppId: 1196590,
     title: "Resident Evil Village",
     image: "/resident-evil-village.png",
     price: 299,
@@ -816,6 +885,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "resident-evil-4",
+    steamAppId: 2050650,
     title: "Resident Evil 4",
     image: "/resident-evil-4.png",
     price: 299,
@@ -827,6 +897,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "resident-evil-7",
+    steamAppId: 418370,
     title: "Resident Evil 7",
     image: "/resident-evil-7.jpg",
     price: 249,
@@ -838,6 +909,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "resident-evil-3",
+    steamAppId: 952060,
     title: "Resident Evil 3",
     image: "/resident-evil-3.jpg",
     price: 249,
@@ -849,6 +921,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "resident-evil-2",
+    steamAppId: 883710,
     title: "Resident Evil 2",
     image: "/resident-evil-2.jpg",
     price: 249,
@@ -862,6 +935,7 @@ export const GAMES_DATABASE: Game[] = [
   // === WATCH DOGS SERIES ===
   {
     id: "watch-dogs-legion",
+    steamAppId: 2239550,
     title: "Watch Dogs Legion",
     image: "/watch-dogs-legion.jpg",
     price: 299,
@@ -873,6 +947,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "watch-dogs-2",
+    steamAppId: 447040,
     title: "Watch Dogs 2",
     image: "/watch-dogs-2.jpg",
     price: 249,
@@ -884,6 +959,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "watch-dogs",
+    steamAppId: 447040,
     title: "Watch Dogs",
     image: "/watch-dogs.jpg",
     price: 199,
@@ -897,6 +973,7 @@ export const GAMES_DATABASE: Game[] = [
   // === STAR WARS SERIES ===
   {
     id: "star-wars-outlaws",
+    steamAppId: 2842040,
     title: "Star Wars Outlaws",
     image: "/star-wars-outlaws.jpg",
     price: 399,
@@ -908,6 +985,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "star-wars-jedi-survivor",
+    steamAppId: 1774580,
     title: "Star Wars Jedi: Survivor",
     image: "/star-wars-jedi-survivor.jpg",
     price: 349,
@@ -919,6 +997,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "star-wars-jedi-fallen-order",
+    steamAppId: 1172380,
     title: "Star Wars Jedi: Fallen Order",
     image: "/star-wars-jedi-fallen-order.jpg",
     price: 299,
@@ -932,6 +1011,7 @@ export const GAMES_DATABASE: Game[] = [
   // === LITTLE NIGHTMARES SERIES ===
   {
     id: "little-nightmares-3",
+    steamAppId: 1392860,
     title: "Little Nightmares 3",
     image: "/little-nightmares-3.jpg",
     price: 349,
@@ -943,6 +1023,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "little-nightmares-2",
+    steamAppId: 860510,
     title: "Little Nightmares 2",
     image: "/little-nightmares-2.jpg",
     price: 249,
@@ -954,6 +1035,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "little-nightmares",
+    steamAppId: 1392860,
     title: "Little Nightmares",
     image: "/little-nightmares.png",
     price: 199,
@@ -967,6 +1049,7 @@ export const GAMES_DATABASE: Game[] = [
   // === OUTLAST SERIES ===
   {
     id: "outlast-trials",
+    steamAppId: 1304930,
     title: "The Outlast Trials",
     image: "/outlast-trials.jpg",
     price: 299,
@@ -978,6 +1061,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "outlast-2",
+    steamAppId: 414700,
     title: "Outlast 2",
     image: "/outlast-2.jpg",
     price: 199,
@@ -989,6 +1073,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "outlast",
+    steamAppId: 1304930,
     title: "Outlast",
     image: "/outlast.jpg",
     price: 149,
@@ -1002,6 +1087,7 @@ export const GAMES_DATABASE: Game[] = [
   // === AMNESIA SERIES ===
   {
     id: "amnesia-the-bunker",
+    steamAppId: 1944430,
     title: "Amnesia: The Bunker",
     image: "/amnesia-the-bunker.jpg",
     price: 249,
@@ -1013,6 +1099,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "amnesia-rebirth",
+    steamAppId: 999220,
     title: "Amnesia: Rebirth",
     image: "/amnesia-rebirth.jpg",
     price: 199,
@@ -1024,6 +1111,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "amnesia-the-dark-descent",
+    steamAppId: 57300,
     title: "Amnesia: The Dark Descent",
     image: "/amnesia-the-dark-descent.jpg",
     price: 149,
@@ -1037,6 +1125,7 @@ export const GAMES_DATABASE: Game[] = [
   // Additional popular standalone games to reach closer to 236
   {
     id: "black-myth-wukong",
+    steamAppId: 2358720,
     title: "Black Myth: Wukong",
     image: "/black-myth-wukong.jpg",
     price: 399,
@@ -1047,6 +1136,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "silent-hill-2",
+    steamAppId: 2124490,
     title: "Silent Hill 2",
     image: "/silent-hill-2.jpg",
     price: 349,
@@ -1067,6 +1157,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "stalker-2",
+    steamAppId: 1643320,
     title: "S.T.A.L.K.E.R. 2: Heart of Chornobyl",
     image: "/stalker-2.jpg",
     price: 399,
@@ -1077,6 +1168,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "avatar-frontiers-of-pandora",
+    steamAppId: 2840770,
     title: "Avatar: Frontiers of Pandora",
     image: "/avatar-frontiers-of-pandora.jpg",
     price: 349,
@@ -1087,6 +1179,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "starfield",
+    steamAppId: 1716740,
     title: "Starfield",
     image: "/starfield.jpg",
     price: 349,
@@ -1099,6 +1192,7 @@ export const GAMES_DATABASE: Game[] = [
   // === WWE SERIES ===
   {
     id: "wwe-2k25",
+    steamAppId: 2878960,
     title: "WWE 2K25",
     image: "/wwe-2k25.jpg",
     price: 349,
@@ -1110,6 +1204,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "wwe-2k24",
+    steamAppId: 2315690,
     title: "WWE 2K24",
     image: "/wwe-2k24.jpg",
     price: 299,
@@ -1134,6 +1229,7 @@ export const GAMES_DATABASE: Game[] = [
   // === NBA SERIES ===
   {
     id: "nba-2k25",
+    steamAppId: 2878980,
     title: "NBA 2K25",
     image: "/nba-2k25.jpg",
     price: 349,
@@ -1169,6 +1265,7 @@ export const GAMES_DATABASE: Game[] = [
   // === OTHER SPORTS ===
   {
     id: "madden-nfl-24",
+    steamAppId: 2140330,
     title: "Madden NFL 24",
     image: "/madden-nfl-24.png",
     price: 299,
@@ -1179,6 +1276,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "topspin-2k25",
+    steamAppId: 1785650,
     title: "TopSpin 2K25",
     image: "/topspin-2k25.jpg",
     price: 299,
@@ -1189,6 +1287,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "undisputed",
+    steamAppId: 1451190,
     title: "Undisputed",
     image: "/undisputed.jpg",
     price: 299,
@@ -1199,6 +1298,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "pga-tour",
+    steamAppId: 2385530,
     title: "PGA Tour",
     image: "/pga-tour.jpg",
     price: 299,
@@ -1209,6 +1309,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "motogp-24",
+    steamAppId: 2581700,
     title: "MotoGP 24",
     image: "/motogp-24.png",
     price: 299,
@@ -1219,6 +1320,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ride-5",
+    steamAppId: 1650010,
     title: "Ride 5",
     image: "/ride-5.jpg",
     price: 299,
@@ -1230,6 +1332,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "ride-4",
+    steamAppId: 1259980,
     title: "Ride 4",
     image: "/ride-4.jpg",
     price: 249,
@@ -1241,6 +1344,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "f1-manager-2024",
+    steamAppId: 2591280,
     title: "F1 Manager 2024",
     image: "/f1-manager-2024.jpg",
     price: 299,
@@ -1263,6 +1367,7 @@ export const GAMES_DATABASE: Game[] = [
   // === SUBNAUTICA SERIES ===
   {
     id: "subnautica",
+    steamAppId: 1962700,
     title: "Subnautica",
     image: "/subnautica.jpg",
     price: 249,
@@ -1274,6 +1379,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "subnautica-below-zero",
+    steamAppId: 848450,
     title: "Subnautica: Below Zero",
     image: "/subnautica-below-zero.jpg",
     price: 249,
@@ -1287,6 +1393,7 @@ export const GAMES_DATABASE: Game[] = [
   // === THE EVIL WITHIN SERIES ===
   {
     id: "the-evil-within-2",
+    steamAppId: 601430,
     title: "The Evil Within 2",
     image: "/the-evil-within-2.jpg",
     price: 249,
@@ -1298,6 +1405,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "the-evil-within",
+    steamAppId: 268050,
     title: "The Evil Within",
     image: "/the-evil-within.png",
     price: 199,
@@ -1311,6 +1419,7 @@ export const GAMES_DATABASE: Game[] = [
   // === THE FOREST SERIES ===
   {
     id: "sons-of-the-forest",
+    steamAppId: 1326470,
     title: "Sons of the Forest",
     image: "/sons-of-the-forest.jpg",
     price: 299,
@@ -1322,6 +1431,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "the-forest",
+    steamAppId: 242760,
     title: "The Forest",
     image: "/the-forest.png",
     price: 199,
@@ -1335,6 +1445,7 @@ export const GAMES_DATABASE: Game[] = [
   // === SILENT HILL SERIES ===
   {
     id: "silent-hill-f",
+    steamAppId: 2947440,
     title: "Silent Hill f",
     image: "/silent-hill-f.jpg",
     price: 399,
@@ -1348,6 +1459,7 @@ export const GAMES_DATABASE: Game[] = [
   // === FNAF SERIES ===
   {
     id: "fnaf-security-breach",
+    steamAppId: 747660,
     title: "Five Nights at Freddy's: Security Breach",
     image: "/fnaf-security-breach.jpg",
     price: 249,
@@ -1359,6 +1471,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "fnaf-4",
+    steamAppId: 388090,
     title: "Five Nights at Freddy's 4",
     image: "/fnaf-4.jpg",
     price: 149,
@@ -1372,6 +1485,7 @@ export const GAMES_DATABASE: Game[] = [
   // === DEAD ISLAND / DEAD SPACE ===
   {
     id: "dead-island",
+    steamAppId: 934700,
     title: "Dead Island",
     image: "/dead-island.jpg",
     price: 199,
@@ -1392,6 +1506,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dead-rising-deluxe-remaster",
+    steamAppId: 2527390,
     title: "Dead Rising Deluxe Remaster",
     image: "/dead-rising-deluxe-remaster.jpg",
     price: 299,
@@ -1404,6 +1519,7 @@ export const GAMES_DATABASE: Game[] = [
   // === OTHER HORROR ===
   {
     id: "callisto-protocol",
+    steamAppId: 1544020,
     title: "The Callisto Protocol",
     image: "/callisto-protocol.png",
     price: 299,
@@ -1414,6 +1530,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "visage",
+    steamAppId: 594330,
     title: "Visage",
     image: "/visage.jpg",
     price: 249,
@@ -1424,6 +1541,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "madison",
+    steamAppId: 1670870,
     title: "Madison",
     image: "/madison.jpg",
     price: 249,
@@ -1434,6 +1552,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "mortuary-assistant",
+    steamAppId: 1295920,
     title: "The Mortuary Assistant",
     image: "/mortuary-assistant.jpg",
     price: 199,
@@ -1444,6 +1563,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "soma",
+    steamAppId: 282140,
     title: "SOMA",
     image: "/soma.jpg",
     price: 199,
@@ -1454,6 +1574,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "alien-isolation",
+    steamAppId: 214490,
     title: "Alien: Isolation",
     image: "/alien-isolation.png",
     price: 249,
@@ -1464,6 +1585,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "devour",
+    steamAppId: 1274570,
     title: "Devour",
     image: "/devour.jpg",
     price: 149,
@@ -1474,6 +1596,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "phasmophobia",
+    steamAppId: 739630,
     title: "Phasmophobia",
     image: "/phasmophobia.jpg",
     price: 199,
@@ -1484,6 +1607,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "lethal-company",
+    steamAppId: 1966720,
     title: "Lethal Company",
     image: "/lethal-company.jpg",
     price: 149,
@@ -1494,6 +1618,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "poppy-playtime",
+    steamAppId: 1721470,
     title: "Poppy Playtime",
     image: "/poppy-playtime.jpg",
     price: 149,
@@ -1504,6 +1629,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dont-scream",
+    steamAppId: 2497900,
     title: "Don't Scream",
     image: "/dont-scream.png",
     price: 149,
@@ -1516,6 +1642,7 @@ export const GAMES_DATABASE: Game[] = [
   // === HADES SERIES ===
   {
     id: "hades-2",
+    steamAppId: 1145350,
     title: "Hades II",
     image: "/hades-2.png",
     price: 349,
@@ -1527,6 +1654,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "hades",
+    steamAppId: 1145350,
     title: "Hades",
     image: "/hades.png",
     price: 249,
@@ -1540,6 +1668,7 @@ export const GAMES_DATABASE: Game[] = [
   // === DEMON SLAYER SERIES ===
   {
     id: "demon-slayer-hinokami-chronicles",
+    steamAppId: 2928600,
     title: "Demon Slayer: Kimetsu no Yaiba - The Hinokami Chronicles",
     image: "/demon-slayer-hinokami-chronicles.jpg",
     price: 299,
@@ -1551,6 +1680,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "demon-slayer-hinokami-chronicles-2",
+    steamAppId: 2928600,
     title: "Demon Slayer: Kimetsu no Yaiba - The Hinokami Chronicles 2",
     image: "/demon-slayer-hinokami-chronicles-2.jpg",
     price: 349,
@@ -1575,6 +1705,7 @@ export const GAMES_DATABASE: Game[] = [
   // === LIKE A DRAGON / YAKUZA SERIES ===
   {
     id: "like-a-dragon-infinite-wealth",
+    steamAppId: 2072450,
     title: "Like a Dragon: Infinite Wealth",
     image: "/like-a-dragon-infinite-wealth.jpg",
     price: 399,
@@ -1586,6 +1717,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "like-a-dragon-pirate-yakuza",
+    steamAppId: 3061810,
     title: "Like a Dragon: Pirate Yakuza in Hawaii",
     image: "/like-a-dragon-pirate-yakuza.png",
     price: 399,
@@ -1597,6 +1729,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "like-a-dragon-gaiden",
+    steamAppId: 2375550,
     title: "Like a Dragon Gaiden: The Man Who Erased His Name",
     image: "/like-a-dragon-gaiden.jpg",
     price: 349,
@@ -1608,6 +1741,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "like-a-dragon-ishin",
+    steamAppId: 1805480,
     title: "Like a Dragon: Ishin!",
     image: "/like-a-dragon-ishin.jpg",
     price: 299,
@@ -1619,6 +1753,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "lost-judgment",
+    steamAppId: 2058190,
     title: "Lost Judgment",
     image: "/lost-judgment.jpg",
     price: 349,
@@ -1632,6 +1767,7 @@ export const GAMES_DATABASE: Game[] = [
   // === DRAGONS DOGMA SERIES ===
   {
     id: "dragons-dogma-2",
+    steamAppId: 2054970,
     title: "Dragon's Dogma 2",
     image: "/dragons-dogma-2.jpg",
     price: 399,
@@ -1645,6 +1781,7 @@ export const GAMES_DATABASE: Game[] = [
   // === CALL OF DUTY SERIES ===
   {
     id: "cod-modern-warfare",
+    steamAppId: 2000950,
     title: "Call of Duty: Modern Warfare",
     image: "/cod-modern-warfare.jpg",
     price: 349,
@@ -1658,6 +1795,7 @@ export const GAMES_DATABASE: Game[] = [
   // === TRUCK SIMULATOR SERIES ===
   {
     id: "euro-truck-simulator-2",
+    steamAppId: 227300,
     title: "Euro Truck Simulator 2",
     image: "/euro-truck-simulator-2.jpg",
     price: 249,
@@ -1669,6 +1807,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "american-truck-simulator",
+    steamAppId: 270880,
     title: "American Truck Simulator",
     image: "/american-truck-simulator.png",
     price: 249,
@@ -1682,6 +1821,7 @@ export const GAMES_DATABASE: Game[] = [
   // === MORE RACING/SIMULATION ===
   {
     id: "assetto-corsa",
+    steamAppId: 244210,
     title: "Assetto Corsa",
     image: "/assetto-corsa.jpg",
     price: 249,
@@ -1692,6 +1832,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "beamng-drive",
+    steamAppId: 284160,
     title: "BeamNG.drive",
     image: "/beamng-drive.jpg",
     price: 249,
@@ -1702,6 +1843,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "wreckfest",
+    steamAppId: 1203190,
     title: "Wreckfest",
     image: "/wreckfest.jpg",
     price: 249,
@@ -1712,6 +1854,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "grid-legends",
+    steamAppId: 1307710,
     title: "GRID Legends",
     image: "/grid-legends.jpg",
     price: 299,
@@ -1722,6 +1865,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dakar-desert-rally",
+    steamAppId: 1839940,
     title: "Dakar Desert Rally",
     image: "/dakar-desert-rally.jpg",
     price: 299,
@@ -1732,6 +1876,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "snowrunner",
+    steamAppId: 1465360,
     title: "SnowRunner",
     image: "/snowrunner.jpg",
     price: 249,
@@ -1742,6 +1887,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "riders-republic",
+    steamAppId: 2290180,
     title: "Riders Republic",
     image: "/riders-republic.jpg",
     price: 299,
@@ -1754,6 +1900,7 @@ export const GAMES_DATABASE: Game[] = [
   // === SIMULATION GAMES ===
   {
     id: "car-mechanic-simulator-2021",
+    steamAppId: 1190000,
     title: "Car Mechanic Simulator 2021",
     image: "/car-mechanic-simulator-2021.png",
     price: 249,
@@ -1764,6 +1911,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "gas-station-simulator",
+    steamAppId: 1149620,
     title: "Gas Station Simulator",
     image: "/gas-station-simulator.jpg",
     price: 199,
@@ -1774,6 +1922,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "house-flipper-2",
+    steamAppId: 1190970,
     title: "House Flipper 2",
     image: "/house-flipper-2.jpg",
     price: 299,
@@ -1784,6 +1933,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "house-flipper",
+    steamAppId: 1190970,
     title: "House Flipper",
     image: "/house-flipper.jpg",
     price: 249,
@@ -1794,6 +1944,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "supermarket-simulator",
+    steamAppId: 2670630,
     title: "Supermarket Simulator",
     image: "/supermarket-simulator.jpg",
     price: 199,
@@ -1804,6 +1955,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "my-summer-car",
+    steamAppId: 516750,
     title: "My Summer Car",
     image: "/my-summer-car.jpg",
     price: 249,
@@ -1814,6 +1966,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "bus-simulator-18",
+    steamAppId: 515180,
     title: "Bus Simulator 18",
     image: "/bus-simulator-18.jpg",
     price: 199,
@@ -1824,6 +1977,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "train-sim-world-4",
+    steamAppId: 2362300,
     title: "Train Sim World 4",
     image: "/train-sim-world-4.png",
     price: 299,
@@ -1834,6 +1988,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "construction-simulator",
+    steamAppId: 1273400,
     title: "Construction Simulator",
     image: "/construction-simulator.png",
     price: 249,
@@ -1846,6 +2001,7 @@ export const GAMES_DATABASE: Game[] = [
   // === HOLLOW KNIGHT SERIES ===
   {
     id: "hollow-knight-silksong",
+    steamAppId: 1030300,
     title: "Hollow Knight: Silksong",
     image: "/hollow-knight-silksong.jpg",
     price: 299,
@@ -1857,6 +2013,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "hollow-knight",
+    steamAppId: 367520,
     title: "Hollow Knight",
     image: "/hollow-knight.png",
     price: 199,
@@ -1870,6 +2027,7 @@ export const GAMES_DATABASE: Game[] = [
   // === INDIE FAVORITES ===
   {
     id: "celeste",
+    steamAppId: 504230,
     title: "Celeste",
     image: "/celeste.png",
     price: 149,
@@ -1880,6 +2038,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dead-cells",
+    steamAppId: 588650,
     title: "Dead Cells",
     image: "/dead-cells.jpg",
     price: 199,
@@ -1890,6 +2049,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "undertale",
+    steamAppId: 391540,
     title: "Undertale",
     image: "/undertale.jpg",
     price: 149,
@@ -1900,6 +2060,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "katana-zero",
+    steamAppId: 460950,
     title: "Katana Zero",
     image: "/katana-zero.jpg",
     price: 199,
@@ -1910,6 +2071,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "blasphemous",
+    steamAppId: 2114740,
     title: "Blasphemous",
     image: "/blasphemous.jpg",
     price: 199,
@@ -1920,6 +2082,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "cuphead",
+    steamAppId: 268910,
     title: "Cuphead",
     image: "/cuphead.jpg",
     price: 199,
@@ -1930,6 +2093,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "vampire-survivors",
+    steamAppId: 1794680,
     title: "Vampire Survivors",
     image: "/vampire-survivors.jpg",
     price: 99,
@@ -1940,6 +2104,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "binding-of-isaac",
+    steamAppId: 250900,
     title: "The Binding of Isaac",
     image: "/binding-of-isaac.jpg",
     price: 199,
@@ -1950,6 +2115,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "terraria",
+    steamAppId: 105600,
     title: "Terraria",
     image: "/terraria.jpg",
     price: 149,
@@ -1960,6 +2126,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "limbo",
+    steamAppId: 48000,
     title: "LIMBO",
     image: "/limbo.jpg",
     price: 99,
@@ -1970,6 +2137,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "inside",
+    steamAppId: 3609750,
     title: "INSIDE",
     image: "/inside.jpg",
     price: 149,
@@ -1980,6 +2148,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "disco-elysium",
+    steamAppId: 632470,
     title: "Disco Elysium",
     image: "/disco-elysium.jpg",
     price: 299,
@@ -1992,6 +2161,7 @@ export const GAMES_DATABASE: Game[] = [
   // === MARVEL GAMES ===
   {
     id: "guardians-of-the-galaxy",
+    steamAppId: 1088850,
     title: "Marvel's Guardians of the Galaxy",
     image: "/guardians-of-the-galaxy.png",
     price: 299,
@@ -2002,6 +2172,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "marvels-avengers",
+    steamAppId: 405310,
     title: "Marvel's Avengers",
     image: "/marvels-avengers.jpg",
     price: 249,
@@ -2012,6 +2183,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "marvels-midnight-suns",
+    steamAppId: 368260,
     title: "Marvel's Midnight Suns",
     image: "/marvels-midnight-suns.jpg",
     price: 299,
@@ -2024,6 +2196,7 @@ export const GAMES_DATABASE: Game[] = [
   // === SURVIVAL & CRAFTING ===
   {
     id: "valheim",
+    steamAppId: 892970,
     title: "Valheim",
     image: "/valheim.jpg",
     price: 199,
@@ -2034,6 +2207,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "raft",
+    steamAppId: 648800,
     title: "Raft",
     image: "/raft.jpg",
     price: 199,
@@ -2044,6 +2218,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "stranded-deep",
+    steamAppId: 313120,
     title: "Stranded Deep",
     image: "/stranded-deep.jpg",
     price: 199,
@@ -2054,6 +2229,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "green-hell",
+    steamAppId: 815370,
     title: "Green Hell",
     image: "/green-hell.jpg",
     price: 249,
@@ -2064,6 +2240,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "the-long-dark",
+    steamAppId: 305620,
     title: "The Long Dark",
     image: "/the-long-dark.jpg",
     price: 199,
@@ -2074,6 +2251,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "left-4-dead-2",
+    steamAppId: 550,
     title: "Left 4 Dead 2",
     image: "/left-4-dead-2.jpg",
     price: 149,
@@ -2084,6 +2262,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "back-4-blood",
+    steamAppId: 924970,
     title: "Back 4 Blood",
     image: "/back-4-blood.jpg",
     price: 249,
@@ -2096,6 +2275,7 @@ export const GAMES_DATABASE: Game[] = [
   // === STRATEGY & MANAGEMENT ===
   {
     id: "civilization-vi",
+    steamAppId: 289070,
     title: "Sid Meier's Civilization VI",
     image: "/civilization-vi.jpg",
     price: 299,
@@ -2106,6 +2286,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "anno-1800",
+    steamAppId: 916440,
     title: "Anno 1800",
     image: "/anno-1800.jpg",
     price: 299,
@@ -2116,6 +2297,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "total-war-pharaoh",
+    steamAppId: 1937780,
     title: "Total War: Pharaoh",
     image: "/total-war-pharaoh.jpg",
     price: 349,
@@ -2126,6 +2308,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "no-mans-sky",
+    steamAppId: 275850,
     title: "No Man's Sky",
     image: "/no-mans-sky.png",
     price: 299,

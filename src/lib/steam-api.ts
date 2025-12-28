@@ -1,0 +1,194 @@
+/**
+ * Steam API Utilities
+ * Fetches game data from Steam Store API
+ */
+
+// Steam API Types
+export interface SteamGameDetails {
+  appId: number;
+  name: string;
+  type: string;
+  shortDescription: string;
+  headerImage: string;
+  website: string | null;
+  developers: string[];
+  publishers: string[];
+  platforms: {
+    windows: boolean;
+    mac: boolean;
+    linux: boolean;
+  };
+  categories: Array<{ id: number; description: string }>;
+  genres: Array<{ id: string; description: string }>;
+  screenshots: Array<{
+    id: number;
+    pathThumbnail: string;
+    pathFull: string;
+  }>;
+  movies: Array<{
+    id: number;
+    name: string;
+    thumbnail: string;
+    webm: { 480: string; max: string };
+    mp4: { 480: string; max: string };
+  }>;
+  releaseDate: {
+    comingSoon: boolean;
+    date: string;
+  };
+  supportedLanguages: string;
+  detailedDescription: string;
+  aboutTheGame: string;
+  pcRequirements: {
+    minimum: string;
+    recommended: string;
+  };
+  metacritic?: {
+    score: number;
+    url: string;
+  };
+}
+
+export interface SteamAPIResponse {
+  success: boolean;
+  data?: SteamGameDetails;
+}
+
+/**
+ * Fetch game details from Steam Store API via our proxy
+ * @param appId - Steam App ID
+ * @returns Game details or null if not found
+ */
+export async function getSteamGameDetails(
+  appId: number
+): Promise<SteamGameDetails | null> {
+  try {
+    // Use our proxy API route to avoid CORS issues
+    // Use absolute URL for client-side fetching
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    const url = `${baseUrl}/api/steam?appId=${appId}`;
+    
+    const response = await fetch(url, {
+      cache: 'force-cache'
+    });
+
+    if (!response.ok) {
+      console.error(`Steam API proxy error for App ID ${appId}: ${response.status}`);
+      return null;
+    }
+
+    const json = await response.json();
+    
+    // Check if there's an error from our proxy
+    if (json.error) {
+      console.error(`Steam API proxy returned error for App ID ${appId}:`, json.error);
+      return null;
+    }
+
+    const result = json[appId.toString()];
+
+    if (!result || !result.success || !result.data) {
+      console.error(`Steam API returned no data for App ID ${appId}`);
+      return null;
+    }
+
+    const steamData = result.data;
+
+    // Map Steam's snake_case fields to our camelCase interface
+    return {
+      appId,
+      name: steamData.name,
+      type: steamData.type,
+      shortDescription: steamData.short_description || '',
+      headerImage: steamData.header_image || '',
+      website: steamData.website || null,
+      developers: steamData.developers || [],
+      publishers: steamData.publishers || [],
+      platforms: steamData.platforms || { windows: false, mac: false, linux: false },
+      categories: steamData.categories || [],
+      genres: steamData.genres || [],
+      screenshots: (steamData.screenshots || []).map((s: any) => ({
+        id: s.id,
+        pathThumbnail: s.path_thumbnail,
+        pathFull: s.path_full
+      })),
+      movies: steamData.movies || [],
+      releaseDate: steamData.release_date || { comingSoon: false, date: '' },
+      supportedLanguages: steamData.supported_languages || '',
+      detailedDescription: steamData.detailed_description || '',
+      aboutTheGame: steamData.about_the_game || '',
+      pcRequirements: steamData.pc_requirements || { minimum: '', recommended: '' },
+      metacritic: steamData.metacritic
+    };
+  } catch (error) {
+    console.error(`Error fetching Steam data for App ID ${appId}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get only screenshots from Steam
+ */
+export async function getSteamScreenshots(appId: number) {
+  const data = await getSteamGameDetails(appId);
+  return data?.screenshots || [];
+}
+
+/**
+ * Get only system requirements from Steam
+ */
+export async function getSteamSystemRequirements(appId: number) {
+  const data = await getSteamGameDetails(appId);
+  return data?.pcRequirements || null;
+}
+
+/**
+ * Extract plain text from HTML system requirements
+ */
+export function parseSystemRequirements(html: string): {
+  os?: string;
+  processor?: string;
+  memory?: string;
+  graphics?: string;
+  storage?: string;
+  additional?: string;
+} {
+  if (!html) return {};
+
+  const requirements: any = {};
+  
+  // Simple regex extraction (Steam uses consistent format)
+  const patterns = {
+    os: /<strong>OS[^:]*:<\/strong>\s*([^<]+)/i,
+    processor: /<strong>Processor[^:]*:<\/strong>\s*([^<]+)/i,
+    memory: /<strong>Memory[^:]*:<\/strong>\s*([^<]+)/i,
+    graphics: /<strong>Graphics[^:]*:<\/strong>\s*([^<]+)/i,
+    storage: /<strong>(?:Storage|Hard Drive)[^:]*:<\/strong>\s*([^<]+)/i,
+    additional: /<strong>Additional[^:]*:<\/strong>\s*([^<]+)/i,
+  };
+
+  for (const [key, pattern] of Object.entries(patterns)) {
+    const match = html.match(pattern);
+    if (match) {
+      requirements[key] = match[1].trim();
+    }
+  }
+
+  return requirements;
+}
+
+/**
+ * Clean HTML description to plain text
+ */
+export function stripHtmlTags(html: string): string {
+  return html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .trim();
+}

@@ -16,8 +16,8 @@ import Image from "next/image"
 function FooterSection() {
   return (
     <footer className="relative border-t border-[#2A2E4D] bg-[#0A0E27] text-white transition-colors duration-300">
-      <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+      <div className="container mx-auto px-4 py-10 md:py-16 md:px-6 lg:px-8">
+        <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-3">
           {/* Logo and Description */}
           <div className="relative">
             <Image
@@ -25,12 +25,12 @@ function FooterSection() {
               alt="Steam Rush Logo"
               width={200}
               height={55}
-              className="mb-4 h-12 w-auto"
+              className="mb-4 h-10 md:h-12 w-auto"
             />
-            <p className="mb-6 text-[#B0B8D0]">
+            <p className="mb-6 text-[#B0B8D0] text-sm md:text-base">
               Your trusted destination for affordable Steam games. Instant delivery, unbeatable prices, and 24/7 support.
             </p>
-            <p className="text-sm text-[#B0B8D0]">
+            <p className="text-xs md:text-sm text-[#B0B8D0]">
               © 2026 Steam Rush. All rights reserved.
             </p>
           </div>

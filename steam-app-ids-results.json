@@ -1,0 +1,1339 @@
+[
+  {
+    "id": "gta-v",
+    "title": "Grand Theft Auto V",
+    "appId": 3240220,
+    "steamName": "Grand Theft Auto V Enhanced",
+    "confidence": "high"
+  },
+  {
+    "id": "gta-iv",
+    "title": "Grand Theft Auto IV",
+    "appId": 12210,
+    "steamName": "Grand Theft Auto IV: The Complete Edition",
+    "confidence": "high"
+  },
+  {
+    "id": "ac-valhalla",
+    "title": "Assassin's Creed Valhalla",
+    "appId": 2208920,
+    "steamName": "Assassin's Creed Valhalla",
+    "confidence": "exact"
+  },
+  {
+    "id": "ac-odyssey",
+    "title": "Assassin's Creed Odyssey",
+    "appId": 812140,
+    "steamName": "Assassin's Creed® Odyssey",
+    "confidence": "low"
+  },
+  {
+    "id": "ac-origins",
+    "title": "Assassin's Creed Origins",
+    "appId": 582160,
+    "steamName": "Assassin's Creed® Origins",
+    "confidence": "low"
+  },
+  {
+    "id": "ac-unity",
+    "title": "Assassin's Creed Unity",
+    "appId": 289650,
+    "steamName": "Assassin's Creed® Unity",
+    "confidence": "low"
+  },
+  {
+    "id": "ac-mirage",
+    "title": "Assassin's Creed Mirage",
+    "appId": 3035570,
+    "steamName": "Assassin's Creed Mirage",
+    "confidence": "exact"
+  },
+  {
+    "id": "ac-shadows",
+    "title": "Assassin's Creed Shadows",
+    "appId": 3159330,
+    "steamName": "Assassin’s Creed Shadows",
+    "confidence": "low"
+  },
+  {
+    "id": "mortal-kombat-1",
+    "title": "Mortal Kombat 1",
+    "appId": 1971870,
+    "steamName": "Mortal Kombat 1",
+    "confidence": "exact"
+  },
+  {
+    "id": "mortal-kombat-11",
+    "title": "Mortal Kombat 11",
+    "appId": 976310,
+    "steamName": "Mortal Kombat 11",
+    "confidence": "low"
+  },
+  {
+    "id": "mortal-kombat-x",
+    "title": "Mortal Kombat X",
+    "appId": 307780,
+    "steamName": "Mortal Kombat X",
+    "confidence": "exact"
+  },
+  {
+    "id": "persona-5-royal",
+    "title": "Persona 5 Royal",
+    "appId": 1687950,
+    "steamName": "Persona 5 Royal",
+    "confidence": "exact"
+  },
+  {
+    "id": "persona-5-strikers",
+    "title": "Persona 5 Strikers",
+    "appId": 1382330,
+    "steamName": "Persona® 5 Strikers",
+    "confidence": "low"
+  },
+  {
+    "id": "persona-5-tactica",
+    "title": "Persona 5 Tactica",
+    "appId": 2254740,
+    "steamName": "Persona 5 Tactica",
+    "confidence": "exact"
+  },
+  {
+    "id": "persona-3-reload",
+    "title": "Persona 3 Reload",
+    "appId": 2161700,
+    "steamName": "Persona 3 Reload",
+    "confidence": "exact"
+  },
+  {
+    "id": "persona-4-arena-ultimax",
+    "title": "Persona 4 Arena Ultimax",
+    "appId": 1602010,
+    "steamName": "Persona 4 Arena Ultimax",
+    "confidence": "exact"
+  },
+  {
+    "id": "dying-light",
+    "title": "Dying Light",
+    "appId": 3008130,
+    "steamName": "Dying Light: The Beast",
+    "confidence": "high"
+  },
+  {
+    "id": "dying-light-2",
+    "title": "Dying Light 2 Stay Human",
+    "appId": 534380,
+    "steamName": "Dying Light 2 Stay Human: Reloaded Edition",
+    "confidence": "high"
+  },
+  {
+    "id": "dying-light-the-beast",
+    "title": "Dying Light: The Beast",
+    "appId": 3008130,
+    "steamName": "Dying Light: The Beast",
+    "confidence": "exact"
+  },
+  {
+    "id": "far-cry-6",
+    "title": "Far Cry 6",
+    "appId": 2369390,
+    "steamName": "Far Cry® 6",
+    "confidence": "low"
+  },
+  {
+    "id": "far-cry-5",
+    "title": "Far Cry 5",
+    "appId": 552520,
+    "steamName": "Far Cry® 5",
+    "confidence": "low"
+  },
+  {
+    "id": "far-cry-4",
+    "title": "Far Cry 4",
+    "appId": 298110,
+    "steamName": "Far Cry® 4",
+    "confidence": "low"
+  },
+  {
+    "id": "far-cry-3",
+    "title": "Far Cry 3",
+    "appId": 220240,
+    "steamName": "Far Cry 3",
+    "confidence": "exact"
+  },
+  {
+    "id": "far-cry-primal",
+    "title": "Far Cry Primal",
+    "appId": 371660,
+    "steamName": "Far Cry® Primal",
+    "confidence": "low"
+  },
+  {
+    "id": "far-cry-new-dawn",
+    "title": "Far Cry New Dawn",
+    "appId": 939960,
+    "steamName": "Far Cry® New Dawn",
+    "confidence": "low"
+  },
+  {
+    "id": "nfs-unbound",
+    "title": "Need for Speed Unbound",
+    "appId": 1846380,
+    "steamName": "Need for Speed™ Unbound",
+    "confidence": "low"
+  },
+  {
+    "id": "nfs-heat",
+    "title": "Need for Speed Heat",
+    "appId": 1222680,
+    "steamName": "Need for Speed™ Heat",
+    "confidence": "low"
+  },
+  {
+    "id": "nfs-payback",
+    "title": "Need for Speed Payback",
+    "appId": 1262580,
+    "steamName": "Need for Speed™ Payback",
+    "confidence": "low"
+  },
+  {
+    "id": "nfs-rivals",
+    "title": "Need for Speed Rivals",
+    "appId": 1262600,
+    "steamName": "Need for Speed™ Rivals",
+    "confidence": "low"
+  },
+  {
+    "id": "nfs-hot-pursuit",
+    "title": "Need for Speed Hot Pursuit",
+    "appId": 1328660,
+    "steamName": "Need for Speed™ Hot Pursuit Remastered",
+    "confidence": "medium"
+  },
+  {
+    "id": "nfs-most-wanted",
+    "title": "Need for Speed Most Wanted",
+    "appId": 1262560,
+    "steamName": "Need for Speed™ Most Wanted",
+    "confidence": "low"
+  },
+  {
+    "id": "shadow-tomb-raider",
+    "title": "Shadow of the Tomb Raider",
+    "appId": 750920,
+    "steamName": "Shadow of the Tomb Raider: Definitive Edition",
+    "confidence": "high"
+  },
+  {
+    "id": "rise-tomb-raider",
+    "title": "Rise of the Tomb Raider",
+    "appId": 391220,
+    "steamName": "Rise of the Tomb Raider™",
+    "confidence": "high"
+  },
+  {
+    "id": "horizon-forbidden-west",
+    "title": "Horizon Forbidden West",
+    "appId": 2420110,
+    "steamName": "Horizon Forbidden West™ Complete Edition",
+    "confidence": "high"
+  },
+  {
+    "id": "horizon-zero-dawn",
+    "title": "Horizon Zero Dawn",
+    "appId": 2561580,
+    "steamName": "Horizon Zero Dawn™ Remastered",
+    "confidence": "high"
+  },
+  {
+    "id": "forza-horizon-5",
+    "title": "Forza Horizon 5",
+    "appId": 1551360,
+    "steamName": "Forza Horizon 5",
+    "confidence": "exact"
+  },
+  {
+    "id": "forza-horizon-4",
+    "title": "Forza Horizon 4",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "spiderman-remastered",
+    "title": "Marvel's Spider-Man Remastered",
+    "appId": 1817070,
+    "steamName": "Marvel’s Spider-Man Remastered",
+    "confidence": "medium"
+  },
+  {
+    "id": "spiderman-miles-morales",
+    "title": "Marvel's Spider-Man: Miles Morales",
+    "appId": 1817190,
+    "steamName": "Marvel’s Spider-Man: Miles Morales",
+    "confidence": "medium"
+  },
+  {
+    "id": "god-of-war-ragnarok",
+    "title": "God of War Ragnarök",
+    "appId": 2322010,
+    "steamName": "God of War Ragnarök",
+    "confidence": "exact"
+  },
+  {
+    "id": "god-of-war",
+    "title": "God of War",
+    "appId": 1593500,
+    "steamName": "God of War",
+    "confidence": "exact"
+  },
+  {
+    "id": "plague-tale-requiem",
+    "title": "A Plague Tale: Requiem",
+    "appId": 1182900,
+    "steamName": "A Plague Tale: Requiem",
+    "confidence": "exact"
+  },
+  {
+    "id": "plague-tale-innocence",
+    "title": "A Plague Tale: Innocence",
+    "appId": 752590,
+    "steamName": "A Plague Tale: Innocence",
+    "confidence": "exact"
+  },
+  {
+    "id": "last-of-us",
+    "title": "The Last of Us Part I",
+    "appId": 1888930,
+    "steamName": "The Last of Us™ Part I",
+    "confidence": "low"
+  },
+  {
+    "id": "cyberpunk-2077",
+    "title": "Cyberpunk 2077",
+    "appId": 1091500,
+    "steamName": "Cyberpunk 2077",
+    "confidence": "exact"
+  },
+  {
+    "id": "elden-ring",
+    "title": "Elden Ring",
+    "appId": 1245620,
+    "steamName": "ELDEN RING",
+    "confidence": "exact"
+  },
+  {
+    "id": "rdr2",
+    "title": "Red Dead Redemption 2",
+    "appId": 1174180,
+    "steamName": "Red Dead Redemption 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "hogwarts-legacy",
+    "title": "Hogwarts Legacy",
+    "appId": 990080,
+    "steamName": "Hogwarts Legacy",
+    "confidence": "exact"
+  },
+  {
+    "id": "sekiro",
+    "title": "Sekiro: Shadows Die Twice",
+    "appId": 814380,
+    "steamName": "Sekiro™: Shadows Die Twice - GOTY Edition",
+    "confidence": "medium"
+  },
+  {
+    "id": "witcher-3",
+    "title": "The Witcher 3: Wild Hunt",
+    "appId": 292030,
+    "steamName": "The Witcher 3: Wild Hunt",
+    "confidence": "exact"
+  },
+  {
+    "id": "ghost-tsushima",
+    "title": "Ghost of Tsushima",
+    "appId": 2215430,
+    "steamName": "Ghost of Tsushima DIRECTOR'S CUT",
+    "confidence": "high"
+  },
+  {
+    "id": "days-gone",
+    "title": "Days Gone",
+    "appId": 1259420,
+    "steamName": "Days Gone",
+    "confidence": "exact"
+  },
+  {
+    "id": "detroit-bh",
+    "title": "Detroit: Become Human",
+    "appId": 1222140,
+    "steamName": "Detroit: Become Human",
+    "confidence": "exact"
+  },
+  {
+    "id": "mafia-de",
+    "title": "Mafia: Definitive Edition",
+    "appId": 1030840,
+    "steamName": "Mafia: Definitive Edition",
+    "confidence": "exact"
+  },
+  {
+    "id": "mafia-the-old-country",
+    "title": "Mafia: The Old Country",
+    "appId": 1941540,
+    "steamName": "Mafia: The Old Country",
+    "confidence": "exact"
+  },
+  {
+    "id": "state-decay-2",
+    "title": "State of Decay 2: Juggernaut Edition",
+    "appId": 495420,
+    "steamName": "State of Decay 2: Juggernaut Edition",
+    "confidence": "exact"
+  },
+  {
+    "id": "uncharted",
+    "title": "Uncharted: Legacy of Thieves Collection",
+    "appId": 1659420,
+    "steamName": "UNCHARTED™: Legacy of Thieves Collection",
+    "confidence": "medium"
+  },
+  {
+    "id": "fc-26",
+    "title": "FC 26",
+    "appId": 3405690,
+    "steamName": "EA SPORTS FC™ 26",
+    "confidence": "low"
+  },
+  {
+    "id": "fc-25",
+    "title": "FC 25",
+    "appId": 2669320,
+    "steamName": "EA SPORTS FC™ 25",
+    "confidence": "low"
+  },
+  {
+    "id": "fc-24",
+    "title": "FC 24",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "cricket-26",
+    "title": "Cricket 26",
+    "appId": 3468650,
+    "steamName": "Cricket 26 - The Official Game of the Ashes",
+    "confidence": "high"
+  },
+  {
+    "id": "cricket-24",
+    "title": "Cricket 24",
+    "appId": 2358260,
+    "steamName": "Cricket 24",
+    "confidence": "exact"
+  },
+  {
+    "id": "f1-25",
+    "title": "F1 25",
+    "appId": 3059520,
+    "steamName": "F1® 25",
+    "confidence": "low"
+  },
+  {
+    "id": "f1-24",
+    "title": "F1 24",
+    "appId": 2488620,
+    "steamName": "F1® 24",
+    "confidence": "low"
+  },
+  {
+    "id": "f1-23",
+    "title": "F1 23",
+    "appId": 2426210,
+    "steamName": "Sim Racing Telemetry - F1 23",
+    "confidence": "high"
+  },
+  {
+    "id": "tekken-8",
+    "title": "Tekken 8",
+    "appId": 1778820,
+    "steamName": "TEKKEN 8",
+    "confidence": "exact"
+  },
+  {
+    "id": "tekken-7",
+    "title": "Tekken 7",
+    "appId": 389730,
+    "steamName": "TEKKEN 7",
+    "confidence": "exact"
+  },
+  {
+    "id": "street-fighter-6",
+    "title": "Street Fighter 6",
+    "appId": 1364780,
+    "steamName": "Street Fighter™ 6",
+    "confidence": "low"
+  },
+  {
+    "id": "dark-souls-3",
+    "title": "Dark Souls 3",
+    "appId": 374320,
+    "steamName": "DARK SOULS™ III",
+    "confidence": "low"
+  },
+  {
+    "id": "resident-evil-village",
+    "title": "Resident Evil Village",
+    "appId": 1196590,
+    "steamName": "Resident Evil Village",
+    "confidence": "exact"
+  },
+  {
+    "id": "resident-evil-4",
+    "title": "Resident Evil 4",
+    "appId": 2050650,
+    "steamName": "Resident Evil 4",
+    "confidence": "exact"
+  },
+  {
+    "id": "resident-evil-7",
+    "title": "Resident Evil 7",
+    "appId": 418370,
+    "steamName": "Resident Evil 7 Biohazard",
+    "confidence": "high"
+  },
+  {
+    "id": "resident-evil-3",
+    "title": "Resident Evil 3",
+    "appId": 952060,
+    "steamName": "Resident Evil 3",
+    "confidence": "exact"
+  },
+  {
+    "id": "resident-evil-2",
+    "title": "Resident Evil 2",
+    "appId": 883710,
+    "steamName": "Resident Evil 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "watch-dogs-legion",
+    "title": "Watch Dogs Legion",
+    "appId": 2239550,
+    "steamName": "Watch Dogs®: Legion",
+    "confidence": "low"
+  },
+  {
+    "id": "watch-dogs-2",
+    "title": "Watch Dogs 2",
+    "appId": 447040,
+    "steamName": "Watch_Dogs® 2",
+    "confidence": "low"
+  },
+  {
+    "id": "watch-dogs",
+    "title": "Watch Dogs",
+    "appId": 447040,
+    "steamName": "Watch_Dogs® 2",
+    "confidence": "low"
+  },
+  {
+    "id": "star-wars-outlaws",
+    "title": "Star Wars Outlaws",
+    "appId": 2842040,
+    "steamName": "Star Wars Outlaws",
+    "confidence": "exact"
+  },
+  {
+    "id": "star-wars-jedi-survivor",
+    "title": "Star Wars Jedi: Survivor",
+    "appId": 1774580,
+    "steamName": "STAR WARS Jedi: Survivor™",
+    "confidence": "high"
+  },
+  {
+    "id": "star-wars-jedi-fallen-order",
+    "title": "Star Wars Jedi: Fallen Order",
+    "appId": 1172380,
+    "steamName": "STAR WARS Jedi: Fallen Order™",
+    "confidence": "high"
+  },
+  {
+    "id": "little-nightmares-3",
+    "title": "Little Nightmares 3",
+    "appId": 1392860,
+    "steamName": "Little Nightmares III",
+    "confidence": "low"
+  },
+  {
+    "id": "little-nightmares-2",
+    "title": "Little Nightmares 2",
+    "appId": 860510,
+    "steamName": "Little Nightmares II",
+    "confidence": "low"
+  },
+  {
+    "id": "little-nightmares",
+    "title": "Little Nightmares",
+    "appId": 1392860,
+    "steamName": "Little Nightmares III",
+    "confidence": "high"
+  },
+  {
+    "id": "outlast-trials",
+    "title": "The Outlast Trials",
+    "appId": 1304930,
+    "steamName": "The Outlast Trials",
+    "confidence": "exact"
+  },
+  {
+    "id": "outlast-2",
+    "title": "Outlast 2",
+    "appId": 414700,
+    "steamName": "Outlast 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "outlast",
+    "title": "Outlast",
+    "appId": 1304930,
+    "steamName": "The Outlast Trials",
+    "confidence": "high"
+  },
+  {
+    "id": "amnesia-the-bunker",
+    "title": "Amnesia: The Bunker",
+    "appId": 1944430,
+    "steamName": "Amnesia: The Bunker",
+    "confidence": "exact"
+  },
+  {
+    "id": "amnesia-rebirth",
+    "title": "Amnesia: Rebirth",
+    "appId": 999220,
+    "steamName": "Amnesia: Rebirth",
+    "confidence": "exact"
+  },
+  {
+    "id": "amnesia-the-dark-descent",
+    "title": "Amnesia: The Dark Descent",
+    "appId": 57300,
+    "steamName": "Amnesia: The Dark Descent",
+    "confidence": "exact"
+  },
+  {
+    "id": "black-myth-wukong",
+    "title": "Black Myth: Wukong",
+    "appId": 2358720,
+    "steamName": "Black Myth: Wukong",
+    "confidence": "exact"
+  },
+  {
+    "id": "silent-hill-2",
+    "title": "Silent Hill 2",
+    "appId": 2124490,
+    "steamName": "SILENT HILL 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "hitman-world-assassination",
+    "title": "Hitman World of Assassination",
+    "appId": 1659040,
+    "steamName": "HITMAN World of Assassination",
+    "confidence": "exact"
+  },
+  {
+    "id": "stalker-2",
+    "title": "S.T.A.L.K.E.R. 2: Heart of Chornobyl",
+    "appId": 1643320,
+    "steamName": "S.T.A.L.K.E.R. 2: Heart of Chornobyl",
+    "confidence": "exact"
+  },
+  {
+    "id": "avatar-frontiers-of-pandora",
+    "title": "Avatar: Frontiers of Pandora",
+    "appId": 2840770,
+    "steamName": "Avatar: Frontiers of Pandora™",
+    "confidence": "high"
+  },
+  {
+    "id": "starfield",
+    "title": "Starfield",
+    "appId": 1716740,
+    "steamName": "Starfield",
+    "confidence": "exact"
+  },
+  {
+    "id": "wwe-2k25",
+    "title": "WWE 2K25",
+    "appId": 2878960,
+    "steamName": "WWE 2K25",
+    "confidence": "exact"
+  },
+  {
+    "id": "wwe-2k24",
+    "title": "WWE 2K24",
+    "appId": 2315690,
+    "steamName": "WWE 2K24",
+    "confidence": "exact"
+  },
+  {
+    "id": "wwe-2k23",
+    "title": "WWE 2K23",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "nba-2k25",
+    "title": "NBA 2K25",
+    "appId": 2878980,
+    "steamName": "NBA 2K25",
+    "confidence": "exact"
+  },
+  {
+    "id": "nba-2k24",
+    "title": "NBA 2K24",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "nba-2k23",
+    "title": "NBA 2K23",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "madden-nfl-24",
+    "title": "Madden NFL 24",
+    "appId": 2140330,
+    "steamName": "Madden NFL 24",
+    "confidence": "exact"
+  },
+  {
+    "id": "topspin-2k25",
+    "title": "TopSpin 2K25",
+    "appId": 1785650,
+    "steamName": "TopSpin 2K25",
+    "confidence": "exact"
+  },
+  {
+    "id": "undisputed",
+    "title": "Undisputed",
+    "appId": 1451190,
+    "steamName": "Undisputed",
+    "confidence": "exact"
+  },
+  {
+    "id": "pga-tour",
+    "title": "PGA Tour",
+    "appId": 2385530,
+    "steamName": "PGA TOUR 2K25",
+    "confidence": "high"
+  },
+  {
+    "id": "motogp-24",
+    "title": "MotoGP 24",
+    "appId": 2581700,
+    "steamName": "MotoGP™24",
+    "confidence": "low"
+  },
+  {
+    "id": "ride-5",
+    "title": "Ride 5",
+    "appId": 1650010,
+    "steamName": "RIDE 5",
+    "confidence": "exact"
+  },
+  {
+    "id": "ride-4",
+    "title": "Ride 4",
+    "appId": 1259980,
+    "steamName": "RIDE 4",
+    "confidence": "exact"
+  },
+  {
+    "id": "f1-manager-2024",
+    "title": "F1 Manager 2024",
+    "appId": 2591280,
+    "steamName": "F1® Manager 2024",
+    "confidence": "low"
+  },
+  {
+    "id": "football-manager-2026",
+    "title": "Football Manager 2026",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "subnautica",
+    "title": "Subnautica",
+    "appId": 1962700,
+    "steamName": "Subnautica 2",
+    "confidence": "high"
+  },
+  {
+    "id": "subnautica-below-zero",
+    "title": "Subnautica: Below Zero",
+    "appId": 848450,
+    "steamName": "Subnautica: Below Zero",
+    "confidence": "exact"
+  },
+  {
+    "id": "the-evil-within-2",
+    "title": "The Evil Within 2",
+    "appId": 601430,
+    "steamName": "The Evil Within 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "the-evil-within",
+    "title": "The Evil Within",
+    "appId": 268050,
+    "steamName": "The Evil Within",
+    "confidence": "exact"
+  },
+  {
+    "id": "sons-of-the-forest",
+    "title": "Sons of the Forest",
+    "appId": 1326470,
+    "steamName": "Sons Of The Forest",
+    "confidence": "exact"
+  },
+  {
+    "id": "the-forest",
+    "title": "The Forest",
+    "appId": 242760,
+    "steamName": "The Forest",
+    "confidence": "exact"
+  },
+  {
+    "id": "silent-hill-f",
+    "title": "Silent Hill f",
+    "appId": 2947440,
+    "steamName": "SILENT HILL f",
+    "confidence": "exact"
+  },
+  {
+    "id": "fnaf-security-breach",
+    "title": "Five Nights at Freddy's: Security Breach",
+    "appId": 747660,
+    "steamName": "Five Nights at Freddy's: Security Breach",
+    "confidence": "exact"
+  },
+  {
+    "id": "fnaf-4",
+    "title": "Five Nights at Freddy's 4",
+    "appId": 388090,
+    "steamName": "Five Nights at Freddy's 4",
+    "confidence": "exact"
+  },
+  {
+    "id": "dead-island",
+    "title": "Dead Island",
+    "appId": 934700,
+    "steamName": "Dead Island 2",
+    "confidence": "high"
+  },
+  {
+    "id": "dead-space-remake",
+    "title": "Dead Space Remake",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "dead-rising-deluxe-remaster",
+    "title": "Dead Rising Deluxe Remaster",
+    "appId": 2527390,
+    "steamName": "Dead Rising Deluxe Remaster",
+    "confidence": "exact"
+  },
+  {
+    "id": "callisto-protocol",
+    "title": "The Callisto Protocol",
+    "appId": 1544020,
+    "steamName": "The Callisto Protocol™",
+    "confidence": "high"
+  },
+  {
+    "id": "visage",
+    "title": "Visage",
+    "appId": 594330,
+    "steamName": "Visage",
+    "confidence": "exact"
+  },
+  {
+    "id": "madison",
+    "title": "Madison",
+    "appId": 1670870,
+    "steamName": "MADiSON",
+    "confidence": "exact"
+  },
+  {
+    "id": "mortuary-assistant",
+    "title": "The Mortuary Assistant",
+    "appId": 1295920,
+    "steamName": "The Mortuary Assistant",
+    "confidence": "exact"
+  },
+  {
+    "id": "soma",
+    "title": "SOMA",
+    "appId": 282140,
+    "steamName": "SOMA",
+    "confidence": "exact"
+  },
+  {
+    "id": "alien-isolation",
+    "title": "Alien: Isolation",
+    "appId": 214490,
+    "steamName": "Alien: Isolation",
+    "confidence": "exact"
+  },
+  {
+    "id": "devour",
+    "title": "Devour",
+    "appId": 1274570,
+    "steamName": "DEVOUR",
+    "confidence": "exact"
+  },
+  {
+    "id": "phasmophobia",
+    "title": "Phasmophobia",
+    "appId": 739630,
+    "steamName": "Phasmophobia",
+    "confidence": "exact"
+  },
+  {
+    "id": "lethal-company",
+    "title": "Lethal Company",
+    "appId": 1966720,
+    "steamName": "Lethal Company",
+    "confidence": "exact"
+  },
+  {
+    "id": "poppy-playtime",
+    "title": "Poppy Playtime",
+    "appId": 1721470,
+    "steamName": "Poppy Playtime",
+    "confidence": "exact"
+  },
+  {
+    "id": "dont-scream",
+    "title": "Don't Scream",
+    "appId": 2497900,
+    "steamName": "DON'T SCREAM",
+    "confidence": "exact"
+  },
+  {
+    "id": "hades-2",
+    "title": "Hades II",
+    "appId": 1145350,
+    "steamName": "Hades II",
+    "confidence": "exact"
+  },
+  {
+    "id": "hades",
+    "title": "Hades",
+    "appId": 1145350,
+    "steamName": "Hades II",
+    "confidence": "high"
+  },
+  {
+    "id": "demon-slayer-hinokami-chronicles",
+    "title": "Demon Slayer: Kimetsu no Yaiba - The Hinokami Chronicles",
+    "appId": 2928600,
+    "steamName": "Demon Slayer -Kimetsu no Yaiba- The Hinokami Chronicles 2",
+    "confidence": "low"
+  },
+  {
+    "id": "demon-slayer-hinokami-chronicles-2",
+    "title": "Demon Slayer: Kimetsu no Yaiba - The Hinokami Chronicles 2",
+    "appId": 2928600,
+    "steamName": "Demon Slayer -Kimetsu no Yaiba- The Hinokami Chronicles 2",
+    "confidence": "low"
+  },
+  {
+    "id": "demon-slayer-sweep-the-board",
+    "title": "Demon Slayer: Sweep the Board!",
+    "appId": null,
+    "steamName": "",
+    "confidence": "none"
+  },
+  {
+    "id": "like-a-dragon-infinite-wealth",
+    "title": "Like a Dragon: Infinite Wealth",
+    "appId": 2072450,
+    "steamName": "Like a Dragon: Infinite Wealth",
+    "confidence": "exact"
+  },
+  {
+    "id": "like-a-dragon-pirate-yakuza",
+    "title": "Like a Dragon: Pirate Yakuza in Hawaii",
+    "appId": 3061810,
+    "steamName": "Like a Dragon: Pirate Yakuza in Hawaii",
+    "confidence": "exact"
+  },
+  {
+    "id": "like-a-dragon-gaiden",
+    "title": "Like a Dragon Gaiden: The Man Who Erased His Name",
+    "appId": 2375550,
+    "steamName": "Like a Dragon Gaiden: The Man Who Erased His Name",
+    "confidence": "exact"
+  },
+  {
+    "id": "like-a-dragon-ishin",
+    "title": "Like a Dragon: Ishin!",
+    "appId": 1805480,
+    "steamName": "Like a Dragon: Ishin!",
+    "confidence": "exact"
+  },
+  {
+    "id": "lost-judgment",
+    "title": "Lost Judgment",
+    "appId": 2058190,
+    "steamName": "Lost Judgment",
+    "confidence": "exact"
+  },
+  {
+    "id": "dragons-dogma-2",
+    "title": "Dragon's Dogma 2",
+    "appId": 2054970,
+    "steamName": "Dragon's Dogma 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "cod-modern-warfare",
+    "title": "Call of Duty: Modern Warfare",
+    "appId": 2000950,
+    "steamName": "Call of Duty®: Modern Warfare®",
+    "confidence": "low"
+  },
+  {
+    "id": "euro-truck-simulator-2",
+    "title": "Euro Truck Simulator 2",
+    "appId": 227300,
+    "steamName": "Euro Truck Simulator 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "american-truck-simulator",
+    "title": "American Truck Simulator",
+    "appId": 270880,
+    "steamName": "American Truck Simulator",
+    "confidence": "exact"
+  },
+  {
+    "id": "assetto-corsa",
+    "title": "Assetto Corsa",
+    "appId": 244210,
+    "steamName": "Assetto Corsa",
+    "confidence": "exact"
+  },
+  {
+    "id": "beamng-drive",
+    "title": "BeamNG.drive",
+    "appId": 284160,
+    "steamName": "BeamNG.drive",
+    "confidence": "exact"
+  },
+  {
+    "id": "wreckfest",
+    "title": "Wreckfest",
+    "appId": 1203190,
+    "steamName": "Wreckfest 2",
+    "confidence": "high"
+  },
+  {
+    "id": "grid-legends",
+    "title": "GRID Legends",
+    "appId": 1307710,
+    "steamName": "GRID Legends",
+    "confidence": "exact"
+  },
+  {
+    "id": "dakar-desert-rally",
+    "title": "Dakar Desert Rally",
+    "appId": 1839940,
+    "steamName": "Dakar Desert Rally",
+    "confidence": "exact"
+  },
+  {
+    "id": "snowrunner",
+    "title": "SnowRunner",
+    "appId": 1465360,
+    "steamName": "SnowRunner",
+    "confidence": "exact"
+  },
+  {
+    "id": "riders-republic",
+    "title": "Riders Republic",
+    "appId": 2290180,
+    "steamName": "Riders Republic",
+    "confidence": "exact"
+  },
+  {
+    "id": "car-mechanic-simulator-2021",
+    "title": "Car Mechanic Simulator 2021",
+    "appId": 1190000,
+    "steamName": "Car Mechanic Simulator 2021",
+    "confidence": "exact"
+  },
+  {
+    "id": "gas-station-simulator",
+    "title": "Gas Station Simulator",
+    "appId": 1149620,
+    "steamName": "Gas Station Simulator",
+    "confidence": "exact"
+  },
+  {
+    "id": "house-flipper-2",
+    "title": "House Flipper 2",
+    "appId": 1190970,
+    "steamName": "House Flipper 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "house-flipper",
+    "title": "House Flipper",
+    "appId": 1190970,
+    "steamName": "House Flipper 2",
+    "confidence": "high"
+  },
+  {
+    "id": "supermarket-simulator",
+    "title": "Supermarket Simulator",
+    "appId": 2670630,
+    "steamName": "Supermarket Simulator",
+    "confidence": "exact"
+  },
+  {
+    "id": "my-summer-car",
+    "title": "My Summer Car",
+    "appId": 516750,
+    "steamName": "My Summer Car",
+    "confidence": "exact"
+  },
+  {
+    "id": "bus-simulator-18",
+    "title": "Bus Simulator 18",
+    "appId": 515180,
+    "steamName": "Bus Simulator 18",
+    "confidence": "exact"
+  },
+  {
+    "id": "train-sim-world-4",
+    "title": "Train Sim World 4",
+    "appId": 2362300,
+    "steamName": "Train Sim World® 4",
+    "confidence": "low"
+  },
+  {
+    "id": "construction-simulator",
+    "title": "Construction Simulator",
+    "appId": 1273400,
+    "steamName": "Construction Simulator",
+    "confidence": "exact"
+  },
+  {
+    "id": "hollow-knight-silksong",
+    "title": "Hollow Knight: Silksong",
+    "appId": 1030300,
+    "steamName": "Hollow Knight: Silksong",
+    "confidence": "exact"
+  },
+  {
+    "id": "hollow-knight",
+    "title": "Hollow Knight",
+    "appId": 367520,
+    "steamName": "Hollow Knight",
+    "confidence": "exact"
+  },
+  {
+    "id": "celeste",
+    "title": "Celeste",
+    "appId": 504230,
+    "steamName": "Celeste",
+    "confidence": "exact"
+  },
+  {
+    "id": "dead-cells",
+    "title": "Dead Cells",
+    "appId": 588650,
+    "steamName": "Dead Cells",
+    "confidence": "exact"
+  },
+  {
+    "id": "undertale",
+    "title": "Undertale",
+    "appId": 391540,
+    "steamName": "Undertale",
+    "confidence": "exact"
+  },
+  {
+    "id": "katana-zero",
+    "title": "Katana Zero",
+    "appId": 460950,
+    "steamName": "Katana ZERO",
+    "confidence": "exact"
+  },
+  {
+    "id": "blasphemous",
+    "title": "Blasphemous",
+    "appId": 2114740,
+    "steamName": "Blasphemous 2",
+    "confidence": "high"
+  },
+  {
+    "id": "cuphead",
+    "title": "Cuphead",
+    "appId": 268910,
+    "steamName": "Cuphead",
+    "confidence": "exact"
+  },
+  {
+    "id": "vampire-survivors",
+    "title": "Vampire Survivors",
+    "appId": 1794680,
+    "steamName": "Vampire Survivors",
+    "confidence": "exact"
+  },
+  {
+    "id": "binding-of-isaac",
+    "title": "The Binding of Isaac",
+    "appId": 250900,
+    "steamName": "The Binding of Isaac: Rebirth",
+    "confidence": "high"
+  },
+  {
+    "id": "terraria",
+    "title": "Terraria",
+    "appId": 105600,
+    "steamName": "Terraria",
+    "confidence": "exact"
+  },
+  {
+    "id": "limbo",
+    "title": "LIMBO",
+    "appId": 48000,
+    "steamName": "LIMBO",
+    "confidence": "exact"
+  },
+  {
+    "id": "inside",
+    "title": "INSIDE",
+    "appId": 3609750,
+    "steamName": "Organized Inside",
+    "confidence": "high"
+  },
+  {
+    "id": "disco-elysium",
+    "title": "Disco Elysium",
+    "appId": 632470,
+    "steamName": "Disco Elysium - The Final Cut",
+    "confidence": "high"
+  },
+  {
+    "id": "guardians-of-the-galaxy",
+    "title": "Marvel's Guardians of the Galaxy",
+    "appId": 1088850,
+    "steamName": "Marvel's Guardians of the Galaxy",
+    "confidence": "exact"
+  },
+  {
+    "id": "marvels-avengers",
+    "title": "Marvel's Avengers",
+    "appId": 405310,
+    "steamName": "LEGO® MARVEL's Avengers",
+    "confidence": "high"
+  },
+  {
+    "id": "marvels-midnight-suns",
+    "title": "Marvel's Midnight Suns",
+    "appId": 368260,
+    "steamName": "Marvel's Midnight Suns",
+    "confidence": "exact"
+  },
+  {
+    "id": "valheim",
+    "title": "Valheim",
+    "appId": 892970,
+    "steamName": "Valheim",
+    "confidence": "exact"
+  },
+  {
+    "id": "raft",
+    "title": "Raft",
+    "appId": 648800,
+    "steamName": "Raft",
+    "confidence": "exact"
+  },
+  {
+    "id": "stranded-deep",
+    "title": "Stranded Deep",
+    "appId": 313120,
+    "steamName": "Stranded Deep",
+    "confidence": "exact"
+  },
+  {
+    "id": "green-hell",
+    "title": "Green Hell",
+    "appId": 815370,
+    "steamName": "Green Hell",
+    "confidence": "exact"
+  },
+  {
+    "id": "the-long-dark",
+    "title": "The Long Dark",
+    "appId": 305620,
+    "steamName": "The Long Dark",
+    "confidence": "exact"
+  },
+  {
+    "id": "left-4-dead-2",
+    "title": "Left 4 Dead 2",
+    "appId": 550,
+    "steamName": "Left 4 Dead 2",
+    "confidence": "exact"
+  },
+  {
+    "id": "back-4-blood",
+    "title": "Back 4 Blood",
+    "appId": 924970,
+    "steamName": "Back 4 Blood",
+    "confidence": "exact"
+  },
+  {
+    "id": "civilization-vi",
+    "title": "Sid Meier's Civilization VI",
+    "appId": 289070,
+    "steamName": "Sid Meier’s Civilization® VI",
+    "confidence": "low"
+  },
+  {
+    "id": "anno-1800",
+    "title": "Anno 1800",
+    "appId": 916440,
+    "steamName": "Anno 1800",
+    "confidence": "exact"
+  },
+  {
+    "id": "total-war-pharaoh",
+    "title": "Total War: Pharaoh",
+    "appId": 1937780,
+    "steamName": "Total War: PHARAOH",
+    "confidence": "exact"
+  },
+  {
+    "id": "no-mans-sky",
+    "title": "No Man's Sky",
+    "appId": 275850,
+    "steamName": "No Man's Sky",
+    "confidence": "exact"
+  }
+]

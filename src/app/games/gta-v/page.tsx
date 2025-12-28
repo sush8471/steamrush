@@ -402,21 +402,16 @@ export default function GTAVPage() {
                       <Link 
                         key={sg.id}
                         href={`/games/${sg.id}`}
-                        className="relative flex-shrink-0 w-[180px] lg:w-[200px] group snap-start"
+                        className="relative flex-shrink-0 w-[220px] lg:w-[280px] group snap-start"
                       >
-                        <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-[#00B4FF] group-hover:shadow-[0_0_20px_rgba(0,180,255,0.3)] transition-all duration-300">
-                          <Image src={sg.image} alt={sg.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative aspect-[3/4] rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-[#00B4FF] group-hover:shadow-[0_0_30px_rgba(0,180,255,0.4)] transition-all duration-300">
+                          <Image src={sg.image} alt={sg.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           {sg.discount && (
-                            <div className="absolute top-3 left-3 bg-[#4c6b22] text-[#a4d007] text-xs font-bold px-2 py-1 rounded shadow-lg backdrop-blur-md">
+                            <div className="absolute top-4 left-4 bg-[#4c6b22] text-[#a4d007] text-[11px] font-black px-2 py-1 rounded shadow-xl backdrop-blur-md">
                               {sg.discount}
                             </div>
                           )}
-                        </div>
-                        <h3 className="text-white text-sm font-semibold line-clamp-2 group-hover:text-[#00B4FF] transition-colors mb-1">{sg.title}</h3>
-                        <div className="flex items-center gap-2">
-                          {sg.originalPrice && <span className="text-[#8F98A0] text-xs line-through">₹{sg.originalPrice}</span>}
-                          <span className="text-white text-sm font-bold">₹{sg.price}</span>
                         </div>
                       </Link>
                     ))}

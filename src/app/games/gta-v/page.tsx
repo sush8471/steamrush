@@ -248,9 +248,9 @@ export default function GTAVPage() {
                   whileInView="visible"
                   viewport={{ once: true, margin: "-50px" }}
                   variants={fadeInUp}
-                  className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-none lg:rounded-3xl p-6 lg:p-12 shadow-2xl mt-8 lg:mt-16"
+                  className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-none lg:rounded-2xl p-5 lg:p-8 shadow-2xl mt-6 lg:mt-10"
                 >
-                  <div className="flex items-center gap-3 mb-5">
+                  <div className="flex items-center gap-3 mb-4">
                     <Monitor className="w-5 h-5 text-[#00B4FF]" />
                     <h2 className="text-lg lg:text-xl font-bold text-white tracking-wide">SYSTEM REQUIREMENTS</h2>
                   </div>
@@ -264,10 +264,10 @@ export default function GTAVPage() {
                     <>
                       {/* Mobile: Refined Toggle View */}
                       <div className="lg:hidden">
-                        <div className="flex p-1 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 mb-8">
+                        <div className="flex p-1 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 mb-6">
                           <button 
                             onClick={() => setShowRecommended(false)}
-                            className={`flex-1 py-2.5 text-[10px] font-black uppercase tracking-[0.1em] rounded-lg transition-all duration-300 ${!showRecommended ? 'bg-[#00B4FF] text-white shadow-[0_0_15px_rgba(0,180,255,0.3)]' : 'text-[#8F98A0] hover:text-white'}`}
+                            className={`flex-1 py-2 text-[10px] font-black uppercase tracking-[0.1em] rounded-lg transition-all duration-300 ${!showRecommended ? 'bg-[#00B4FF] text-white shadow-[0_0_15px_rgba(0,180,255,0.3)]' : 'text-[#8F98A0] hover:text-white'}`}
                           >
                             Minimum
                           </button>
@@ -279,10 +279,10 @@ export default function GTAVPage() {
                           </button>
                         </div>
                         
-                        <div className="space-y-6">
+                        <div className="space-y-4">
                           {Object.entries((showRecommended ? recRequirements : minRequirements) || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => (
-                            <div key={key} className="flex flex-col border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                              <span className="text-[#8F98A0] text-[9px] uppercase tracking-[0.2em] font-black mb-2 opacity-60">{key}</span>
+                            <div key={key} className="flex flex-col border-b border-white/5 pb-3 last:border-0 last:pb-0">
+                              <span className="text-[#8F98A0] text-[9px] uppercase tracking-[0.2em] font-black mb-1 opacity-60">{key}</span>
                               <span className="text-white/90 font-medium text-sm leading-relaxed">{val as string}</span>
                             </div>
                           ))}
@@ -309,24 +309,24 @@ export default function GTAVPage() {
 
                       {/* Desktop: Side by Side */}
                       <div className="hidden lg:block">
-                        <div className="grid grid-cols-2 gap-12 divide-x divide-white/5">
-                          <div className="space-y-6">
+                        <div className="grid grid-cols-2 gap-8 divide-x divide-white/5">
+                          <div className="space-y-4">
                             <div className="text-[#00B4FF] text-[11px] font-black uppercase tracking-[0.2em] bg-[#00B4FF]/10 w-fit px-4 py-2 rounded-full border border-[#00B4FF]/20 shadow-[0_0_20px_rgba(0,180,255,0.1)]">Minimum</div>
-                            <div className="space-y-3 text-sm">
+                            <div className="space-y-2 text-sm">
                               {Object.entries(minRequirements || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => (
                                 <div key={key}>
-                                  <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block mb-2 opacity-50">{key}</span>
+                                  <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block mb-0.5 opacity-50">{key}</span>
                                   <span className="text-white/90 font-medium leading-relaxed">{val as string}</span>
                                 </div>
                               ))}
                             </div>
                           </div>
-                          <div className="space-y-6 pl-12">
+                          <div className="space-y-4 pl-8">
                             <div className="text-[#A4D007] text-[11px] font-black uppercase tracking-[0.2em] bg-[#A4D007]/10 w-fit px-4 py-2 rounded-full border border-[#A4D007]/20 shadow-[0_0_20px_rgba(164,208,7,0.1)]">Recommended</div>
-                            <div className="space-y-5 text-sm">
+                            <div className="space-y-2 text-sm">
                               {Object.entries(recRequirements || {}).filter(([key]) => key.toLowerCase() !== 'additional').map(([key, val]) => (
                                 <div key={key}>
-                                  <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block mb-2 opacity-50">{key}</span>
+                                  <span className="text-[#8F98A0] text-[10px] uppercase font-black tracking-[0.1em] block mb-0.5 opacity-50">{key}</span>
                                   <span className="text-white/90 font-medium leading-relaxed">{val as string}</span>
                                 </div>
                               ))}
@@ -402,16 +402,21 @@ export default function GTAVPage() {
                       <Link 
                         key={sg.id}
                         href={`/games/${sg.id}`}
-                        className="relative flex-shrink-0 w-[220px] lg:w-[280px] group snap-start"
+                        className="relative flex-shrink-0 w-[180px] lg:w-[200px] group snap-start"
                       >
-                        <div className="relative aspect-[3/4] rounded-xl overflow-hidden ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-[#00B4FF] group-hover:shadow-[0_0_30px_rgba(0,180,255,0.4)] transition-all duration-300">
-                          <Image src={sg.image} alt={sg.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-[#00B4FF] group-hover:shadow-[0_0_20px_rgba(0,180,255,0.3)] transition-all duration-300">
+                          <Image src={sg.image} alt={sg.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
                           {sg.discount && (
-                            <div className="absolute top-4 left-4 bg-[#4c6b22] text-[#a4d007] text-[11px] font-black px-2 py-1 rounded shadow-xl backdrop-blur-md">
+                            <div className="absolute top-3 left-3 bg-[#4c6b22] text-[#a4d007] text-xs font-bold px-2 py-1 rounded shadow-lg backdrop-blur-md">
                               {sg.discount}
                             </div>
                           )}
+                        </div>
+                        <h3 className="text-white text-sm font-semibold line-clamp-2 group-hover:text-[#00B4FF] transition-colors mb-1">{sg.title}</h3>
+                        <div className="flex items-center gap-2">
+                          {sg.originalPrice && <span className="text-[#8F98A0] text-xs line-through">₹{sg.originalPrice}</span>}
+                          <span className="text-white text-sm font-bold">₹{sg.price}</span>
                         </div>
                       </Link>
                     ))}

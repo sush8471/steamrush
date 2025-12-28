@@ -57,7 +57,7 @@ export default function GTAVPage() {
 
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [showRecommended, setShowRecommended] = useState(false);
-  const [openFAQ, setOpenFAQ] = useState<number | null>(0);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [showAdditional, setShowAdditional] = useState(false);
 
   useEffect(() => {

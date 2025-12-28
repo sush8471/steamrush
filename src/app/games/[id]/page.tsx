@@ -9,6 +9,7 @@ import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import Footer from "@/components/sections/footer";
 import { getSteamGameDetails, parseSystemRequirements, type SteamGameDetails } from "@/lib/steam-api";
 import { GAMES_DATABASE } from "@/data/games";
+import { useCart } from "@/context/CartContext";
 import { motion, Variants } from "framer-motion";
 import ThumbnailCarousel from "@/components/ui/thumbnail-carousel";
 
@@ -67,6 +68,21 @@ export default function GameDetailPage() {
   const [showRecommended, setShowRecommended] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [showAdditional, setShowAdditional] = useState(false);
+
+  const { addToCart, isInCart } = useCart();
+  const isAdded = game ? isInCart(game.id) : false;
+
+  const handleAddToCart = () => {
+    if (game) {
+      addToCart({
+        id: game.id,
+        name: game.title,
+        price: game.price,
+        image: game.image,
+        originalPrice: game.originalPrice
+      });
+    }
+  };
 
   useEffect(() => {
     if (!game) return;
@@ -500,10 +516,21 @@ export default function GameDetailPage() {
                                  </button>
 
                                  <button
-                                    className="w-full bg-[#17202d] hover:bg-[#1e2a3b] text-white text-[13px] font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border border-[#2a3749]"
+                                    onClick={handleAddToCart}
+                                    disabled={isAdded}
+                                    className={`w-full text-white text-[13px] font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border ${isAdded ? 'bg-[#2a3749] border-[#2a3749] cursor-default opacity-70' : 'bg-[#17202d] hover:bg-[#1e2a3b] border-[#2a3749]'}`}
                                  >
-                                   <ShoppingCart className="w-4 h-4 text-[#00B4FF]" />
-                                   Add to Cart
+                                   {isAdded ? (
+                                     <>
+                                      <Check className="w-4 h-4 text-[#A4D007]" />
+                                      In Cart
+                                     </>
+                                   ) : (
+                                     <>
+                                      <ShoppingCart className="w-4 h-4 text-[#00B4FF]" />
+                                      Add to Cart
+                                     </>
+                                   )}
                                  </button>
                             </div>
                         </div>
@@ -572,11 +599,17 @@ export default function GameDetailPage() {
            {/* Actions */}
            <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
              <button 
-                className="h-10 w-10 sm:w-auto sm:px-4 bg-[#17202d] hover:bg-[#1e2a3b] border border-[#2a3749] text-white rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 flex-shrink-0"
-                aria-label="Add to Cart"
+                onClick={handleAddToCart}
+                disabled={isAdded}
+                className={`h-10 w-10 sm:w-auto sm:px-4 border text-white rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 flex-shrink-0 ${isAdded ? 'bg-[#1e2a3b] border-[#2a3749] opacity-70' : 'bg-[#17202d] hover:bg-[#1e2a3b] border-[#2a3749]'}`}
+                aria-label={isAdded ? "Already in Cart" : "Add to Cart"}
              >
-                <ShoppingCart className="w-5 h-5 text-[#00B4FF]" />
-                <span className="hidden sm:inline text-xs font-bold">Cart</span>
+                {isAdded ? (
+                  <Check className="w-5 h-5 text-[#A4D007]" />
+                ) : (
+                  <ShoppingCart className="w-5 h-5 text-[#00B4FF]" />
+                )}
+                <span className="hidden sm:inline text-xs font-bold">{isAdded ? "Added" : "Cart"}</span>
              </button>
 
              <motion.button 

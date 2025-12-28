@@ -193,20 +193,20 @@ export default function GTAVPage() {
               {/* MOBILE: COMPACT INFO CARD */}
               <div className="lg:hidden px-6 py-12 bg-gradient-to-b from-[#0A0E27] to-transparent">
                 {/* Title & Reviews */}
-                <div className="mb-10">
-                  <div className="flex items-center gap-2 mb-4">
-                     <span className="px-2.5 py-1 rounded-md bg-[#00B4FF]/10 border border-[#00B4FF]/20 text-[#00B4FF] text-[10px] font-bold uppercase tracking-[0.1em]">
+                <div className="mb-7">
+                  <div className="flex items-center gap-2 mb-2">
+                     <span className="px-2 py-0.5 rounded-md bg-[#00B4FF]/10 border border-[#00B4FF]/20 text-[#00B4FF] text-[10px] font-bold uppercase tracking-wider">
                       Base Game
                      </span>
                   </div>
-                  <h1 className="text-3xl font-black text-white leading-[1.1] mb-5 tracking-tight">{game.title}</h1>
+                  <h1 className="text-3xl font-black text-white leading-none mb-3 tracking-tight">{game.title}</h1>
                   
-                  <div className="flex flex-wrap items-center gap-4">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-[#00B4FF]/10 rounded-md border border-[#00B4FF]/10">
-                      <ThumbsUp className="w-4 h-4 text-[#00B4FF] fill-[#00B4FF]" />
-                      <span className="text-[10px] font-bold text-[#00B4FF] uppercase tracking-wider">Overwhelmingly Positive</span>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#00B4FF]/10 rounded-md border border-[#00B4FF]/10">
+                      <ThumbsUp className="w-3.5 h-3.5 text-[#00B4FF] fill-[#00B4FF]" />
+                      <span className="text-[10px] font-bold text-[#00B4FF] uppercase tracking-wide">Overwhelmingly Positive</span>
                     </div>
-                    <span className="text-[#8F98A0] text-[11px] font-medium tracking-wide">(2.4M+ Reviews)</span>
+                    <span className="text-[#8F98A0] text-[11px] font-medium tracking-tight">(2.4M+ Reviews)</span>
                   </div>
                 </div>
 

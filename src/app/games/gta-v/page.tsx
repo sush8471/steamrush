@@ -141,7 +141,7 @@ export default function GTAVPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0E27] text-white selection:bg-[#00B4FF] selection:text-white pb-12 lg:pb-12">
+    <main className="min-h-screen bg-[#0A0E27] text-white selection:bg-[#00B4FF] selection:text-white pb-12 lg:pb-0">
       <SteamRushNavbar />
       
       {/* IMMERSIVE BACKGROUND */}
@@ -157,7 +157,7 @@ export default function GTAVPage() {
         />
       </div>
 
-      <div className="pt-[68px] lg:pt-24 pb-20 lg:pb-12 w-full">
+      <div className="pt-[68px] lg:pt-24 pb-20 lg:pb-0 w-full">
         <div className="mx-auto max-w-[1400px] px-0 lg:px-8">
           
           {/* Breadcrumbs - Desktop */}

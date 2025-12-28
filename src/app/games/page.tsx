@@ -17,6 +17,7 @@ type Game = {
   discount: string;
   type: string;
   description: string;
+  href?: string;
 };
 
 const GAMES: Game[] = [
@@ -79,6 +80,7 @@ const GAMES: Game[] = [
     discount: "-67%",
     type: "Action-Adventure / Open-World",
     description: "Crime spree across Los Santos",
+    href: "/games/gta-v",
   },
   {
     id: 7,
@@ -2782,7 +2784,8 @@ export default function GamesPage() {
                       return (
                       <div
                         key={game.id}
-                        className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start"
+                        onClick={() => game.href && router.push(game.href)}
+                        className={`group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start ${game.href ? 'cursor-pointer' : ''}`}
                       >
                         <div className="relative aspect-[3/4] w-full overflow-hidden">
                           <Image
@@ -2802,6 +2805,9 @@ export default function GamesPage() {
                         </div>
 
                         <div className="p-2">
+                          <h3 className="text-white font-bold text-sm mb-1 truncate group-hover:text-[#0074E4] transition-colors">
+                            {game.title}
+                          </h3>
                           <div className="flex items-center gap-1.5 mb-2">
                             <span className="text-white font-black text-xl">
                               {game.price}

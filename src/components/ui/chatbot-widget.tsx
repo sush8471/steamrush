@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2, ShoppingCart, MessageSquare } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, ShoppingCart, MessageSquare, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa";
 
 interface GameData {
@@ -22,6 +23,7 @@ interface Message {
 
 export function ChatbotWidget() {
   const { addToCart } = useCart();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -513,6 +515,16 @@ export function ChatbotWidget() {
                               <ShoppingCart className="w-2.5 h-2.5" strokeWidth={2.5} />
                               <span>Add</span>
                             </button>
+
+                            {(game.id === 'gta-v' || game.name.toLowerCase().includes('gta v') || game.name.toLowerCase().includes('grand theft auto')) && (
+                              <button
+                                onClick={() => router.push('/games/gta-v')}
+                                className="flex-shrink-0 flex items-center justify-center bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 hover:text-indigo-300 p-1.5 rounded-md text-[10px] font-medium border border-indigo-500/30 hover:border-indigo-500/50 transition-all duration-200"
+                                title="View Page"
+                              >
+                                <ExternalLink className="w-2.5 h-2.5" strokeWidth={2.5} />
+                              </button>
+                            )}
                             
                             <button
                               onClick={() => {

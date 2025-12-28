@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { X, Check } from "lucide-react";
+import { X, Check, ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 interface ComboData {
   id: number;
@@ -195,19 +196,45 @@ function GameListDialog({
         {/* Game List */}
         <div className="overflow-y-auto max-h-[calc(85vh-220px)] p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {games.map((game, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-3 rounded-lg bg-[#0A0E27]/50 border border-[#2A2E4D]/50 hover:border-[#0074E4]/30 transition-all duration-200 group"
-              >
-                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#0074E4]/20 border border-[#0074E4]/40 flex items-center justify-center">
-                  <Check className="w-3 h-3 text-[#0074E4]" />
+            {games.map((game, index) => {
+              const isGTAV = game === "Grand Theft Auto V";
+              const Content = (
+                <>
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#0074E4]/20 border border-[#0074E4]/40 flex items-center justify-center">
+                    {isGTAV ? (
+                      <ExternalLink className="w-3 h-3 text-[#0074E4]" />
+                    ) : (
+                      <Check className="w-3 h-3 text-[#0074E4]" />
+                    )}
+                  </div>
+                  <span className="text-[#E0E0E0] text-sm group-hover:text-white transition-colors">
+                    {game}
+                  </span>
+                </>
+              );
+
+              if (isGTAV) {
+                return (
+                  <Link
+                    key={index}
+                    href="/games/gta-v"
+                    onClick={onClose}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-[#0A0E27]/50 border border-[#2A2E4D]/50 hover:border-[#0074E4]/30 hover:bg-[#1A1F3A] transition-all duration-200 group cursor-pointer"
+                  >
+                    {Content}
+                  </Link>
+                );
+              }
+
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 p-3 rounded-lg bg-[#0A0E27]/50 border border-[#2A2E4D]/50 transition-all duration-200 group"
+                >
+                  {Content}
                 </div>
-                <span className="text-[#E0E0E0] text-sm group-hover:text-white transition-colors">
-                  {game}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

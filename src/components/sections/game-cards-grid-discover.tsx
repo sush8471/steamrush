@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function GameCardsGridDiscover() {
   const games = [
@@ -13,6 +13,7 @@ export default function GameCardsGridDiscover() {
       originalPrice: "₹899",
       discount: "-67%",
       type: "Action-Adventure / Open-World",
+      href: "/games/gta-v"
     },
     {
       id: 2,
@@ -77,7 +78,6 @@ export default function GameCardsGridDiscover() {
       discount: "-81%",
       type: "Action-Adventure / Open-World",
     },
-
     {
       id: 10,
       title: "Mafia: Definitive Edition",
@@ -125,10 +125,9 @@ export default function GameCardsGridDiscover() {
     },
   ];
 
-    return (
-      <section className="w-full bg-[#0A0E27] py-12 lg:py-16">
-        <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
-        
+  return (
+    <section className="w-full bg-[#0A0E27] py-12 lg:py-16">
+      <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 mb-4 lg:mb-6">
           <div>
             <h2 className="text-2xl lg:text-4xl font-black text-white mb-1">
@@ -144,42 +143,55 @@ export default function GameCardsGridDiscover() {
         </div>
 
         <div className="overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-          {games.map((game) => (
+          {games.map((game) => {
+            const CardContent = (
+              <div className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] snap-start h-full cursor-pointer">
+                <div className="relative aspect-[3/4] w-full overflow-hidden">
+                  <Image
+                    src={game.image}
+                    alt={game.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 70vw, 16vw"
+                  />
+                  {game.discount && (
+                    <div className="absolute top-2 right-2 bg-[#0074E4] text-white text-xs font-bold px-2.5 py-1 rounded-md">
+                      {game.discount}
+                    </div>
+                  )}
+                </div>
+                <div className="p-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-white font-black text-xl">
+                      {game.price}
+                    </span>
+                    <span className="text-[#B0B8D0] text-xs line-through">
+                      {game.originalPrice}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+
+            if (game.href) {
+              return (
+                <Link key={game.id} href={game.href}>
+                  {CardContent}
+                </Link>
+              );
+            }
+
+            return (
               <button
                 key={game.id}
                 onClick={() => window.parent.postMessage({ type: "OPEN_EXTERNAL_URL", data: { url: `https://wa.me/917752805529?text=I want to buy ${game.title}` } }, "*")}
-                className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] snap-start"
+                className="flex-shrink-0 snap-start"
               >
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image
-                  src={game.image}
-                  alt={game.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 768px) 70vw, 16vw"
-                />
-                
-                {game.discount && (
-                  <div className="absolute top-2 right-2 bg-[#0074E4] text-white text-xs font-bold px-2.5 py-1 rounded-md">
-                    {game.discount}
-                  </div>
-                )}
-              </div>
-
-                  <div className="p-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-white font-black text-xl">
-                        {game.price}
-                      </span>
-                      <span className="text-[#B0B8D0] text-xs line-through">
-                        {game.originalPrice}
-                      </span>
-                    </div>
-                  </div>
-            </button>
-          ))}
+                {CardContent}
+              </button>
+            );
+          })}
         </div>
-
       </div>
     </section>
   );

@@ -83,16 +83,35 @@ export default function CartPage() {
                     className="bg-[#1A1F3A] border border-[#2A2E4D] p-4 rounded-lg flex items-center gap-4 hover:border-[#0074E4]/30 transition-all"
                   >
                     <div className="relative w-24 h-32 flex-shrink-0">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="object-cover rounded"
-                      />
+                      {item.id === 'gta-v' || item.name.toLowerCase().includes('grand theft auto v') ? (
+                        <Link href="/games/gta-v">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover rounded hover:opacity-80 transition-opacity"
+                          />
+                        </Link>
+                      ) : (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover rounded"
+                        />
+                      )}
                     </div>
                     
                     <div className="flex-1">
-                      <h3 className="text-white font-semibold text-lg mb-1">{item.name}</h3>
+                      <h3 className="text-white font-semibold text-lg mb-1">
+                        {item.id === 'gta-v' || item.name.toLowerCase().includes('grand theft auto v') ? (
+                          <Link href="/games/gta-v" className="hover:text-[#0074E4] transition-colors">
+                            {item.name}
+                          </Link>
+                        ) : (
+                          item.name
+                        )}
+                      </h3>
                       <div className="flex items-center gap-2">
                         <span className="text-[#0074E4] font-bold text-xl">₹{item.price}</span>
                         {item.originalPrice && (

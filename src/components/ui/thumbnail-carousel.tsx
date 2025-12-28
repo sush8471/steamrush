@@ -187,7 +187,7 @@ export default function ThumbnailCarousel({ images, className }: ThumbnailCarous
           <button
             disabled={index === 0}
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all z-10 backdrop-blur-md border border-white/10
+            className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full sm:flex items-center justify-center shadow-lg transition-all z-10 backdrop-blur-md border border-white/10 hidden
               ${
                 index === 0
                   ? 'opacity-0 cursor-not-allowed hidden'
@@ -203,7 +203,7 @@ export default function ThumbnailCarousel({ images, className }: ThumbnailCarous
           <button
             disabled={index === items.length - 1}
             onClick={() => setIndex((i) => Math.min(items.length - 1, i + 1))}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all z-10 backdrop-blur-md border border-white/10
+            className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full sm:flex items-center justify-center shadow-lg transition-all z-10 backdrop-blur-md border border-white/10 hidden
               ${
                 index === items.length - 1
                   ? 'opacity-0 cursor-not-allowed hidden'
@@ -216,7 +216,7 @@ export default function ThumbnailCarousel({ images, className }: ThumbnailCarous
           </button>
 
           {/* Image Counter */}
-          <div className='absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white/80 px-3 py-1 rounded-full text-xs backdrop-blur-md border border-white/10 font-mono'>
+          <div className='hidden sm:block absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white/80 px-3 py-1 rounded-full text-xs backdrop-blur-md border border-white/10 font-mono'>
             {index + 1} / {items.length}
           </div>
         </div>

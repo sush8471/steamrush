@@ -20,40 +20,40 @@
 /* Updated: 2025-12-16T04:48:24.523Z */
 /* Updated: 2025-12-16T04:20:27.729Z */
 /* Updated: 2025-12-14T05:56:52.287Z */
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700;900&family=Recursive+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700;900&family=Recursive+Mono:wght@400;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #0A0E27;
-  --color-foreground: #FFFFFF;
+  --color-background: #0a0e27;
+  --color-foreground: #ffffff;
 
-  --color-card: #1A1F3A;
-  --color-card-foreground: #FFFFFF;
+  --color-card: #1a1f3a;
+  --color-card-foreground: #ffffff;
 
-  --color-popover: #1A1F3A;
-  --color-popover-foreground: #FFFFFF;
+  --color-popover: #1a1f3a;
+  --color-popover-foreground: #ffffff;
 
-  --color-primary: #00B4FF;
-  --color-primary-foreground: #FFFFFF;
+  --color-primary: #00b4ff;
+  --color-primary-foreground: #ffffff;
 
-  --color-secondary: #4A5568;
-  --color-secondary-foreground: #FFFFFF;
+  --color-secondary: #4a5568;
+  --color-secondary-foreground: #ffffff;
 
-  --color-muted: #B0B8D0;
-  --color-muted-foreground: #B0B8D0;
+  --color-muted: #b0b8d0;
+  --color-muted-foreground: #b0b8d0;
 
-  --color-accent: #00D9FF;
-  --color-accent-foreground: #FFFFFF;
+  --color-accent: #00d9ff;
+  --color-accent-foreground: #ffffff;
 
   --color-destructive: #ef4444; /* Default red, adjust if needed */
   --color-destructive-foreground: #fafafa;
 
-  --color-border: #2D3748;
-  --color-input: #2D3748;
-  --color-ring: #00B4FF;
+  --color-border: #2d3748;
+  --color-input: #2d3748;
+  --color-ring: #00b4ff;
 
   --color-chart-1: #e67e22;
   --color-chart-2: #2d8659;
@@ -61,9 +61,9 @@
   --color-chart-4: #f1c40f;
   --color-chart-5: #e74c3c;
 
-  --color-background-secondary: #1A1F3A;
-  --color-text-secondary: #B0B8D0;
-  --color-discount-badge: #00B4FF;
+  --color-background-secondary: #1a1f3a;
+  --color-text-secondary: #b0b8d0;
+  --color-discount-badge: #00b4ff;
   --color-shadow-overlay: #000000;
 
   --font-display: "Inter Tight", sans-serif;
@@ -87,6 +87,15 @@
     }
     to {
       height: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
     }
   }
 }
@@ -133,7 +142,12 @@
     @apply bg-background text-foreground;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     color: var(--color-foreground);
   }
@@ -203,17 +217,17 @@
     h5 {
       font-size: 0.875rem; /* 14px */
     }
-      p {
-        font-size: 0.875rem; /* 14px */
-      }
+    p {
+      font-size: 0.875rem; /* 14px */
     }
   }
+}
 
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

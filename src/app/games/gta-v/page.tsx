@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ChevronDown, MessageCircle, Check, Monitor, Share2, Info, ChevronLeft, ChevronRight, HelpCircle, Gamepad2, ShieldCheck, Zap, Clock, ThumbsUp } from "lucide-react";
+import { ArrowLeft, ChevronDown, MessageCircle, Check, Monitor, Share2, ChevronLeft, ChevronRight, HelpCircle, Gamepad2, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart } from "lucide-react";
 import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import Footer from "@/components/sections/footer";
 import { getSteamGameDetails, parseSystemRequirements, type SteamGameDetails } from "@/lib/steam-api";
@@ -55,7 +55,6 @@ export default function GTAVPage() {
   const [steamData, setSteamData] = useState<SteamGameDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [showRecommended, setShowRecommended] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
@@ -76,7 +75,7 @@ export default function GTAVPage() {
     fetchSteamData();
 
     const handleScroll = () => {
-      setShowStickyNav(window.scrollY > 350);
+      setShowStickyNav(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -91,7 +90,6 @@ export default function GTAVPage() {
   const headerImage = steamData?.headerImage || game.image;
   const allGalleryImages = [headerImage, ...screenshots];
   const description = steamData?.shortDescription || game.description || "";
-  const aboutGame = steamData?.aboutTheGame || steamData?.detailedDescription || description;
 
   // Refined Similar games logic
   const similarGames = GAMES_DATABASE
@@ -175,7 +173,7 @@ export default function GTAVPage() {
             </button>
           </div>
 
-          <div className="grid lg:grid-cols-[1.8fr_1fr] gap-0 lg:gap-12 items-start">
+          <div className="grid lg:grid-cols-[1.8fr_1fr] gap-0 lg:gap-12">
             
             {/* === LEFT COLUMN === */}
             <div className="w-full min-w-0 flex flex-col gap-0 lg:gap-8">
@@ -193,100 +191,55 @@ export default function GTAVPage() {
               </div>
 
               {/* MOBILE: COMPACT INFO CARD */}
-              <div className="lg:hidden px-5 py-8 bg-gradient-to-b from-[#0d1229] to-transparent">
-                <h1 className="text-3xl font-black text-white leading-tight mb-4 drop-shadow-lg">{game.title}</h1>
-                
-                {/* Review Badge Mobile */}
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#00B4FF]/10 border border-[#00B4FF]/20 rounded-full">
-                    <ThumbsUp className="w-3.5 h-3.5 text-[#00B4FF] fill-[#00B4FF]" />
-                    <span className="text-[11px] font-bold text-[#00B4FF] uppercase tracking-wider">Overwhelmingly Positive</span>
+              <div className="lg:hidden px-4 py-6 bg-gradient-to-b from-[#0A0E27] to-transparent">
+                {/* Title & Reviews */}
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-2">
+                     <span className="px-2 py-0.5 rounded-md bg-[#00B4FF]/10 border border-[#00B4FF]/20 text-[#00B4FF] text-[10px] font-bold uppercase tracking-wider">
+                      Base Game
+                     </span>
                   </div>
-                  <span className="text-[#8F98A0] text-[11px] font-medium">(98%)</span>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {game.genre.map((g) => (
-                    <span key={g} className="px-3 py-1 bg-[#151922] text-[#C6D4DF] text-[10px] font-semibold rounded-md border border-white/5 uppercase tracking-wide">
-                      {g}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-[#4c6b22] px-2 py-1 rounded shadow-inner">
-                        <span className="text-[#a4d007] text-sm font-black">{game.discount}</span>
-                      </div>
-                      <div>
-                        <span className="text-[#8F98A0] text-xs line-through block">₹{game.originalPrice}</span>
-                        <span className="text-white text-xl font-black">₹{game.price}</span>
-                      </div>
+                  <h1 className="text-2xl font-black text-white leading-none mb-3 tracking-tight">{game.title}</h1>
+                  
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#00B4FF]/10 rounded-md border border-[#00B4FF]/10">
+                      <ThumbsUp className="w-3.5 h-3.5 text-[#00B4FF] fill-[#00B4FF]" />
+                      <span className="text-[10px] font-bold text-[#00B4FF] uppercase tracking-wide">Overwhelmingly Positive</span>
                     </div>
-                  </div>
-                  
-                  <button 
-                    onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
-                    className="w-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-bold text-base py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    Buy via WhatsApp
-                  </button>
-                  
-                  <div className="mt-3 flex items-center justify-center gap-4 text-[#8F98A0] text-[11px]">
-                    <span className="flex items-center gap-1"><Check className="w-3 h-3 text-[#25D366]" /> Instant Key</span>
-                    <span className="flex items-center gap-1"><Check className="w-3 h-3 text-[#25D366]" /> 24/7 Support</span>
+                    <span className="text-[#8F98A0] text-[10px] font-medium">(2.4M+ Reviews)</span>
                   </div>
                 </div>
 
-                <div className="mt-4 flex gap-4 text-xs">
-                  <div>
-                    <span className="text-[#8F98A0] block">Developer</span>
-                    <span className="text-white font-medium">{steamData?.developers?.[0] || "Rockstar North"}</span>
-                  </div>
-                  <div>
-                    <span className="text-[#8F98A0] block">Publisher</span>
-                    <span className="text-white font-medium">{steamData?.publishers?.[0] || "Rockstar Games"}</span>
-                  </div>
+
+                
+                {/* Short About & Metadata */}
+                <div className="space-y-4">
+                   <p className="text-[#C6D4DF] text-[13px] leading-relaxed font-light line-clamp-3">
+                     {steamData?.shortDescription || description}
+                   </p>
+                   
+                   <div className="flex flex-wrap gap-1.5">
+                       {[...game.genre, ...(game.tags || [])].slice(0, 5).map(tag => (
+                          <span key={tag} className="px-2 py-0.5 bg-[#17202d] border border-[#2a3749] text-[#00B4FF] text-[10px] rounded">
+                            {tag}
+                          </span>
+                       ))}
+                   </div>
+                   
+                   <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/5">
+                      <div className="flex flex-col">
+                        <span className="text-[#566270] text-[10px] uppercase font-bold tracking-wide">Developer</span>
+                        <span className="text-[#00B4FF] text-xs pt-0.5">{steamData?.developers?.[0] || "Rockstar North"}</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[#566270] text-[10px] uppercase font-bold tracking-wide">Publisher</span>
+                        <span className="text-[#00B4FF] text-xs pt-0.5">{steamData?.publishers?.[0] || "Rockstar Games"}</span>
+                      </div>
+                   </div>
                 </div>
               </div>
 
-              {/* ABOUT SECTION */}
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                variants={fadeInUp}
-                className="relative bg-white/5 backdrop-blur-3xl border border-white/10 rounded-none lg:rounded-3xl p-6 lg:p-12 shadow-2xl mt-4 lg:mt-12"
-              >
-                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#00B4FF]/50 to-transparent" />
-                
-                <div className="flex items-center gap-3 mb-4">
-                  <Info className="w-4 h-4 text-[#00B4FF]" />
-                  <h2 className="text-base lg:text-lg font-bold text-white tracking-wide">ABOUT THIS GAME</h2>
-                </div>
-                
-                {loading ? (
-                  <div className="space-y-2">
-                    <Skeleton className="h-3 w-full" />
-                    <Skeleton className="h-3 w-5/6" />
-                    <Skeleton className="h-3 w-4/6" />
-                  </div>
-                ) : (
-                  <div className={`relative text-[#C6D4DF] leading-relaxed whitespace-pre-line font-light text-sm lg:text-[15px] transition-all duration-500 ${isDescExpanded ? 'max-h-[2000px]' : 'max-h-[72px] lg:max-h-[80px] overflow-hidden'}`}>
-                    {cleanText(aboutGame)}
-                  </div>
-                )}
 
-                <button 
-                  onClick={() => setIsDescExpanded(!isDescExpanded)}
-                  className="mt-3 flex items-center gap-1.5 text-[#00B4FF] hover:text-[#00B4FF]/80 font-bold text-xs uppercase tracking-wider transition-all group"
-                >
-                  {isDescExpanded ? 'Show Less' : 'Read More'}
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isDescExpanded ? 'rotate-180' : 'group-hover:translate-y-0.5'}`} />
-                </button>
-              </motion.div>
 
               {/* SYSTEM REQUIREMENTS - Collapsible on Mobile */}
               {(minRequirements || recRequirements) && (
@@ -472,139 +425,139 @@ export default function GTAVPage() {
               )}
             </div>
 
-            {/* === RIGHT COLUMN: DESKTOP STICKY PANEL === */}
-            <div className="hidden lg:block relative">
-              <div className="lg:sticky lg:top-24 space-y-4">
-                
-                {/* Desktop Sticky Panel Content with Motion */}
-                <motion.div 
-                  initial="hidden" 
-                  animate="visible" 
-                  variants={staggerContainer}
-                  className="space-y-4"
-                >
-                  <motion.div variants={fadeInUp}>
-                     <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="bg-[#00B4FF]/10 text-[#00B4FF] border border-[#00B4FF]/20 text-[10px] uppercase font-bold px-2 py-0.5 rounded tracking-wide">Base Game</span>
-                        {steamData?.releaseDate?.date && <span className="text-[#8F98A0] text-xs">{steamData.releaseDate.date}</span>}
-                      </div>
-                      <h1 className="text-4xl lg:text-5xl font-black text-white leading-[1.1] mb-2 tracking-tight drop-shadow-2xl">{game.title}</h1>
-                      
-                      {/* Review Badge Desktop */}
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="flex items-center gap-1.5 px-3 py-1 bg-[#00B4FF]/10 border border-[#00B4FF]/20 rounded-full hover:bg-[#00B4FF]/20 transition-colors cursor-help">
-                          <ThumbsUp className="w-3.5 h-3.5 text-[#00B4FF] fill-[#00B4FF]" />
-                          <span className="text-xs font-bold text-[#00B4FF] uppercase tracking-wide">Overwhelmingly Positive</span>
+            {/* === RIGHT COLUMN: REBUILT === */}
+            <div className="hidden lg:block relative h-full">
+              <div className="sticky top-24 w-full space-y-6">
+
+                {/* 1. Game Poster & Info Card */}
+                <div className="bg-transparent space-y-4">
+                   {/* Poster */}
+                   <div className="relative aspect-[460/215] w-full rounded-lg overflow-hidden border border-white/10 shadow-lg">
+                      <Image
+                         src={headerImage}
+                         alt={game.title}
+                         fill
+                         className="object-cover"
+                      />
+                   </div>
+
+                   {/* 2. Buy Buttons & Price (Moved Up) */}
+                   <div className="bg-[#151922]/60 backdrop-blur-md border border-white/5 p-4 rounded-lg shadow-xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-3 opacity-10">
+                          <Image src={game.image} width={100} height={100} alt="" className="rounded-full blur-xl" />
                         </div>
-                        <span className="text-[#8F98A0] text-xs hover:text-white transition-colors cursor-pointer border-b border-transparent hover:border-white/20">
-                          Based on 2,405,102 user reviews
-                        </span>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-1.5">
-                        {game.genre.map((g) => (
-                          <span key={g} className="px-3 py-1 bg-[#151922] hover:bg-[#00B4FF] text-[#C6D4DF] hover:text-white text-xs font-medium rounded transition-all cursor-pointer border border-white/10 hover:border-[#00B4FF] hover:shadow-[0_0_15px_rgba(0,180,255,0.4)] hover:-translate-y-0.5">
-                            {g}
+
+                        <div className="relative z-10 space-y-4">
+                            <div className="flex items-end gap-2 mb-1">
+                               <div className="bg-[#4c6b22] px-2 py-0.5 rounded-sm">
+                                  <span className="text-[#a4d007] text-sm font-bold">-{game.discount}</span>
+                               </div>
+                               <div className="flex flex-col leading-none">
+                                  <span className="text-[#566270] text-[11px] line-through decoration-[1px]">₹{game.originalPrice}</span>
+                                  <span className="text-[#00B4FF] text-lg font-bold">₹{game.price}</span>
+                               </div>
+                            </div>
+
+                            <div className="grid gap-2">
+                                 <button
+                                    onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
+                                    className="w-full bg-gradient-to-r from-[#75b022] to-[#588a1b] hover:from-[#8ed629] hover:to-[#6aa820] text-white text-[13px] font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all shadow-lg"
+                                 >
+                                    <MessageCircle className="w-4 h-4 fill-white/20" />
+                                    Buy Now
+                                 </button>
+
+                                 <button
+                                    className="w-full bg-[#17202d] hover:bg-[#1e2a3b] text-white text-[13px] font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border border-[#2a3749]"
+                                 >
+                                   <ShoppingCart className="w-4 h-4 text-[#00B4FF]" />
+                                   Add to Cart
+                                 </button>
+                            </div>
+                        </div>
+                   </div>
+
+                   {/* Short About */}
+                   <p className="text-[#C6D4DF] text-[13px] leading-6 line-clamp-4 font-light">
+                     {steamData?.shortDescription || description}
+                   </p>
+
+                   {/* Release Date & Meta */}
+                   <div className="space-y-2 pt-2">
+                     <div className="flex text-[13px]">
+                        <span className="w-28 text-[#566270] uppercase font-bold tracking-wide text-[10px] pt-0.5">Release Date</span>
+                        <span className="text-[#8F98A0]">{steamData?.releaseDate?.date || "Coming Soon"}</span>
+                     </div>
+                     <div className="flex text-[13px]">
+                        <span className="w-28 text-[#566270] uppercase font-bold tracking-wide text-[10px] pt-0.5">Developer</span>
+                        <span className="text-[#00B4FF] hover:text-white transition-colors cursor-pointer">{steamData?.developers?.[0] || "Rockstar North"}</span>
+                     </div>
+                     <div className="flex text-[13px]">
+                        <span className="w-28 text-[#566270] uppercase font-bold tracking-wide text-[10px] pt-0.5">Publisher</span>
+                        <span className="text-[#00B4FF] hover:text-white transition-colors cursor-pointer">{steamData?.publishers?.[0] || "Rockstar Games"}</span>
+                     </div>
+                   </div>
+
+                   {/* Popular Tags */}
+                   <div className="pt-2">
+                     <span className="text-[10px] font-bold text-[#566270] uppercase tracking-wide block mb-2">Popular User Tags</span>
+                     <div className="flex flex-wrap gap-1.5">
+                       {[...game.genre, ...(game.tags || [])].slice(0, 8).map(tag => (
+                          <span key={tag} className="px-2 py-0.5 bg-[#17202d] border border-[#2a3749] hover:bg-[#00B4FF] hover:border-[#00B4FF] hover:text-white text-[#00B4FF] text-[11px] rounded transition-all cursor-pointer">
+                            {tag}
                           </span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
+                       ))}
+                       <span className="px-2 py-0.5 text-[#566270] hover:text-[#8F98A0] text-[15px] cursor-pointer">+</span>
+                     </div>
+                   </div>
+                </div>
 
-                  {/* Trust Signals - Compact */}
-                  <motion.div variants={fadeInUp} className="flex items-center justify-between gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-                    <div className="flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-[#25D366]" />
-                      <span className="text-[10px] text-[#8F98A0]">Official</span>
-                    </div>
-                    <div className="w-px h-4 bg-white/10" />
-                    <div className="flex items-center gap-1.5">
-                      <Zap className="w-4 h-4 text-[#FFD700]" />
-                      <span className="text-[10px] text-[#8F98A0]">Instant</span>
-                    </div>
-                    <div className="w-px h-4 bg-white/10" />
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4 text-[#00B4FF]" />
-                      <span className="text-[10px] text-[#8F98A0]">24/7</span>
-                    </div>
-                  </motion.div>
 
-                  {/* INFO CARD */}
-                  <motion.div variants={fadeInUp} className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-2xl p-6 space-y-5 text-sm shadow-xl">
-                    <div className="flex justify-between items-center border-b border-white/5 pb-4">
-                      <span className="text-[#8F98A0] font-medium tracking-wide">Developer</span>
-                      <span className="text-[#00B4FF] font-black uppercase tracking-wider text-xs bg-[#00B4FF]/5 px-3 py-1 rounded-md">{steamData?.developers?.[0] || "Rockstar North"}</span>
-                    </div>
-                    <div className="flex justify-between items-center pb-1">
-                      <span className="text-[#8F98A0] font-medium tracking-wide">Publisher</span>
-                      <span className="text-[#00B4FF] font-black uppercase tracking-wider text-xs bg-[#00B4FF]/5 px-3 py-1 rounded-md">{steamData?.publishers?.[0] || "Rockstar Games"}</span>
-                    </div>
-                  </motion.div>
 
-                  {/* PURCHASE CARD */}
-                  <motion.div variants={fadeInUp} className="bg-gradient-to-br from-white/10 to-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 shadow-[0_0_40px_rgba(0,180,255,0.15)] relative overflow-hidden group">
-                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#00B4FF]/20 blur-3xl group-hover:bg-[#00B4FF]/30 transition-all rounded-full" />
-                    
-                    <div className="relative z-10">
-                      <h3 className="text-white font-bold text-lg mb-4">Buy {game.title}</h3>
-                      
-                      <div className="flex items-end gap-3 mb-6 bg-black/40 border border-white/5 p-3 rounded-lg backdrop-blur-sm">
-                        <div className="flex flex-col items-center bg-[#4c6b22] px-2 py-1 rounded text-[#a4d007] leading-none shadow-inner">
-                          <span className="text-[10px] font-bold uppercase">Discount</span>
-                          <span className="text-lg font-black">{game.discount}</span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[#8F98A0] text-xs line-through">₹{game.originalPrice}</span>
-                          <span className="text-[#00B4FF] text-3xl font-black leading-none tracking-tight drop-shadow-md">₹{game.price}</span>
-                        </div>
-                      </div>
-
-                      <motion.button 
-                        whileHover={{ scale: 1.02, filter: "brightness(1.1)" }}
-                        whileTap={{ scale: 0.96 }}
-                        onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
-                        className="w-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-bold text-lg py-4 rounded-lg shadow-lg flex items-center justify-center gap-2 group/btn"
-                      >
-                        <span>Purchase on WhatsApp</span>
-                        <MessageCircle className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                      </motion.button>
-                      
-                      <div className="mt-4 flex items-center justify-center gap-2 text-[#8F98A0] text-xs">
-                        <Check className="w-3 h-3 text-[#25D366]" />
-                        <span>Secure • Instant • Verified</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
               </div>
             </div>
+
+
 
           </div>
         </div>
       </div>
 
-      {/* MOBILE STICKY BUY BAR - Sleek Floating Style */}
-      <div className={`fixed bottom-4 left-4 right-4 bg-[#0A0E27]/90 backdrop-blur-2xl border border-white/10 rounded-2xl lg:hidden transform transition-all duration-500 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${showStickyNav ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-20 opacity-0 scale-95'}`}>
-        <div className="px-5 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-[#4c6b22] text-[#a4d007] text-[10px] font-black px-1.5 py-0.5 rounded shadow-inner">
-              {game.discount}
-            </div>
-            <div className="flex flex-col -gap-1">
-              <span className="text-[#8F98A0] text-[10px] line-through decoration-white/20">₹{game.originalPrice}</span>
-              <span className="text-white text-xl font-black tracking-tight">₹{game.price}</span>
-            </div>
-          </div>
-          <motion.button 
-            whileTap={{ scale: 0.95 }}
-            onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
-            className="bg-[#25D366] text-white px-6 py-3 rounded-xl font-black text-[13px] flex items-center gap-2 shadow-[0_10px_20px_rgba(37,211,102,0.2)]"
-          >
-            Buy Now
-            <MessageCircle className="w-4 h-4" />
-          </motion.button>
-        </div>
+      {/* MOBILE STICKY BUY BAR - Modern Glassmorphism */}
+      <div className={`fixed bottom-0 left-0 right-0 bg-[#0A0E27]/80 backdrop-blur-xl border-t border-white/10 lg:hidden transform transition-all duration-300 z-40 pb-safe ${showStickyNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+         {/* Safe area padding for iPhones without home button */}
+         <div className="px-4 py-3 pb-6 flex items-center justify-between gap-4">
+           
+           {/* Price Section */}
+           <div className="flex flex-col flex-shrink-0">
+             <div className="flex items-center gap-2 mb-0.5">
+               <span className="bg-[#4c6b22] text-[#a4d007] text-[10px] font-black px-1.5 py-0.5 rounded shadow-inner">-{game.discount}</span>
+               <span className="text-[#8F98A0] text-[10px] line-through decoration-white/20">₹{game.originalPrice}</span>
+             </div>
+             <span className="text-white text-xl font-black tracking-tight leading-none">₹{game.price}</span>
+           </div>
+
+           {/* Actions */}
+           <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
+             <button 
+                className="h-10 w-10 sm:w-auto sm:px-4 bg-[#17202d] hover:bg-[#1e2a3b] border border-[#2a3749] text-white rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 flex-shrink-0"
+                aria-label="Add to Cart"
+             >
+                <ShoppingCart className="w-5 h-5 text-[#00B4FF]" />
+                <span className="hidden sm:inline text-xs font-bold">Cart</span>
+             </button>
+
+             <motion.button 
+               whileTap={{ scale: 0.95 }}
+               onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
+               className="flex-1 h-10 bg-gradient-to-r from-[#75b022] to-[#588a1b] text-white px-4 rounded-lg font-bold text-[13px] flex items-center justify-center gap-2 shadow-lg whitespace-nowrap"
+             >
+               <MessageCircle className="w-4 h-4 fill-white/20" />
+               Buy Now
+             </motion.button>
+           </div>
+
+         </div>
       </div>
 
       <Footer />

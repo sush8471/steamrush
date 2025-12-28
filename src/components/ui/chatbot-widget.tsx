@@ -416,7 +416,7 @@ export function ChatbotWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full p-3.5 sm:p-4 shadow-xl hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-200 z-50"
+          className="fixed bottom-24 right-4 sm:bottom-6 sm:right-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full p-3.5 sm:p-4 shadow-xl hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-200 z-50"
           aria-label="Open chat"
         >
           <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={2.5} />

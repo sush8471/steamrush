@@ -7,6 +7,7 @@ import { SlidersHorizontal, X, ShoppingCart, Check } from "lucide-react";
 import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
+import { GAMES_DATABASE } from "@/data/games";
 
 type Game = {
   id: number;
@@ -609,13 +610,93 @@ const GAMES: Game[] = [
 
   {
     id: 22,
-    title: "Call of Duty Old OG Series",
-    image: "/cod-modern-warfare.jpg",
+    title: "Call of Duty 4: Modern Warfare",
+    image: "/cod-4-mw.png",
     price: "₹99",
-    originalPrice: "₹599",
-    discount: "-83%",
+    originalPrice: "₹999",
+    discount: "-90%",
     type: "FPS / TPS",
-    description: "Classic Call of Duty experience",
+    description: "The game that defined modern shooters",
+  },
+  {
+    id: 22.1,
+    title: "Call of Duty: Modern Warfare 2 (2009)",
+    image: "/cod-mw2.jpg",
+    price: "₹99",
+    originalPrice: "₹999",
+    discount: "-90%",
+    type: "FPS / TPS",
+    description: "The legendary sequel to Modern Warfare",
+  },
+  {
+    id: 22.2,
+    title: "Call of Duty: Modern Warfare 3 (2011)",
+    image: "/cod-mw3.jpg",
+    price: "₹99",
+    originalPrice: "₹999",
+    discount: "-90%",
+    type: "FPS / TPS",
+    description: "The epic conclusion to the MW trilogy",
+  },
+  {
+    id: 22.3,
+    title: "Call of Duty: World at War",
+    image: "/cod-waw.jpg",
+    price: "₹99",
+    originalPrice: "₹999",
+    discount: "-90%",
+    type: "FPS / TPS",
+    description: "Gritty WWII combat in the Pacific",
+  },
+  {
+    id: 22.4,
+    title: "Call of Duty: Black Ops",
+    image: "/cod-black-ops.jpg",
+    price: "₹99",
+    originalPrice: "₹999",
+    discount: "-90%",
+    type: "FPS / TPS",
+    description: "Covert operations during the Cold War",
+  },
+  {
+    id: 22.5,
+    title: "Call of Duty: Black Ops II",
+    image: "/cod-black-ops-2.jpg",
+    price: "₹99",
+    originalPrice: "₹1,999",
+    discount: "-95%",
+    type: "FPS / TPS",
+    description: "Future warfare and branching storylines",
+  },
+  {
+    id: 22.6,
+    title: "Call of Duty: Ghosts",
+    image: "/cod-ghosts.jpg",
+    price: "₹99",
+    originalPrice: "₹1,999",
+    discount: "-95%",
+    type: "FPS / TPS",
+    description: "Fight for a crippled nation",
+  },
+  {
+    id: 22.7,
+    title: "Call of Duty 2",
+    image: "/cod-2.jpg",
+    price: "₹99",
+    originalPrice: "₹999",
+    discount: "-90%",
+    type: "FPS / TPS",
+    description: "Intense WWII battles",
+  },
+  {
+    id: 22.8,
+    title: "Call of Duty (2003)",
+    image: "/cod-1.jpg",
+    price: "₹99",
+    originalPrice: "₹999",
+    discount: "-90%",
+    type: "FPS / TPS",
+    description: "Where it all began",
   },
   {
     id: 23,
@@ -2766,21 +2847,31 @@ export default function GamesPage() {
                       const router = useRouter();
                       const inCart = isInCart(game.id.toString());
                       
-                      // Generate link ID (slug) from title
+                      // Generate link ID (slug)
                       let linkId = "";
+                      
+                      // 1. Try to find authoritative ID from central database
+                      const cleanBrowseTitle = game.title.toLowerCase().trim();
+                      const exactGame = GAMES_DATABASE.find(g => g.title.toLowerCase().trim() === cleanBrowseTitle);
+                      // Only allow DB to contain Browse (e.g. "Dying Light 2 Stay Human" contains "Dying Light 2")
+                      // Do NOT allow Browse to contain DB (prevents "Dying Light 2" matching "Dying Light")
+                      const fuzzyGame = GAMES_DATABASE.find(g => g.title.toLowerCase().includes(cleanBrowseTitle));
+                      const dbGame = exactGame || fuzzyGame;
+                      
                       if (game.href) {
-                         // Extract the ID from the href if it exists (e.g. "/games/gta-v" -> "gta-v")
+                         // Manual override from local data
                          linkId = game.href.split('/').pop() || "";
+                      } else if (dbGame) {
+                         // Found in central DB
+                         linkId = dbGame.id;
                       } else {
-                         // Fallback map for specific titles if needed, otherwise generic slugify
+                         // Fallback: manual map or generic slug
                          if (game.title === "Grand Theft Auto V") linkId = "gta-v";
                          else if (game.title === "Red Dead Redemption 2") linkId = "rdr2";
-                         else if (game.title === "Marvel's Spider-Man Remastered") linkId = "spiderman-remastered"; 
-                         else if (game.title === "The Last of Us Part I") linkId = "last-of-us";
-                         else if (game.title.includes("State of Decay")) linkId = "state-decay-2";
-                         else if (game.title.includes("Uncharted")) linkId = "uncharted";
-                         else if (game.title.includes("Detroit")) linkId = "detroit-bh";
-                         else if (game.title.includes("Mafia: Definitive")) linkId = "mafia-de";
+                         else if (game.title.includes("Stalker 2")) linkId = "stalker-2";
+                         else if (game.title.includes("Hitman: World")) linkId = "hitman-world-assassination";
+                         else if (game.title.includes("Assassin's Creed")) linkId = game.title.toLowerCase().replace("assassin's creed", "ac").replace(/\s+/g, '-').replace(':', '');
+                         else if (game.title.includes("Call of Duty")) linkId = "cod-mw3";
                          else linkId = game.title.toLowerCase().replace(/[':]/g, '').replace(/\s+/g, '-');
                       }
 

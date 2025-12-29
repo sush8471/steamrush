@@ -1605,7 +1605,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "hades",
-    steamAppId: 1145350,
+    steamAppId: 1145360,
     title: "Hades",
     image: "/hades.png",
     price: 229,
@@ -2005,17 +2005,6 @@ export const GAMES_DATABASE: Game[] = [
     discount: "-70%",
     genre: ["Sandbox", "Survival", "Adventure"],
     tags: ["terraria", "sandbox", "survival", "crafting", "2d", "minecraft"],
-  },
-  {
-    id: "hades",
-    steamAppId: 1145360,
-    title: "Hades",
-    image: "/hades.jpg",
-    price: 249,
-    originalPrice: 899,
-    discount: "-72%",
-    genre: ["Roguelike", "Action", "Indie"],
-    tags: ["hades", "roguelike", "action", "greek mythology", "supergiant"],
   },
   {
     id: "limbo",

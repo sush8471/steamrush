@@ -1327,7 +1327,7 @@ export const GAMES_DATABASE: Game[] = [
   // === SUBNAUTICA SERIES ===
   {
     id: "subnautica",
-    steamAppId: 1962700,
+    steamAppId: 264710,
     title: "Subnautica",
     image: "/subnautica.jpg",
     price: 199,
@@ -2828,7 +2828,8 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "expedition-33",
-    title: "Expedition 33",
+    steamAppId: 1903340,
+    title: "Clair Obscur: Expedition 33",
     image: "/expedition-33.jpg",
     price: 269,
     originalPrice: 1199,

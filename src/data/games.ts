@@ -1606,15 +1606,16 @@ export const GAMES_DATABASE: Game[] = [
 
   // === DEAD ISLAND / DEAD SPACE ===
   {
-    id: "dead-island",
+    id: "dead-island-2",
     steamAppId: 934700,
-    title: "Dead Island",
-    image: "/dead-island.jpg",
+    title: "Dead Island 2",
+    image: "/dead-island.jpg", // Needs updated asset, using fallback
     price: 199,
     originalPrice: 899,
     discount: "-78%",
     genre: ["Action", "Survival", "Horror"],
-    tags: ["dead island", "zombie", "survival", "action", "coop"],
+    tags: ["dead island 2", "zombie", "survival", "action", "coop", "hella"],
+    series: "Dead Island",
   },
   {
     id: "dead-space-remake",

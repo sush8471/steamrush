@@ -2737,7 +2737,8 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "dredge",
-    title: "Dredge",
+    steamAppId: 1562430,
+    title: "DREDGE",
     image: "/dredge.jpg",
     price: 199,
     originalPrice: 899,
@@ -2747,6 +2748,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "darkwood",
+    steamAppId: 274520,
     title: "Darkwood",
     image: "/darkwood.jpg",
     price: 149,

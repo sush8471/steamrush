@@ -1039,7 +1039,7 @@ export const GAMES_DATABASE: Game[] = [
   // === LITTLE NIGHTMARES SERIES ===
   {
     id: "little-nightmares",
-    steamAppId: 1392860,
+    steamAppId: 424840,
     title: "Little Nightmares",
     image: "/little-nightmares.png",
     price: 149,
@@ -1964,7 +1964,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "blasphemous",
-    steamAppId: 2114740,
+    steamAppId: 774361,
     title: "Blasphemous",
     image: "/blasphemous.jpg",
     price: 189,
@@ -2019,7 +2019,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "inside",
-    steamAppId: 3609750,
+    steamAppId: 304430,
     title: "INSIDE",
     image: "/inside.jpg",
     price: 129,
@@ -2839,6 +2839,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "little-nightmares-ii",
+    steamAppId: 860510,
     title: "Little Nightmares II",
     image: "/little-nightmares-2.jpg",
     price: 219,
@@ -2849,6 +2850,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "little-nightmares-iii",
+    steamAppId: 1392860,
     title: "Little Nightmares III",
     image: "/little-nightmares-3.jpg",
     price: 249,
@@ -2859,6 +2861,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "the-binding-of-isaac-rebirth",
+    steamAppId: 250900,
     title: "The Binding of Isaac: Rebirth",
     image: "/binding-of-isaac.jpg",
     price: 159,
@@ -2869,6 +2872,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "absolum",
+    steamAppId: 1904480,
     title: "Absolum",
     image: "/absolum.jpg",
     price: 169,
@@ -2880,7 +2884,8 @@ export const GAMES_DATABASE: Game[] = [
 
   {
     id: "the-hundred-line-last-defense-academy",
-    title: "The Hundred Line -Last Defense Academy",
+    steamAppId: 3014080,
+    title: "The Hundred Line -Last Defense Academy-",
     image: "/hundred-line.jpg",
     price: 279,
     originalPrice: 999,
@@ -2890,6 +2895,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "skin-deep",
+    steamAppId: 301280,
     title: "Skin Deep",
     image: "/skin-deep.jpg",
     price: 139,
@@ -2900,6 +2906,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "clash-artifacts-of-chaos",
+    steamAppId: 1430680,
     title: "Clash: Artifacts of Chaos",
     image: "/clash-artifacts-of-chaos.jpg",
     price: 189,

@@ -2007,6 +2007,17 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["terraria", "sandbox", "survival", "crafting", "2d", "minecraft"],
   },
   {
+    id: "hades",
+    steamAppId: 1145360,
+    title: "Hades",
+    image: "/hades.jpg",
+    price: 249,
+    originalPrice: 899,
+    discount: "-72%",
+    genre: ["Roguelike", "Action", "Indie"],
+    tags: ["hades", "roguelike", "action", "greek mythology", "supergiant"],
+  },
+  {
     id: "limbo",
     steamAppId: 48000,
     title: "LIMBO",

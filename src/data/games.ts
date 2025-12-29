@@ -938,7 +938,7 @@ export const GAMES_DATABASE: Game[] = [
   {
     id: "resident-evil-3",
     steamAppId: 952060,
-    title: "Resident Evil 3",
+    title: "Resident Evil 3 Remake",
     image: "/resident-evil-3.jpg",
     price: 249,
     originalPrice: 1199,
@@ -950,7 +950,7 @@ export const GAMES_DATABASE: Game[] = [
   {
     id: "resident-evil-2",
     steamAppId: 883710,
-    title: "Resident Evil 2",
+    title: "Resident Evil 2 Remake",
     image: "/resident-evil-2.jpg",
     price: 249,
     originalPrice: 1199,
@@ -1065,7 +1065,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "outlast",
-    steamAppId: 1304930,
+    steamAppId: 238320,
     title: "Outlast",
     image: "/outlast.jpg",
     price: 149,
@@ -1446,6 +1446,7 @@ export const GAMES_DATABASE: Game[] = [
 
   {
     id: "dead-space-remake",
+    steamAppId: 1693980,
     title: "Dead Space Remake",
     image: "/dead-space-remake.png",
     price: 279,
@@ -2714,7 +2715,8 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "outlast-trials",
-    title: "Outlast Trials",
+    steamAppId: 1304930,
+    title: "The Outlast Trials",
     image: "/outlast-trials.jpg",
     price: 259,
     originalPrice: 1199,
@@ -2724,7 +2726,8 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "fatal-frame-maiden-of-black-water",
-    title: "Fatal Frame: Maiden of Black Water",
+    steamAppId: 1732190,
+    title: "FATAL FRAME / PROJECT ZERO: Maiden of Black Water",
     image: "/fatal-frame.jpg",
     price: 259,
     originalPrice: 1199,

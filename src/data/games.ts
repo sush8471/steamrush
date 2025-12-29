@@ -2663,6 +2663,7 @@ export const GAMES_DATABASE: Game[] = [
 
   {
     id: "planet-coaster-2",
+    steamAppId: 2688950,
     title: "Planet Coaster 2",
     image: "/planet-coaster-2.png",
     price: 329,
@@ -2673,6 +2674,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "sid-meier-s-civilization-vii",
+    steamAppId: 1295660,
     title: "Sid Meier's Civilization VII",
     image: "/civilization-vi.jpg",
     price: 349,
@@ -2683,7 +2685,8 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "total-war-pharaoh-dynasties",
-    title: "Total War: Pharaoh Dynasties",
+    steamAppId: 2951630,
+    title: "Total War: PHARAOH DYNASTIES",
     image: "/total-war-pharaoh.jpg",
     price: 299,
     originalPrice: 1699,
@@ -2759,6 +2762,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "fling-to-the-finish",
+    steamAppId: 1054430,
     title: "Fling to the Finish",
     image: "/fling-to-the-finish.jpg",
     price: 99,
@@ -2769,6 +2773,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "big-ambitions",
+    steamAppId: 1331550,
     title: "Big Ambitions",
     image: "/big-ambitions.png",
     price: 199,
@@ -2779,6 +2784,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "bakery-simulator",
+    steamAppId: 1031120,
     title: "Bakery Simulator",
     image: "/bakery-simulator.jpg",
     price: 159,
@@ -2789,6 +2795,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "drug-dealer-simulator",
+    steamAppId: 682990,
     title: "Drug Dealer Simulator",
     image: "/drug-dealer-simulator.jpg",
     price: 179,
@@ -2799,6 +2806,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "drug-dealer-simulator-2",
+    steamAppId: 1708850,
     title: "Drug Dealer Simulator 2",
     image: "/drug-dealer-simulator-2.jpg",
     price: 199,
@@ -2809,6 +2817,7 @@ export const GAMES_DATABASE: Game[] = [
   },
   {
     id: "industry-giant-4-0",
+    steamAppId: 1129570,
     title: "Industry Giant 4.0",
     image: "/industry-giant-4.jpg",
     price: 189,

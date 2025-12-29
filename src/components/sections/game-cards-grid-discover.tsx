@@ -71,7 +71,7 @@ export default function GameCardsGridDiscover() {
     },
     {
       id: 8,
-      title: "The Last of Us Part I",
+      title: "The Last of Us Part II Remastered",
       image: "/last-of-us-part-2.jpg",
       price: "₹299",
       originalPrice: "₹1,599",
@@ -158,7 +158,7 @@ export default function GameCardsGridDiscover() {
             if (game.title === "Grand Theft Auto V") linkId = "gta-v";
             else if (game.title === "Red Dead Redemption 2") linkId = "rdr2";
             else if (game.title === "Marvel's Spider-Man Remastered") linkId = "spiderman-remastered"; 
-            else if (game.title === "The Last of Us Part I") linkId = "last-of-us";
+            else if (game.title === "The Last of Us Part II Remastered") linkId = "last-of-us-part-2";
             else if (game.title.includes("State of Decay")) linkId = "state-decay-2";
             else if (game.title.includes("Uncharted")) linkId = "uncharted";
             else if (game.title.includes("Detroit")) linkId = "detroit-bh";

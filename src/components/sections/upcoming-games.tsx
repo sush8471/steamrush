@@ -1,16 +1,26 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Sparkles } from "lucide-react";
 
 export default function UpcomingGames() {
   const upcomingGames = [
+    {
+      id: 101,
+      title: "Onimusha: Way of the Sword",
+      image: "/onimusha-way-of-the-sword.jpg",
+      type: "Action",
+      badge: "Coming Soon",
+      linkId: "onimusha-way-of-the-sword"
+    },
     {
       id: 1,
       title: "Phantom Blade Ø",
       image: "/upcoming-phantom-blade.jpg",
       type: "Action",
       badge: "Coming Soon",
+      // No linkId for placeholders as they might not be in DB yet
     },
     {
       id: 2,
@@ -24,13 +34,6 @@ export default function UpcomingGames() {
       title: "Subnautica 2",
       image: "/upcoming-subnautica-2.jpg",
       type: "Survival",
-      badge: "Coming Soon",
-    },
-    {
-      id: 4,
-      title: "Resident Evil Requiem",
-      image: "/upcoming-resident-evil-requiem.jpg",
-      type: "Horror",
       badge: "Coming Soon",
     },
     {
@@ -62,31 +65,46 @@ export default function UpcomingGames() {
         </div>
 
         <div className="lg:grid lg:grid-cols-6 lg:gap-4 overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-          {upcomingGames.map((game) => (
-            <div
-              key={game.id}
-              className="group relative bg-[#1A1F3A]/40 rounded-lg overflow-hidden border border-[#2A2E4D]/50 transition-all duration-300 hover:border-[#FFD700]/30 hover:shadow-[0_0_20px_rgba(255,215,0,0.1)] cursor-default flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start"
-            >
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <Image
-                  src={game.image}
-                  alt={game.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                  sizes="(max-width: 768px) 60vw, 16vw"
-                />
-                
-                <div className="absolute top-2 right-2 bg-[#FFD700]/90 text-[#0A0E27] text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  {game.badge}
+          {upcomingGames.map((game) => {
+            const CardContent = (
+              <div
+                className="group relative bg-[#1A1F3A]/40 rounded-lg overflow-hidden border border-[#2A2E4D]/50 transition-all duration-300 hover:border-[#FFD700]/30 hover:shadow-[0_0_20px_rgba(255,215,0,0.1)] cursor-pointer flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start h-full"
+              >
+                <div className="relative aspect-[3/4] w-full overflow-hidden">
+                  <Image
+                    src={game.image}
+                    alt={game.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                    sizes="(max-width: 768px) 60vw, 16vw"
+                  />
+                  
+                  <div className="absolute top-2 right-2 bg-[#FFD700]/90 text-[#0A0E27] text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    {game.badge}
+                  </div>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                     <p className="text-white text-sm font-bold truncate">{game.title}</p>
+                     <p className="text-[#FFD700] text-xs">{game.type}</p>
+                  </div>
                 </div>
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               </div>
-            </div>
-          ))}
-        </div>
+            );
 
+            return game.linkId ? (
+              <Link key={game.id} href={`/games/${game.linkId}`} className="flex-shrink-0 snap-start">
+                {CardContent}
+              </Link>
+            ) : (
+              <div key={game.id} className="flex-shrink-0 snap-start">
+                {CardContent}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

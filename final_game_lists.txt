@@ -1,0 +1,498 @@
+=== 1. SEARCH GAMES (From Database: 247) ===
+1. A Plague Tale: Innocence
+2. A Plague Tale: Requiem
+3. A Quiet Place: The Road Ahead
+4. Absolum
+5. Alien: Isolation
+6. American Truck Simulator
+7. Amnesia: Rebirth
+8. Amnesia: The Bunker
+9. Amnesia: The Dark Descent
+10. Anno 1800
+11. Assassin's Creed Mirage
+12. Assassin's Creed Odyssey
+13. Assassin's Creed Origins
+14. Assassin's Creed Shadows
+15. Assassin's Creed Unity
+16. Assassin's Creed Valhalla
+17. Assetto Corsa
+18. Atomfall
+19. Atomic Heart
+20. Avatar: Frontiers of Pandora
+21. Back 4 Blood
+22. Bakery Simulator
+23. Batman: Arkham Origins
+24. BeamNG.drive
+25. Big Ambitions
+26. Black Myth: Wukong
+27. Blasphemous
+28. Blue Prince
+29. Borderlands 4
+30. Bus Simulator 18
+31. Call of Duty (2003)
+32. Call of Duty 2
+33. Call of Duty 4: Modern Warfare
+34. Call of Duty: Black Ops
+35. Call of Duty: Black Ops II
+36. Call of Duty: Ghosts
+37. Call of Duty: Modern Warfare 2 (2009)
+38. Call of Duty: Modern Warfare 3 (2011)
+39. Call of Duty: World at War
+40. Car Mechanic Simulator 2021
+41. Celeste
+42. Clash: Artifacts of Chaos
+43. Construction Simulator
+44. Cricket 24
+45. Cricket 26
+46. Cuphead
+47. Cyberpunk 2077
+48. Dark Souls III
+49. Darkwood
+50. Days Gone
+51. Dead Cells
+52. Dead Island 2
+53. Dead Island: Definitive Edition
+54. Dead Rising Deluxe Remaster
+55. Dead Space Remake
+56. Demon Slayer: Kimetsu no Yaiba - The Hinokami Chronicles
+57. Demon Slayer: Kimetsu no Yaiba – Sweep the Board
+58. Demon Slayer: The Hinokami Chronicles 2
+59. Detroit: Become Human
+60. Devour
+61. Disco Elysium
+62. Don't Scream
+63. Dragon Ball Sparking Zero
+64. Dragon Quest I & II HD-2D Remake
+65. Dragon's Dogma 2
+66. Dredge
+67. Drug Dealer Simulator
+68. Drug Dealer Simulator 2
+69. Dune: Awakening
+70. Dying Light
+71. Dying Light 2
+72. Dying Light: The Beast
+73. EA Sports PGA Tour
+74. Elden Ring
+75. Euro Truck Simulator
+76. Expedition 33
+77. F1 23
+78. F1 24
+79. F1 25
+80. F1 Manager 2024
+81. FC 24 (FIFA 24)
+82. FC 25 (FIFA 25)
+83. FC 26 (FIFA 26)
+84. Far Cry 3
+85. Far Cry 4
+86. Far Cry 5
+87. Far Cry 6
+88. Far Cry New Dawn
+89. Far Cry Primal
+90. Fatal Frame: Maiden of Black Water
+91. Final Fantasy Tactics: The Ivalice Chronicles
+92. Final Fantasy XV
+93. Five Nights at Freddy's 4
+94. Five Nights at Freddy's: Security Breach
+95. Fling to the Finish
+96. Football Manager 26
+97. Forza Horizon 4
+98. Forza Horizon 5
+99. GRID Legends
+100. Gas Station Simulator
+101. Ghost of Tsushima
+102. God of War
+103. God of War Ragnarök
+104. Grand Theft Auto IV
+105. Grand Theft Auto V
+106. Green Hell
+107. Hades
+108. Hades II
+109. Hi-Fi Rush
+110. Hitman World of Assassination
+111. Hogwarts Legacy
+112. Hollow Knight
+113. Hollow Knight: Silksong
+114. Horizon Forbidden West
+115. Horizon Zero Dawn
+116. House Flipper
+117. House Flipper 2
+118. INSIDE
+119. Immortals Fenyx Rising
+120. Industry Giant 4.0
+121. Katana Zero
+122. LIMBO
+123. Left 4 Dead 2
+124. Lethal Company
+125. Like a Dragon Gaiden: The Man Who Erased His Name
+126. Like a Dragon: Infinite Wealth
+127. Like a Dragon: Ishin!
+128. Like a Dragon: Pirate Yakuza in Hawaii
+129. Little Nightmares
+130. Little Nightmares II
+131. Little Nightmares III
+132. Lost Judgment
+133. Madden NFL 24
+134. Madison
+135. Mafia: Definitive Edition
+136. Mafia: The Old Country
+137. Marvel's Avengers
+138. Marvel's Guardians of the Galaxy
+139. Marvel's Midnight Suns
+140. Marvel's Spider-Man 2
+141. Marvel's Spider-Man Remastered
+142. Marvel's Spider-Man: Miles Morales
+143. Metaphor: ReFantazio
+144. Monster Hunter Wilds
+145. Mortal Kombat 1
+146. Mortal Kombat 10
+147. Mortal Kombat 11
+148. MotoGP 24
+149. My Summer Car
+150. NBA 2K23
+151. NBA 2K24
+152. NBA 2K25
+153. Need for Speed Heat
+154. Need for Speed Hot Pursuit
+155. Need for Speed Most Wanted 2012
+156. Need for Speed Payback
+157. Need for Speed Rivals
+158. Need for Speed Unbound
+159. No Man's Sky
+160. Onimusha 2: Samurai's Destiny
+161. Outlast
+162. Outlast 2
+163. Outlast Trials
+164. Persona 3 Reload
+165. Persona 4 Arena Ultimax
+166. Persona 5 Royal
+167. Persona 5 Strikers
+168. Persona 5 Tactica
+169. Phasmophobia
+170. Planet Coaster 2
+171. Poppy Playtime
+172. Prince of Persia: The Lost Crown
+173. Raft
+174. Raidou Remastered: The Mystery of the Soulless Army
+175. Ready or Not
+176. Red Dead Redemption 2
+177. Redfall
+178. Resident Evil 2
+179. Resident Evil 3
+180. Resident Evil 4
+181. Resident Evil 7: Biohazard
+182. Resident Evil Village
+183. Ride 4
+184. Ride 5
+185. Riders Republic
+186. Rise of the Tomb Raider
+187. SOMA
+188. Sekiro: Shadows Die Twice
+189. Shadow of the Tomb Raider
+190. Sid Meier's Civilization VII
+191. Silent Hill 2
+192. Silent Hill f
+193. Skin Deep
+194. Sleeping Dogs: Definitive Edition
+195. Sniper Elite: Resistance
+196. SnowRunner
+197. Sonic Racing: CrossWorlds
+198. Sons of the Forest
+199. South of Midnight
+200. Stalker 2: Heart of Chernobyl
+201. Star Wars Jedi: Fallen Order
+202. Star Wars Jedi: Survivor
+203. Star Wars Outlaws
+204. Star Wars: Squadrons
+205. Starfield
+206. State of Decay 2: Juggernaut Edition
+207. Stellar Blade Complete Edition
+208. Stranded Deep
+209. Street Fighter 6
+210. Subnautica
+211. Subnautica: Below Zero
+212. Super Robot Wars Y
+213. Supermarket Simulator
+214. Tekken 7
+215. Tekken 8
+216. Terraria
+217. The Binding of Isaac: Rebirth
+218. The Callisto Protocol
+219. The Evil Within
+220. The Evil Within 2
+221. The First Berserker: Khazan
+222. The Forest
+223. The Hundred Line -Last Defense Academy
+224. The Last of Us Part I
+225. The Last of Us Part II
+226. The Long Dark
+227. The Mortuary Assistant
+228. The Witcher 3: Wild Hunt
+229. TopSpin 2K25
+230. Total War: Pharaoh Dynasties
+231. Train Sim World 4
+232. Uncharted: Legacy of Thieves Collection
+233. Undertale
+234. Undisputed
+235. Valheim
+236. Vampire Survivors
+237. Virtua Fighter 5: Revo
+238. Visage
+239. WWE 2K23
+240. WWE 2K24
+241. WWE 2K25
+242. Watch Dogs
+243. Watch Dogs 2
+244. Watch Dogs Legion
+245. Wild Hearts
+246. Wreckfest
+247. Zombie Army Trilogy
+
+
+=== 2. BROWSE PAGE GAMES (From Stock: 247) ===
+1. A Plague Tale: Innocence
+2. A Plague Tale: Requiem
+3. A Quiet Place: The Road Ahead
+4. Absolum
+5. Alien: Isolation
+6. American Truck Simulator
+7. Amnesia: Rebirth
+8. Amnesia: The Bunker
+9. Amnesia: The Dark Descent
+10. Anno 1800
+11. Assassin's Creed Mirage
+12. Assassin's Creed Odyssey
+13. Assassin's Creed Origins
+14. Assassin's Creed Shadows
+15. Assassin's Creed Unity
+16. Assassin's Creed Valhalla
+17. Assetto Corsa
+18. Atomfall
+19. Atomic Heart
+20. Avatar: Frontiers of Pandora
+21. Back 4 Blood
+22. Bakery Simulator
+23. Batman: Arkham Origins
+24. BeamNG.drive
+25. Big Ambitions
+26. Black Myth: Wukong
+27. Blasphemous
+28. Blue Prince
+29. Borderlands 4
+30. Bus Simulator 18
+31. Call of Duty (2003)
+32. Call of Duty 2
+33. Call of Duty 4: Modern Warfare
+34. Call of Duty: Black Ops
+35. Call of Duty: Black Ops II
+36. Call of Duty: Ghosts
+37. Call of Duty: Modern Warfare 2 (2009)
+38. Call of Duty: Modern Warfare 3 (2011)
+39. Call of Duty: World at War
+40. Car Mechanic Simulator 2021
+41. Celeste
+42. Clash: Artifacts of Chaos
+43. Construction Simulator
+44. Cricket 24
+45. Cricket 26
+46. Cuphead
+47. Cyberpunk 2077
+48. Dark Souls III
+49. Darkwood
+50. Days Gone
+51. Dead Cells
+52. Dead Island 2
+53. Dead Island: Definitive Edition
+54. Dead Rising Deluxe Remaster
+55. Dead Space Remake
+56. Demon Slayer: Kimetsu no Yaiba – Sweep the Board
+57. Demon Slayer: Kimetsu no Yaiba – The Hinokami Chronicles
+58. Demon Slayer: The Hinokami Chronicles 2
+59. Detroit: Become Human
+60. Devour
+61. Disco Elysium
+62. Don't Scream
+63. Dragon Ball Sparking Zero
+64. Dragon Quest I & II HD-2D Remake
+65. Dragon's Dogma 2
+66. Dredge
+67. Drug Dealer Simulator
+68. Drug Dealer Simulator 2
+69. Dune: Awakening
+70. Dying Light
+71. Dying Light 2
+72. Dying Light: The Beast
+73. EA Sports PGA Tour
+74. Elden Ring
+75. Euro Truck Simulator
+76. Expedition 33
+77. F1 23
+78. F1 24
+79. F1 25
+80. F1 Manager 2024
+81. FC 24 (FIFA 24)
+82. FC 25 (FIFA 25)
+83. FC 26 (FIFA 26)
+84. Far Cry 3
+85. Far Cry 4
+86. Far Cry 5
+87. Far Cry 6
+88. Far Cry New Dawn
+89. Far Cry Primal
+90. Fatal Frame: Maiden of Black Water
+91. Final Fantasy Tactics: The Ivalice Chronicles
+92. Final Fantasy XV
+93. Five Nights at Freddy's 4
+94. Five Nights at Freddy's: Security Breach
+95. Fling to the Finish
+96. Football Manager 26
+97. Forza Horizon 4
+98. Forza Horizon 5
+99. GRID Legends
+100. Gas Station Simulator
+101. Ghost of Tsushima
+102. God of War
+103. God of War Ragnarök
+104. Grand Theft Auto IV: Complete Edition
+105. Grand Theft Auto V
+106. Green Hell
+107. Hades
+108. Hades II
+109. Hi-Fi Rush
+110. Hitman: World of Assassination
+111. Hogwarts Legacy
+112. Hollow Knight
+113. Hollow Knight: Silksong
+114. Horizon Forbidden West
+115. Horizon Zero Dawn
+116. House Flipper
+117. House Flipper 2
+118. Immortals Fenyx Rising
+119. Industry Giant 4.0
+120. Inside
+121. Katana ZERO
+122. Left 4 Dead 2
+123. Lethal Company
+124. Like a Dragon Gaiden: The Man Who Erased His Name
+125. Like a Dragon: Infinite Wealth
+126. Like a Dragon: Ishin!
+127. Like a Dragon: Pirate Yakuza in Hawaii
+128. Limbo
+129. Little Nightmares
+130. Little Nightmares II
+131. Little Nightmares III
+132. Lost Judgment
+133. MADiSON
+134. Madden NFL 24
+135. Mafia: Definitive Edition
+136. Mafia: The Old Country
+137. Marvel's Avengers
+138. Marvel's Guardians of the Galaxy
+139. Marvel's Midnight Suns
+140. Marvel's Spider-Man 2
+141. Marvel's Spider-Man Remastered
+142. Marvel's Spider-Man: Miles Morales
+143. Metaphor: ReFantazio
+144. Monster Hunter Wilds
+145. Mortal Kombat 1
+146. Mortal Kombat 10
+147. Mortal Kombat 11
+148. MotoGP 24
+149. My Summer Car
+150. NBA 2K23
+151. NBA 2K24
+152. NBA 2K25
+153. Need for Speed Heat
+154. Need for Speed Hot Pursuit Remastered
+155. Need for Speed Most Wanted 2012
+156. Need for Speed Payback
+157. Need for Speed Rivals
+158. Need for Speed Unbound
+159. No Man's Sky
+160. Onimusha 2: Samurai's Destiny
+161. Outlast
+162. Outlast 2
+163. Outlast Trials
+164. Persona 3 Reload
+165. Persona 4 Arena Ultimax
+166. Persona 5 Royal
+167. Persona 5 Strikers
+168. Persona 5 Tactica
+169. Phasmophobia
+170. Planet Coaster 2
+171. Poppy Playtime
+172. Prince of Persia: The Lost Crown
+173. Raft
+174. Raidou Remastered: The Mystery of the Soulless Army
+175. Ready or Not
+176. Red Dead Redemption 2
+177. Redfall
+178. Resident Evil 2 Remake
+179. Resident Evil 3 Remake
+180. Resident Evil 4 Remake
+181. Resident Evil 7: Biohazard
+182. Resident Evil Village
+183. Ride 4
+184. Ride 5
+185. Riders Republic
+186. Rise of the Tomb Raider
+187. SOMA
+188. Sekiro: Shadows Die Twice
+189. Shadow of the Tomb Raider
+190. Sid Meier's Civilization VII
+191. Silent Hill 2 Remake
+192. Silent Hill f
+193. Skin Deep
+194. Sleeping Dogs: Definitive Edition
+195. Sniper Elite: Resistance
+196. SnowRunner
+197. Sonic Racing: CrossWorlds
+198. Sons of the Forest
+199. South of Midnight
+200. Stalker 2: Heart of Chernobyl
+201. Star Wars Jedi: Fallen Order
+202. Star Wars Jedi: Survivor
+203. Star Wars Outlaws
+204. Star Wars: Squadrons
+205. Starfield
+206. State of Decay 2: Juggernaut Edition
+207. Stellar Blade Complete Edition
+208. Stranded Deep
+209. Street Fighter 6
+210. Subnautica
+211. Subnautica: Below Zero
+212. Super Robot Wars Y
+213. Supermarket Simulator
+214. Tekken 7
+215. Tekken 8
+216. Terraria
+217. The Binding of Isaac: Rebirth
+218. The Callisto Protocol
+219. The Evil Within
+220. The Evil Within 2
+221. The First Berserker: Khazan
+222. The Forest
+223. The Hundred Line -Last Defense Academy
+224. The Last of Us Part I
+225. The Last of Us Part II
+226. The Long Dark
+227. The Mortuary Assistant
+228. The Witcher 3: Wild Hunt
+229. TopSpin 2K25
+230. Total War: Pharaoh Dynasties
+231. Train Sim World 4
+232. Uncharted: Legacy of Thieves Collection
+233. Undertale
+234. Undisputed
+235. Valheim
+236. Vampire Survivors
+237. Virtua Fighter 5: Revo
+238. Visage
+239. WWE 2K23
+240. WWE 2K24
+241. WWE 2K25
+242. Watch Dogs
+243. Watch Dogs 2
+244. Watch Dogs Legion
+245. Wild Hearts
+246. Wreckfest
+247. Zombie Army Trilogy

@@ -759,6 +759,16 @@ const GAMES: Game[] = [
     description: "Tropical island zombie apocalypse",
   },
   {
+    id: 27.5,
+    title: "Dead Island 2",
+    image: "/dead-island-2.jpg",
+    price: "₹199",
+    originalPrice: "₹899",
+    discount: "-78%",
+    type: "FPS / TPS",
+    description: "Zombie slayer saga continues",
+  },
+  {
     id: 28,
     title: "Zombie Army Trilogy",
     image:
@@ -1113,7 +1123,7 @@ const GAMES: Game[] = [
   },
   {
     id: 43,
-    title: "Need for Speed Most Wanted 2012",
+    title: "Need for Speed Most Wanted",
     image: "/nfs-most-wanted.jpg",
     price: "₹169",
     originalPrice: "₹699",
@@ -1194,7 +1204,7 @@ const GAMES: Game[] = [
   },
   {
     id: 52,
-    title: "Euro Truck Simulator",
+    title: "Euro Truck Simulator 2",
     image: "/euro-truck-simulator-2.jpg",
     price: "₹149",
     originalPrice: "₹699",
@@ -1264,7 +1274,7 @@ const GAMES: Game[] = [
   },
   {
     id: 227,
-    title: "Need for Speed Hot Pursuit Remastered",
+    title: "Need for Speed Hot Pursuit",
     image: "/need-for-speed-hot-pursuit.jpg",
     price: "₹199",
     originalPrice: "₹999",
@@ -1272,16 +1282,7 @@ const GAMES: Game[] = [
     type: "Racing / Vehicle Simulators",
     description: "Remastered classic cop vs racer",
   },
-  {
-    id: 228,
-    title: "F1 23",
-    image: "/f1-23.jpg",
-    price: "₹279",
-    originalPrice: "₹1,499",
-    discount: "-81%",
-    type: "Racing / Vehicle Simulators",
-    description: "Official F1 racing simulation 2023",
-  },
+
   {
     id: 229,
     title: "F1 24",
@@ -1335,7 +1336,7 @@ const GAMES: Game[] = [
 
   {
     id: 58,
-    title: "Mortal Kombat 10",
+    title: "Mortal Kombat X",
     image: "/mortal-kombat-x.jpg",
     price: "₹149",
     originalPrice: "₹799",
@@ -1385,7 +1386,7 @@ const GAMES: Game[] = [
   },
   {
     id: 63,
-    title: "Dragon Ball Sparking Zero",
+    title: "DRAGON BALL: Sparking! ZERO",
     image: "/dragon-ball-sparking-zero.png",
     price: "₹299",
     originalPrice: "₹1,299",
@@ -1395,7 +1396,7 @@ const GAMES: Game[] = [
   },
   {
     id: 64,
-    title: "Virtua Fighter 5: Revo",
+    title: "Virtua Fighter 5 R.E.V.O. World Stage",
     image: "/virtua-fighter-5.jpg",
     price: "₹199",
     originalPrice: "₹999",
@@ -1415,7 +1416,7 @@ const GAMES: Game[] = [
   },
   {
     id: 235,
-    title: "Demon Slayer: Kimetsu no Yaiba – The Hinokami Chronicles",
+    title: "Demon Slayer -Kimetsu no Yaiba- The Hinokami Chronicles",
     image: "/demon-slayer-hinokami-chronicles.jpg",
     price: "₹279",
     originalPrice: "₹1,499",
@@ -1423,19 +1424,10 @@ const GAMES: Game[] = [
     type: "Fighting",
     description: "Anime fighting game with demon slayers",
   },
-  {
-    id: 236,
-    title: "Demon Slayer: Kimetsu no Yaiba – Sweep the Board",
-    image: "/demon-slayer-sweep-the-board.jpg",
-    price: "₹249",
-    originalPrice: "₹1,199",
-    discount: "-79%",
-    type: "Fighting",
-    description: "Board game style Demon Slayer adventure",
-  },
+
   {
     id: 237,
-    title: "Demon Slayer: The Hinokami Chronicles 2",
+    title: "Demon Slayer -Kimetsu no Yaiba- The Hinokami Chronicles 2",
     image: "/demon-slayer-hinokami-chronicles-2.jpg",
     price: "₹299",
     originalPrice: "₹1,599",
@@ -1445,7 +1437,7 @@ const GAMES: Game[] = [
   },
   {
     id: 238,
-    title: "Super Robot Wars Y",
+    title: "SUPER ROBOT WARS Y",
     image: "/super-robot-wars-y.jpg",
     price: "₹299",
     originalPrice: "₹1,699",
@@ -1517,7 +1509,7 @@ const GAMES: Game[] = [
   },
   {
     id: 165,
-    title: "FC 26 (FIFA 26)",
+    title: "EA SPORTS FC™ 26",
     image: "/fc-26.jpg",
     price: "₹299",
     originalPrice: "₹2,199",
@@ -1527,7 +1519,7 @@ const GAMES: Game[] = [
   },
   {
     id: 166,
-    title: "FC 25 (FIFA 25)",
+    title: "EA SPORTS FC™ 25",
     image: "/fc-25.jpg",
     price: "₹279",
     originalPrice: "₹1,999",
@@ -1585,6 +1577,32 @@ const GAMES: Game[] = [
     type: "Sports",
     description: "Latest NBA basketball game",
   },
+  
+  // New Additions
+
+  {
+    id: 302,
+    title: "Dune: Awakening",
+    image: "/dune-awakening.jpg",
+    price: "₹349",
+    originalPrice: "₹2,499",
+    discount: "-84%",
+    type: "Exploration / Survival",
+    description: "Survive Arrakis in this MMO",
+    href: "/games/dune-awakening"
+  },
+  {
+    id: 303,
+    title: "South of Midnight",
+    image: "/south-of-midnight.jpg",
+    price: "₹349",
+    originalPrice: "₹2,499",
+    discount: "-86%",
+    type: "Action-Adventure / Open-World",
+    description: "Southern gothic action adventure",
+    href: "/games/south-of-midnight"
+  },
+
   {
     id: 171.5,
     title: "NBA 2K25",
@@ -1728,7 +1746,7 @@ const GAMES: Game[] = [
   },
   {
     id: 73,
-    title: "Resident Evil 4 Remake",
+    title: "Resident Evil 4",
     image: "/resident-evil-4.png",
     price: "₹279",
     originalPrice: "₹1,299",
@@ -1738,7 +1756,7 @@ const GAMES: Game[] = [
   },
   {
     id: 74,
-    title: "Resident Evil 7: Biohazard",
+    title: "Resident Evil 7 Biohazard",
     image: "/resident-evil-7.jpg",
     price: "₹199",
     originalPrice: "₹899",
@@ -1758,7 +1776,7 @@ const GAMES: Game[] = [
   },
   {
     id: 76,
-    title: "Silent Hill 2 Remake",
+    title: "SILENT HILL 2",
     image: "/silent-hill-2.jpg",
     price: "₹299",
     originalPrice: "₹1,499",
@@ -2442,16 +2460,7 @@ const GAMES: Game[] = [
     type: "Indie",
     description: "Precision platformer roguelike",
   },
-  {
-    id: 153,
-    title: "Blue Prince",
-    image: "/blue-prince.jpg",
-    price: "₹149",
-    originalPrice: "₹599",
-    discount: "-75%",
-    type: "Indie",
-    description: "Tactical roguelike dungeon crawler",
-  },
+
   {
     id: 154,
     title: "The Hundred Line -Last Defense Academy",
@@ -2481,6 +2490,16 @@ const GAMES: Game[] = [
     discount: "-76%",
     type: "Indie",
     description: "Unique brawler in surreal world",
+  },
+  {
+    id: 157,
+    title: "Forza Motorsport",
+    image: "/forza-motorsport.jpg",
+    price: "₹299",
+    originalPrice: "₹3,999",
+    discount: "-92%",
+    type: "Racing / Vehicle Simulators",
+    description: "Realistic racing simulation with over 500 cars",
   },
 ];
 
@@ -2842,7 +2861,7 @@ export default function GamesPage() {
                   </div>
 
                   <div className="lg:grid lg:grid-cols-6 lg:gap-4 overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-                    {section.games.map((game) => {
+                    {section.games.filter(g => g.title !== "Dead Island").map((game) => {
                       const { addToCart, isInCart } = useCart();
                       const router = useRouter();
                       const inCart = isInCart(game.id.toString());

@@ -125,7 +125,7 @@ export default function GameDetailPage() {
   // Data Processing
   const minRequirements = steamData?.pcRequirements?.minimum ? parseSystemRequirements(steamData.pcRequirements.minimum) : null;
   const recRequirements = steamData?.pcRequirements?.recommended ? parseSystemRequirements(steamData.pcRequirements.recommended) : null;
-  const screenshots = steamData?.screenshots?.map(s => s.pathFull).filter(Boolean) || [];
+  const screenshots = steamData?.screenshots?.map(s => s.pathFull).filter(Boolean).slice(0, 15) || [];
   const headerImage = steamData?.headerImage || game.image;
   // Use only screenshots for the gallery to avoid redundancy with the poster card
   const allGalleryImages = screenshots.length > 0 ? screenshots : [headerImage];

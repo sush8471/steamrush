@@ -20,7 +20,7 @@ export default function UpcomingGames() {
       image: "/upcoming-phantom-blade.jpg",
       type: "Action",
       badge: "Coming Soon",
-      // No linkId for placeholders as they might not be in DB yet
+      linkId: "phantom-blade-zero"
     },
     {
       id: 2,
@@ -28,6 +28,7 @@ export default function UpcomingGames() {
       image: "/upcoming-reanimal.jpg",
       type: "Horror",
       badge: "Coming Soon",
+      linkId: "reanimal"
     },
     {
       id: 3,
@@ -35,13 +36,23 @@ export default function UpcomingGames() {
       image: "/upcoming-subnautica-2.jpg",
       type: "Survival",
       badge: "Coming Soon",
+      linkId: "subnautica-2"
     },
     {
-      id: 5,
+      id: 4,
       title: "Pragmata",
       image: "/upcoming-pragmata.jpg",
       type: "Sci-Fi",
       badge: "Coming Soon",
+      linkId: "pragmata"
+    },
+    {
+      id: 5,
+      title: "Resident Evil: Requiem",
+      image: "/resident-evil-requiem.jpg",
+      type: "Horror",
+      badge: "Coming Soon",
+      linkId: "resident-evil-requiem"
     },
   ];
 

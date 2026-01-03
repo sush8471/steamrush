@@ -5,21 +5,22 @@ import { useCart } from '@/context/CartContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Trash2, ShoppingBag, ArrowLeft } from 'lucide-react'
-import { FaWhatsapp } from 'react-icons/fa'
+import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import SteamRushNavbar from '@/components/sections/steamrush-navbar'
 import Footer from '@/components/sections/footer'
-import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card'
 
 export default function CartPage() {
   const { cart, removeFromCart, totalPrice, clearCart, itemCount } = useCart()
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [orderId, setOrderId] = useState('')
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false)
 
   const handleCheckoutClick = () => {
     // Generate order ID
     const newOrderId = `SR${Date.now().toString().slice(-8)}`
     setOrderId(newOrderId)
+    setPaymentConfirmed(false) // Reset confirmation when opening modal
     setShowConfirmation(true)
   }
 
@@ -30,6 +31,25 @@ export default function CartPage() {
     
     const whatsappUrl = `https://wa.me/917752805529?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
+    
+    // Close confirmation modal
+    setShowConfirmation(false)
+  }
+
+  const handleInstagramRedirect = () => {
+    const message = `🎮 Steam Rush Order ${orderId}\n\n📦 Games (${itemCount}):\n${
+      cart.map((item, i) => `${i + 1}. ${item.name} - ₹${item.price}`).join('\n')
+    }\n\n💰 Total: ₹${totalPrice}\n\nI'd like to proceed with this order!`
+    
+    // Open Instagram profile - user can then send DM with order details
+    window.open('https://www.instagram.com/steamrush_official', '_blank')
+    
+    // Copy order details to clipboard for easy pasting
+    navigator.clipboard.writeText(message).then(() => {
+      console.log('Order details copied to clipboard!')
+    }).catch(err => {
+      console.error('Failed to copy:', err)
+    })
     
     // Close confirmation modal
     setShowConfirmation(false)
@@ -199,7 +219,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* Order Confirmation Modal */}
+      {/* Payment Confirmation Modal */}
       <AnimatePresence>
         {showConfirmation && (
           <motion.div
@@ -214,23 +234,131 @@ export default function CartPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md bg-[#1A1F3A] border border-[#2A2E4D] rounded-2xl overflow-hidden shadow-2xl"
             >
-              <OrderConfirmationCard
-                orderId={orderId}
-                paymentMethod="WhatsApp Payment"
-                dateTime={new Date().toLocaleString('en-IN', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: true
-                })}
-                totalAmount={`₹${totalPrice}`}
-                onGoToAccount={handleWhatsAppRedirect}
-                title="Your order is ready!"
-                buttonText="Continue to WhatsApp"
-              />
+              {/* Scrollable Content */}
+              <div className="max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
+                <div className="p-8 space-y-6">
+                  {/* Header */}
+                  <div className="text-center space-y-2">
+                    <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h2 className="text-2xl font-bold text-white">Order Ready!</h2>
+                    <p className="text-[#B0B8D0] text-sm">Complete your payment to get instant access</p>
+                  </div>
+
+                  {/* Order Details */}
+                  <div className="bg-[#0A0E27]/50 rounded-lg p-4 space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#B0B8D0]">Order ID</span>
+                      <span className="text-white font-semibold">{orderId}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#B0B8D0]">Items</span>
+                      <span className="text-white font-semibold">{itemCount}</span>
+                    </div>
+                    <div className="flex justify-between items-center pt-3 border-t border-[#2A2E4D]">
+                      <span className="text-white font-bold">Total</span>
+                      <span className="text-2xl font-bold text-[#00B4FF]">₹{totalPrice}</span>
+                    </div>
+                  </div>
+
+                  {/* QR Code Section */}
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <p className="text-sm text-[#B0B8D0] mb-4">Scan QR Code to Pay via UPI</p>
+                      
+                      <div className="bg-white p-4 rounded-xl inline-block">
+                        <Image
+                          src="/payment-qr.png"
+                          alt="Payment QR Code"
+                          width={200}
+                          height={200}
+                          className="w-full h-auto"
+                          priority
+                        />
+                      </div>
+
+                      {/* UPI ID */}
+                      <div className="mt-4 px-4 py-3 bg-[#0A0E27]/50 rounded-lg">
+                        <p className="text-xs text-[#B0B8D0] mb-1">UPI ID</p>
+                        <p className="text-sm text-white font-mono font-semibold">sushantcha00123@okicici</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Payment Confirmation Checkbox */}
+                  <div className="bg-[#0A0E27]/30 border border-[#2A2E4D] rounded-lg p-4">
+                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <div className="relative flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={paymentConfirmed}
+                          onChange={(e) => setPaymentConfirmed(e.target.checked)}
+                          className="w-5 h-5 rounded border-2 border-[#2A2E4D] bg-transparent checked:bg-[#00B4FF] checked:border-[#00B4FF] cursor-pointer transition-all focus:ring-2 focus:ring-[#00B4FF]/50 focus:ring-offset-2 focus:ring-offset-[#1A1F3A]"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-white font-medium group-hover:text-[#00B4FF] transition-colors">
+                          I have completed the payment
+                        </p>
+                        <p className="text-xs text-[#B0B8D0] mt-1">
+                          Please check this box after making the UPI payment to proceed
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-[#2A2E4D]"></div>
+                    </div>
+                    <div className="relative flex justify-center">
+                      <span className="px-4 text-xs text-[#B0B8D0] bg-[#1A1F3A]">THEN</span>
+                    </div>
+                  </div>
+
+                  {/* WhatsApp Button */}
+                  <button
+                    onClick={handleWhatsAppRedirect}
+                    disabled={!paymentConfirmed}
+                    className={`w-full py-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
+                      paymentConfirmed
+                        ? 'bg-[#25D366] text-white hover:bg-[#20BA5A] cursor-pointer'
+                        : 'bg-[#2A2E4D] text-[#4A5568] cursor-not-allowed opacity-50'
+                    }`}
+                  >
+                    <FaWhatsapp className="h-5 w-5" />
+                    {paymentConfirmed ? 'Continue to WhatsApp' : 'Confirm Payment First'}
+                  </button>
+
+                  {/* Instagram Button */}
+                  <button
+                    onClick={handleInstagramRedirect}
+                    disabled={!paymentConfirmed}
+                    className={`w-full py-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
+                      paymentConfirmed
+                        ? 'bg-gradient-to-r from-[#833AB4] via-[#C13584] to-[#E1306C] text-white hover:opacity-90 cursor-pointer'
+                        : 'bg-[#2A2E4D] text-[#4A5568] cursor-not-allowed opacity-50'
+                    }`}
+                  >
+                    <FaInstagram className="h-5 w-5" />
+                    {paymentConfirmed ? 'Contact via Instagram' : 'Confirm Payment First'}
+                  </button>
+
+                  {/* Info Text */}
+                  <p className="text-xs text-[#B0B8D0] text-center">
+                    {paymentConfirmed 
+                      ? 'Choose WhatsApp or Instagram to share your order details for game delivery' 
+                      : 'Complete payment and check the box above to continue'
+                    }
+                  </p>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}

@@ -3,9 +3,9 @@ export interface Game {
   steamAppId?: number; // Steam App ID for API integration
   title: string;
   image: string;
-  price: number; // Numeric for filtering/sorting
-  originalPrice: number;
-  discount: string;
+  price: number | "N/A"; // Numeric for released games, "N/A" for upcoming
+  originalPrice?: number;
+  discount?: string;
   genre: string[]; // Array for multiple genres
   tags: string[]; // For better search (abbreviations, alternate names, series)
   series?: string; // Game series name for grouping
@@ -2934,9 +2934,7 @@ export const GAMES_DATABASE: Game[] = [
     steamAppId: 2638890,
     title: "Onimusha: Way of the Sword",
     image: "/onimusha-way-of-the-sword.jpg",
-    price: 349,
-    originalPrice: 2499,
-    discount: "-86%",
+    price: "N/A",
     genre: ["Action", "Adventure"],
     tags: ["onimusha", "samurai", "capcom", "action", "adventure"],
     series: "Onimusha",
@@ -2946,9 +2944,7 @@ export const GAMES_DATABASE: Game[] = [
     steamAppId: 4115450,
     title: "Phantom Blade Ø",
     image: "/upcoming-phantom-blade.jpg",
-    price: 349,
-    originalPrice: 2499,
-    discount: "-86%",
+    price: "N/A",
     genre: ["Action", "RPG"],
     tags: ["phantom blade", "action", "rpg", "kung fu"],
   },
@@ -2957,9 +2953,7 @@ export const GAMES_DATABASE: Game[] = [
     steamAppId: 2129530,
     title: "Reanimal",
     image: "/upcoming-reanimal.jpg",
-    price: 349,
-    originalPrice: 2499,
-    discount: "-86%",
+    price: "N/A",
     genre: ["Horror", "Adventure"],
     tags: ["reanimal", "horror", "adventure", "tarsier studios"],
   },
@@ -2968,9 +2962,7 @@ export const GAMES_DATABASE: Game[] = [
     steamAppId: 1962700,
     title: "Subnautica 2",
     image: "/upcoming-subnautica-2.jpg",
-    price: 349,
-    originalPrice: 2499,
-    discount: "-86%",
+    price: "N/A",
     genre: ["Survival", "Open-World", "Adventure"],
     tags: ["subnautica", "underwater", "survival", "exploration", "ocean"],
     series: "Subnautica",
@@ -2980,9 +2972,7 @@ export const GAMES_DATABASE: Game[] = [
     steamAppId: 3357650,
     title: "Pragmata",
     image: "/upcoming-pragmata.jpg",
-    price: 349,
-    originalPrice: 2499,
-    discount: "-86%",
+    price: "N/A",
     genre: ["Sci-Fi", "Action"],
     tags: ["pragmata", "capcom", "sci-fi", "action", "futuristic"],
   },
@@ -2991,9 +2981,7 @@ export const GAMES_DATABASE: Game[] = [
     steamAppId: 3764200,
     title: "Resident Evil: Requiem",
     image: "/resident-evil-requiem.jpg",
-    price: 349,
-    originalPrice: 2499,
-    discount: "-86%",
+    price: "N/A",
     genre: ["Horror", "Action", "Survival"],
     tags: ["resident evil", "re", "horror", "survival", "capcom", "zombie"],
     series: "Resident Evil",

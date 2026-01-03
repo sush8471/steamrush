@@ -34,7 +34,7 @@ export default function Home() {
             text={[
               "India's Largest Offline Activation Steam Store",
               "Most Affordable Gaming Destination",
-              "Instant Delivery via WhatsApp"
+              "Instant Game Delivery"
             ]}
             speed={80}
             deleteSpeed={50}
@@ -49,7 +49,7 @@ export default function Home() {
             PC Games Today
           </>
         }
-        description="Original Steam games delivered instantly via WhatsApp. Easy payment, fast delivery, trusted by thousands."
+        description="Original Steam games delivered instantly. Easy payment, fast delivery, trusted by hundreds."
         ctaText="Browse Games"
         images={GAME_POSTERS}
       />
@@ -60,7 +60,6 @@ export default function Home() {
       </div>
       <ComboDealSection />
       <SocialProof />
-      <WhatsAppCTA variant="secondary" title="Found Your Game?" description="" />
 
       <UpcomingGames />
       <div id="faq">

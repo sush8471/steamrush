@@ -36,9 +36,25 @@ next-env.d.ts
 # bun
 .bun
 
-# test scripts
-test-db-connection.js
-check-current-state.js
-fix-categorization.js
-find-titles.js
-verify-sections.js
+# documentation (keep README.md only)
+*_SETUP.md
+*_GUIDE.md
+*_COMPLETE.md
+*_FIX.md
+*_SUMMARY.md
+*_ENHANCEMENT.md
+
+# test/debug scripts
+test-*.js
+check-*.js
+fix-*.js
+verify-*.js
+find-*.js
+*.ps1
+
+# SQL migration files
+*.sql
+/supabase/
+
+# unused scripts
+/scripts/

@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
-    const appId = searchParams.get('appid');
+    // Accept both 'appId' (camelCase) and 'appid' (lowercase) for compatibility
+    const appId = searchParams.get('appId') || searchParams.get('appid');
 
     if (!appId) {
         return NextResponse.json(
@@ -28,15 +29,9 @@ export async function GET(request: NextRequest) {
 
         const data = await response.json();
 
-        // Check if the game data exists
-        if (!data[appId] || !data[appId].success) {
-            return NextResponse.json(
-                { error: 'Game not found on Steam' },
-                { status: 404 }
-            );
-        }
-
-        return NextResponse.json(data[appId].data);
+        // Return the full Steam API response format
+        // The client expects: { "appId": { "success": true, "data": {...} } }
+        return NextResponse.json(data);
     } catch (error) {
         console.error('Steam API Error:', error);
         return NextResponse.json(

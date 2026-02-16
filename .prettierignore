@@ -1,0 +1,24 @@
+# Ignore build outputs
+.next/
+out/
+build/
+dist/
+
+# Ignore dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+bun.lock
+pnpm-lock.yaml
+
+# Ignore cache
+.cache/
+.turbo/
+
+# Ignore generated files
+*.min.js
+*.min.css

@@ -1,16 +1,18 @@
 "use client";
 
+import { lazy, Suspense } from "react";
 import { AnimatedMarqueeHero } from "@/components/ui/hero-3";
 import HowItWorks from "@/components/sections/how-it-works";
-import WhatsAppCTA from "@/components/sections/whatsapp-cta";
 import GameCardsGridDiscover from "@/components/sections/game-cards-grid-discover";
-import ComboDealSection from "@/components/sections/combo-deals";
 import SocialProof from "@/components/sections/social-proof";
-import UpcomingGames from "@/components/sections/upcoming-games";
-import FAQ from "@/components/sections/faq";
-import Footer from "@/components/sections/footer";
 import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import { Typewriter } from "@/components/ui/typewriter-text";
+
+// Lazy load non-critical sections for better initial load performance
+const ComboDealSection = lazy(() => import("@/components/sections/combo-deals"));
+const UpcomingGames = lazy(() => import("@/components/sections/upcoming-games"));
+const FAQ = lazy(() => import("@/components/sections/faq"));
+const Footer = lazy(() => import("@/components/sections/footer"));
 
 const GAME_POSTERS = [
   "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/image-1765891250718.png?width=8000&height=8000&resize=contain",
@@ -58,14 +60,22 @@ export default function Home() {
       <div id="hot-deals">
         <GameCardsGridDiscover />
       </div>
-      <ComboDealSection />
+      <Suspense fallback={<div className="h-96 bg-[#0A0E27]" />}>
+        <ComboDealSection />
+      </Suspense>
       <SocialProof />
 
-      <UpcomingGames />
+      <Suspense fallback={<div className="h-96 bg-[#0A0E27]" />}>
+        <UpcomingGames />
+      </Suspense>
       <div id="faq">
-        <FAQ />
+        <Suspense fallback={<div className="h-64 bg-[#0A0E27]" />}>
+          <FAQ />
+        </Suspense>
       </div>
-      <Footer />
+      <Suspense fallback={<div className="h-32 bg-[#0A0E27]" />}>
+        <Footer />
+      </Suspense>
     </main>
   );
 }

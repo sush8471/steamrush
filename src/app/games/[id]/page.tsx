@@ -8,8 +8,7 @@ import { ArrowLeft, ChevronDown, MessageCircle, Check, Monitor, Share2, ChevronL
 import SteamRushNavbar from "@/components/sections/steamrush-navbar";
 import Footer from "@/components/sections/footer";
 import { getSteamGameDetails, parseSystemRequirements, type SteamGameDetails } from "@/lib/steam-api";
-import { getGameBySlug, getGames } from "@/lib/supabase/queries";
-import type { Game } from "@/lib/supabase/types";
+import { getGameBySlug, getGames, type Game } from "@/lib/local-db";
 import { useCart } from "@/context/CartContext";
 import { motion, Variants } from "framer-motion";
 import ThumbnailCarousel from "@/components/ui/thumbnail-carousel";

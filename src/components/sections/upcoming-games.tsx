@@ -57,10 +57,10 @@ export default function UpcomingGames() {
           </div>
         </div>
 
-        <div ref={scrollContainerRef} className="lg:grid lg:grid-cols-6 lg:gap-4 overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
+        <div ref={scrollContainerRef} className="overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
           {upcomingGames.length === 0 ? (
             // Empty state
-            <div className="col-span-6 text-center py-12">
+            <div className="w-full text-center py-12">
               <p className="text-gray-400 text-lg">No upcoming games at the moment</p>
               <p className="text-gray-500 text-sm mt-2">Check back soon for new releases!</p>
             </div>
@@ -68,7 +68,7 @@ export default function UpcomingGames() {
             upcomingGames.map((game) => {
               const CardContent = (
                 <div
-                  className="group relative bg-[#1A1F3A]/40 rounded-lg overflow-hidden border border-[#2A2E4D]/50 transition-all duration-300 hover:border-[#FFD700]/30 hover:shadow-[0_0_20px_rgba(255,215,0,0.1)] cursor-pointer flex-shrink-0 w-[60vw] max-w-[240px] lg:w-full snap-start h-full"
+                  className="group relative bg-[#1A1F3A]/40 rounded-lg overflow-hidden border border-[#2A2E4D]/50 transition-all duration-300 hover:border-[#FFD700]/30 hover:shadow-[0_0_20px_rgba(255,215,0,0.1)] cursor-pointer flex-shrink-0 w-[60vw] max-w-[240px] snap-start h-full"
                 >
                   <div className="relative aspect-[3/4] w-full overflow-hidden">
                     <Image

@@ -10,6 +10,7 @@ import { Typewriter } from "@/components/ui/typewriter-text";
 
 // Lazy load non-critical sections for better initial load performance
 const ComboDealSection = lazy(() => import("@/components/sections/combo-deals"));
+const RecentlyLaunched = lazy(() => import("@/components/sections/recently-launched"));
 const UpcomingGames = lazy(() => import("@/components/sections/upcoming-games"));
 const FAQ = lazy(() => import("@/components/sections/faq"));
 const Footer = lazy(() => import("@/components/sections/footer"));
@@ -65,6 +66,9 @@ export default function Home() {
       </Suspense>
       <SocialProof />
 
+      <Suspense fallback={<div className="h-96 bg-[#0A0E27]" />}>
+        <RecentlyLaunched />
+      </Suspense>
       <Suspense fallback={<div className="h-96 bg-[#0A0E27]" />}>
         <UpcomingGames />
       </Suspense>

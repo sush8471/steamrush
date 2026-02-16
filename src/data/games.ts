@@ -1138,7 +1138,7 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["silent hill", "horror", "survival", "psychological", "remake"],
   },
   {
-    id:  "hitman-world-assassination",
+    id: "hitman-world-assassination",
     title: "Hitman World of Assassination",
     image: "/hitman-world-assassination.jpg",
     price: 249,
@@ -2461,7 +2461,7 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["onimusha", "samurai", "capcom", "action"],
     series: "Onimusha",
   },
-  
+
   // === UPCOMING / NEW ADDITIONS ===
   {
     id: "dune-awakening",
@@ -2928,6 +2928,31 @@ export const GAMES_DATABASE: Game[] = [
     series: "Forza",
   },
 
+  // === RECENTLY LAUNCHED ===
+  {
+    id: "reanimal",
+    steamAppId: 2129530,
+    title: "Reanimal",
+    image: "/reanimal.jpg",
+    price: 349,
+    originalPrice: 1999,
+    discount: "-83%",
+    genre: ["Horror", "Adventure"],
+    tags: ["reanimal", "horror", "adventure", "tarsier studios"],
+  },
+  {
+    id: "nioh-3",
+    steamAppId: 3681010,
+    title: "Nioh 3",
+    image: "/nioh-3.jpg",
+    price: 399,
+    originalPrice: 2499,
+    discount: "-84%",
+    genre: ["Action", "RPG", "Souls-like"],
+    tags: ["nioh", "nioh 3", "souls", "action", "rpg", "samurai", "team ninja"],
+    series: "Nioh",
+  },
+
   // === UPCOMING GAMES ===
   {
     id: "onimusha-way-of-the-sword",
@@ -2949,13 +2974,14 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["phantom blade", "action", "rpg", "kung fu"],
   },
   {
-    id: "reanimal",
-    steamAppId: 2129530,
-    title: "Reanimal",
-    image: "/upcoming-reanimal.jpg",
+    id: "death-stranding-2",
+    steamAppId: 2138680,
+    title: "Death Stranding 2: On The Beach",
+    image: "/death-stranding-2.jpg",
     price: "N/A",
-    genre: ["Horror", "Adventure"],
-    tags: ["reanimal", "horror", "adventure", "tarsier studios"],
+    genre: ["Action", "Adventure", "Open-World"],
+    tags: ["death stranding", "death stranding 2", "kojima", "action", "adventure", "open world"],
+    series: "Death Stranding",
   },
   {
     id: "subnautica-2",
@@ -2985,5 +3011,23 @@ export const GAMES_DATABASE: Game[] = [
     genre: ["Horror", "Action", "Survival"],
     tags: ["resident evil", "re", "horror", "survival", "capcom", "zombie"],
     series: "Resident Evil",
+  },
+  {
+    id: "john-carpenters-toxic-commando",
+    steamAppId: 2157830,
+    title: "John Carpenter's Toxic Commando",
+    image: "/john-carpenters-toxic-commando.jpeg",
+    price: "N/A",
+    genre: ["Action", "Shooter", "Sci-Fi"],
+    tags: ["toxic commando", "john carpenter", "action", "shooter", "sci-fi", "post-apocalyptic"],
+  },
+  {
+    id: "crimson-desert",
+    steamAppId: 3321460,
+    title: "Crimson Desert",
+    image: "/crimson-desert.jpg",
+    price: "N/A",
+    genre: ["Action", "RPG", "Open-World"],
+    tags: ["crimson desert", "open world", "rpg", "action", "pearl abyss", "fantasy"],
   },
 ];

@@ -15,6 +15,25 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
+    // Optimize image loading
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+  },
+
+  // Enable React strict mode for better error detection
+  reactStrictMode: true,
+
+  // Compress responses
+  compress: true,
+
+  // Optimize production builds
+  swcMinify: true,
+
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
 
   typescript: {
@@ -33,4 +52,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-// Orchids restart: 1765895459218

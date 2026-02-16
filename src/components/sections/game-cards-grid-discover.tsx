@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useMemo, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -9,23 +9,26 @@ import { GAMES_DATABASE } from "@/data/games";
 export default function GameCardsGridDiscover() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Hot Deals: Top 10 featured AAA games
-  const hotDealsGames = GAMES_DATABASE.filter(game =>
-    [
-      "gta-v",
-      "cyberpunk-2077",
-      "last-of-us",
-      "elden-ring",
-      "rdr2",
-      "witcher-3",
-      "god-of-war",
-      "spiderman-remastered",
-      "hogwarts-legacy",
-      "black-myth-wukong"
-    ].includes(game.id)
+  // Memoize filtered games to prevent recalculation
+  const hotDealsGames = useMemo(() =>
+    GAMES_DATABASE.filter(game =>
+      [
+        "gta-v",
+        "cyberpunk-2077",
+        "last-of-us",
+        "elden-ring",
+        "rdr2",
+        "witcher-3",
+        "god-of-war",
+        "spiderman-remastered",
+        "hogwarts-legacy",
+        "black-myth-wukong"
+      ].includes(game.id)
+    ),
+    []
   );
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const scrollAmount = 300;
       const newScrollPosition = scrollContainerRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
@@ -34,7 +37,7 @@ export default function GameCardsGridDiscover() {
         behavior: 'smooth'
       });
     }
-  };
+  }, []);
 
   return (
     <section className="w-full bg-[#0A0E27] py-12 lg:py-16">

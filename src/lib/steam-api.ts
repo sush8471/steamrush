@@ -1,7 +1,11 @@
 /**
  * Steam API Utilities
- * Fetches game data from Steam Store API
+ * Fetches game data from Steam Store API with caching
  */
+
+// In-memory cache for Steam API responses
+const steamCache = new Map<number, { data: SteamGameDetails; timestamp: number }>();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // Steam API Types
 export interface SteamGameDetails {
@@ -55,21 +59,24 @@ export interface SteamAPIResponse {
 }
 
 /**
- * Fetch game details from Steam Store API via our proxy
+ * Fetch game details from Steam Store API via our proxy with caching
  * @param appId - Steam App ID
  * @returns Game details or null if not found
  */
 export async function getSteamGameDetails(
   appId: number
 ): Promise<SteamGameDetails | null> {
+  // Check cache first
+  const cached = steamCache.get(appId);
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return cached.data;
+  }
+
   try {
-    // Use our proxy API route to avoid CORS issues
-    // For client-side: use relative URL which will work with the current origin
-    // For server-side (if called during SSR): this shouldn't happen, but handle it gracefully
     const url = `/api/steam?appId=${appId}`;
 
     const response = await fetch(url, {
-      cache: 'no-store' // Changed from 'force-cache' to avoid caching issues
+      next: { revalidate: 300 }
     });
 
     if (!response.ok) {
@@ -79,7 +86,6 @@ export async function getSteamGameDetails(
 
     const json = await response.json();
 
-    // Check if there's an error from our proxy
     if (json.error) {
       console.error(`Steam API proxy returned error for App ID ${appId}:`, json.error);
       return null;
@@ -94,8 +100,7 @@ export async function getSteamGameDetails(
 
     const steamData = result.data;
 
-    // Map Steam's snake_case fields to our camelCase interface
-    return {
+    const gameDetails: SteamGameDetails = {
       appId,
       name: steamData.name,
       type: steamData.type,
@@ -120,6 +125,11 @@ export async function getSteamGameDetails(
       pcRequirements: steamData.pc_requirements || { minimum: '', recommended: '' },
       metacritic: steamData.metacritic
     };
+
+    // Store in cache
+    steamCache.set(appId, { data: gameDetails, timestamp: Date.now() });
+
+    return gameDetails;
   } catch (error) {
     console.error(`Error fetching Steam data for App ID ${appId}:`, error);
     return null;

@@ -1,0 +1,74 @@
+# CodeRabbit Configuration for SteamRush
+# Visit https://docs.coderabbit.ai for more configuration options
+
+language: en-US
+early_access: false
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: true
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+  tools:
+    github-checks:
+      enabled: true
+      timeout: 5m
+    ruff:
+      enabled: true
+    shellcheck:
+      enabled: true
+    markdownlint:
+      enabled: true
+    biome:
+      enabled: true
+    eslint:
+      enabled: true
+    prettier:
+      enabled: true
+  path_filters:
+    - "!**/*.lock"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+    - "!**/node_modules/**"
+    - "!**/.next/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+  path_instructions:
+    - path: "src/app/**/*.tsx"
+      instructions: |
+        - Review for Next.js 15 best practices
+        - Check for proper TypeScript types
+        - Ensure proper error handling
+        - Verify accessibility standards
+    - path: "src/components/**/*.tsx"
+      instructions: |
+        - Review component reusability
+        - Check for proper prop types
+        - Ensure proper React hooks usage
+        - Verify component performance
+    - path: "src/lib/**/*.ts"
+      instructions: |
+        - Review for proper error handling
+        - Check for type safety
+        - Ensure proper documentation
+        - Verify function purity where applicable
+  abort_on_close: true
+  auto_title_placeholder: "### Summary"
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_in: true
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  jira:
+    project_keys: []
+  linear:
+    team_keys: []

@@ -1,32 +1,25 @@
 "use client";
 
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { GAMES_DATABASE } from "@/data/games";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { getGames, Game } from "@/lib/local-db";
 
 export default function GameCardsGridDiscover() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Memoize filtered games to prevent recalculation
-  const hotDealsGames = useMemo(() =>
-    GAMES_DATABASE.filter(game =>
-      [
-        "gta-v",
-        "cyberpunk-2077",
-        "last-of-us",
-        "elden-ring",
-        "rdr2",
-        "witcher-3",
-        "god-of-war",
-        "spiderman-remastered",
-        "hogwarts-legacy",
-        "black-myth-wukong"
-      ].includes(game.id)
-    ),
-    []
-  );
+  useEffect(() => {
+    async function fetchHotDeals() {
+      setIsLoading(true);
+      const { data } = await getGames({ is_hot_deal: true, limit: 15 });
+      if (data) setGames(data);
+      setIsLoading(false);
+    }
+    fetchHotDeals();
+  }, []);
 
   const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -38,6 +31,8 @@ export default function GameCardsGridDiscover() {
       });
     }
   }, []);
+
+  if (!isLoading && games.length === 0) return null;
 
   return (
     <section className="w-full bg-[#0A0E27] py-12 lg:py-16">
@@ -53,68 +48,77 @@ export default function GameCardsGridDiscover() {
           </div>
 
           {/* Navigation Buttons */}
-          <div className="hidden lg:flex items-center gap-2">
-            <button
-              onClick={() => scroll('left')}
-              className="p-2 rounded-lg bg-[#1A1F3A] hover:bg-[#2A2E4D] border border-[#2A2E4D] hover:border-[#0074E4]/50 text-white transition-all duration-200 hover:shadow-[0_0_15px_rgba(0,116,228,0.2)]"
-              aria-label="Scroll left"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="p-2 rounded-lg bg-[#1A1F3A] hover:bg-[#2A2E4D] border border-[#2A2E4D] hover:border-[#0074E4]/50 text-white transition-all duration-200 hover:shadow-[0_0_15px_rgba(0,116,228,0.2)]"
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+          {!isLoading && games.length > 0 && (
+            <div className="hidden lg:flex items-center gap-2">
+              <button
+                onClick={() => scroll('left')}
+                className="p-2 rounded-lg bg-[#1A1F3A] hover:bg-[#2A2E4D] border border-[#2A2E4D] hover:border-[#0074E4]/50 text-white transition-all duration-200 hover:shadow-[0_0_15px_rgba(0,116,228,0.2)]"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                className="p-2 rounded-lg bg-[#1A1F3A] hover:bg-[#2A2E4D] border border-[#2A2E4D] hover:border-[#0074E4]/50 text-white transition-all duration-200 hover:shadow-[0_0_15px_rgba(0,116,228,0.2)]"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
         </div>
 
-        <div ref={scrollContainerRef} className="overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-          {hotDealsGames.map((game) => {
-            // Calculate discount percentage
-            const discount = (game.originalPrice && typeof game.price === 'number')
-              ? Math.round(((game.originalPrice - game.price) / game.originalPrice) * 100)
-              : 0;
+        <div 
+          ref={scrollContainerRef} 
+          className="overflow-x-auto flex gap-4 pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full h-40">
+              <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+            </div>
+          ) : (
+            games.map((game) => {
+              const discount = game.discount_percentage || 0;
 
-            return (
-              <Link
-                key={game.id}
-                href={`/games/${game.id}`}
-                className="flex-shrink-0 snap-start"
-              >
-                <div className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#0074E4]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,116,228,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] h-full cursor-pointer">
-                  <div className="relative aspect-[3/4] w-full overflow-hidden">
-                    <Image
-                      src={game.image}
-                      alt={game.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 70vw, 16vw"
-                    />
-                    {discount > 0 && (
-                      <div className="absolute top-2 right-2 bg-[#0074E4] text-white text-xs font-bold px-2.5 py-1 rounded-md">
-                        -{discount}%
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-white font-black text-xl">
-                        ₹{game.price}
-                      </span>
-                      {game.originalPrice && typeof game.price === 'number' && (
-                        <span className="text-[#B0B8D0] text-xs line-through">
-                          ₹{game.originalPrice}
-                        </span>
+              return (
+                <Link
+                  key={game.id}
+                  href={`/games/${game.slug}`}
+                  className="flex-shrink-0 snap-start"
+                >
+                  <div className="group relative bg-[#1A1F3A] rounded-xl overflow-hidden border border-[#2A2E4D] hover:border-indigo-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] h-full cursor-pointer">
+                    <div className="relative aspect-[3/4] w-full overflow-hidden">
+                      <Image
+                        src={game.image_url}
+                        alt={game.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-110"
+                        sizes="(max-width: 768px) 70vw, 16vw"
+                      />
+                      {discount > 0 && (
+                        <div className="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg uppercase tracking-tighter">
+                          -{discount}% OFF
+                        </div>
                       )}
                     </div>
+                    <div className="p-3 bg-gradient-to-t from-[#1A1F3A] to-transparent">
+                      <p className="text-white font-bold text-sm truncate mb-1 group-hover:text-indigo-400 transition-colors">{game.title}</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-white font-black text-lg">
+                          ₹{game.price}
+                        </span>
+                        {game.original_price && (
+                          <span className="text-[#B0B8D0] text-xs line-through opacity-50">
+                            ₹{game.original_price}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
     </section>

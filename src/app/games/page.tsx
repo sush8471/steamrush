@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Footer from "@/components/sections/footer";
 import { SlidersHorizontal, X, ShoppingCart, Check, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
@@ -27,7 +27,7 @@ const PRICE_RANGES = [
   { value: "above-500", label: "Above ₹500", min: 500, max: 99999 },
 ];
 
-export default function GamesPage() {
+function GamesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchFromUrl = searchParams.get("search") || "";
@@ -322,5 +322,17 @@ export default function GamesPage() {
       </div>
       <Footer />
     </main>
+  );
+}
+
+export default function GamesPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0A0E27] flex items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-indigo-500" />
+      </div>
+    }>
+      <GamesContent />
+    </Suspense>
   );
 }

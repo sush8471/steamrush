@@ -73,25 +73,35 @@ export async function getSteamGameDetails(
   }
 
   try {
-    const url = `/api/steam?appId=${appId}`;
+    let result: any;
 
-    const response = await fetch(url, {
-      next: { revalidate: 300 }
-    });
-
-    if (!response.ok) {
-      console.error(`Steam API proxy error for App ID ${appId}: ${response.status}`);
-      return null;
+    if (typeof window === 'undefined') {
+      // Server-side: call Steam directly to avoid self-fetching
+      const steamUrl = `https://store.steampowered.com/api/appdetails?appids=${appId}&cc=in&l=english`;
+      const response = await fetch(steamUrl, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+        next: { revalidate: 3600 }
+      });
+      if (!response.ok) {
+        console.error(`Steam API error for App ID ${appId}: ${response.status}`);
+        return null;
+      }
+      const json = await response.json();
+      result = json[appId.toString()];
+    } else {
+      // Client-side: use our API proxy
+      const response = await fetch(`/api/steam?appId=${appId}`, { next: { revalidate: 300 } } as any);
+      if (!response.ok) {
+        console.error(`Steam API proxy error for App ID ${appId}: ${response.status}`);
+        return null;
+      }
+      const json = await response.json();
+      if (json.error) {
+        console.error(`Steam API proxy returned error for App ID ${appId}:`, json.error);
+        return null;
+      }
+      result = json[appId.toString()];
     }
-
-    const json = await response.json();
-
-    if (json.error) {
-      console.error(`Steam API proxy returned error for App ID ${appId}:`, json.error);
-      return null;
-    }
-
-    const result = json[appId.toString()];
 
     if (!result || !result.success || !result.data) {
       console.error(`Steam API returned no data for App ID ${appId}`);

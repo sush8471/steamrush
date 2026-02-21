@@ -1,9 +1,4 @@
-import type { NextConfig } from "next";
-import path from "node:path";
-
-const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
-
-const nextConfig: NextConfig = {
+import type { NextConfig } from "next" ; import path from "node:path" ; const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js') ; const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -23,7 +18,6 @@ const nextConfig: NextConfig = {
 
   reactStrictMode: true,
   compress: true,
-  swcMinify: true,
 
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
@@ -42,6 +36,5 @@ const nextConfig: NextConfig = {
       }
     }
   }
-};
-
-export default nextConfig;
+} ; export default nextConfig ; FIXED_CONFIG
+echo "done"

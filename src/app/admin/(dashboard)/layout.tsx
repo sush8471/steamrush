@@ -111,15 +111,15 @@ export default function AdminLayout({
           </Link>
           
           <div className="pt-4 mt-4 border-t border-slate-800">
-            <Link 
-              href="/admin/settings" 
-              className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
-                isActive('/admin/settings') ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800 text-slate-400 hover:text-white'
-              }`}
-            >
-              <Settings className="w-5 h-5" />
-              <span>Settings</span>
-            </Link>
+              <Link 
+                href="/admin/settings" 
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
+                  isActive('/admin/settings') ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                <SettingsIcon className="w-5 h-5" />
+                <span>Settings</span>
+              </Link>
             
             <button 
               onClick={handleSignOut}

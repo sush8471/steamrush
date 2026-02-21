@@ -201,30 +201,30 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
         <section className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
           <h3 className="font-semibold text-lg">Pricing & Tags</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Sale Price ($)</label>
-              <input 
-                type="number" 
-                step="0.01"
-                name="price"
-                required
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-mono"
-                value={game.price}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Original Price ($)</label>
-              <input 
-                type="number" 
-                step="0.01"
-                name="original_price"
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-mono"
-                value={game.original_price || ""}
-                onChange={handleChange}
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Sale Price (₹)</label>
+                <input 
+                  type="number" 
+                  step="1"
+                  name="price"
+                  required
+                  className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-mono"
+                  value={game.price}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Original Price (₹)</label>
+                <input 
+                  type="number" 
+                  step="1"
+                  name="original_price"
+                  className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-mono"
+                  value={game.original_price || ""}
+                  onChange={handleChange}
+                />
+              </div>
             <div>
               <label className="block text-sm font-medium text-slate-400 mb-1">Discount (%)</label>
               <input 

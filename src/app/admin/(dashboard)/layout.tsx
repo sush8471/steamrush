@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { 
   LayoutDashboard, 
   Gamepad2, 
-  Settings, 
+  Settings as SettingsIcon, 
   LogOut,
   Package,
   ShoppingCart,

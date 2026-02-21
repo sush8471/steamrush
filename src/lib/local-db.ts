@@ -1,16 +1,16 @@
 /**
  * Local Game Database Queries
- * Replaces Supabase with local in-memory data
+ * Replaces hardcoded data with Supabase queries
  */
 
-import { GAMES_DATABASE } from "@/data/games";
+import { supabase } from "./supabase";
 
 export interface Game {
     id: string;
     title: string;
     slug: string;
     description: string;
-    price: number | string;
+    price: number;
     original_price?: number | null;
     discount_percentage?: number | null;
     image_url: string;
@@ -18,53 +18,57 @@ export interface Game {
     tags: string[];
     steam_app_id?: number | null;
     series?: string | null;
+    is_featured?: boolean;
+    is_hot_deal?: boolean;
+    is_recently_launched?: boolean;
+    is_upcoming?: boolean;
+    game_category?: string | null;
 }
-
-// Convert GAMES_DATABASE format to Game format
-const normalizeGame = (game: any): Game => ({
-    id: game.id,
-    title: game.title,
-    slug: game.id, // Using id as slug
-    description: game.description || "",
-    price: game.price,
-    original_price: game.originalPrice,
-    discount_percentage: game.discount,
-    image_url: game.image,
-    genre: Array.isArray(game.genre) ? game.genre : [game.genre],
-    tags: game.tags || [],
-    steam_app_id: game.steamAppId || null,
-    series: game.series || null,
-});
 
 /**
  * Search games by query
  */
 export async function searchGames(query: string, limit: number = 50) {
-    const normalizedQuery = query.toLowerCase().trim();
+    const { data, error } = await supabase
+        .from('games')
+        .select('*')
+        .or(`title.ilike.%${query}%,description.ilike.%${query}%`)
+        .limit(limit);
 
-    const results = GAMES_DATABASE
-        .filter(game =>
-            game.title.toLowerCase().includes(normalizedQuery) ||
-            game.genre?.some((g: string) => g.toLowerCase().includes(normalizedQuery)) ||
-            game.tags?.some((t: string) => t.toLowerCase().includes(normalizedQuery))
-        )
-        .slice(0, limit)
-        .map(normalizeGame);
+    if (error) {
+        console.error("Error searching games:", error);
+        return { data: [], error };
+    }
 
-    return { data: results, error: null };
+    return { data: data as Game[], error: null };
 }
 
 /**
  * Get game by slug/id
  */
 export async function getGameBySlug(slug: string) {
-    const game = GAMES_DATABASE.find(g => g.id === slug);
+    const { data, error } = await supabase
+        .from('games')
+        .select('*')
+        .eq('slug', slug)
+        .single();
 
-    if (!game) {
-        return { data: null, error: "Game not found" };
+    if (error) {
+        // Try to get by ID if slug fails
+        const { data: dataById, error: errorById } = await supabase
+            .from('games')
+            .select('*')
+            .eq('id', slug)
+            .single();
+
+        if (errorById) {
+            console.error("Error getting game by slug/id:", errorById);
+            return { data: null, error: errorById.message };
+        }
+        return { data: dataById as Game, error: null };
     }
 
-    return { data: normalizeGame(game), error: null };
+    return { data: data as Game, error: null };
 }
 
 /**
@@ -78,64 +82,92 @@ export async function getGames(params: {
     search?: string;
     limit?: number;
     offset?: number;
+    is_featured?: boolean;
+    is_hot_deal?: boolean;
+    is_recently_launched?: boolean;
+    is_upcoming?: boolean;
+    game_category?: string;
 } = {}) {
-    let filtered = [...GAMES_DATABASE];
+    let query = supabase.from('games').select('*', { count: 'exact' });
+
+    // Filter by categorization flags
+    if (params.is_featured !== undefined) query = query.eq('is_featured', params.is_featured);
+    if (params.is_hot_deal !== undefined) query = query.eq('is_hot_deal', params.is_hot_deal);
+    if (params.is_recently_launched !== undefined) query = query.eq('is_recently_launched', params.is_recently_launched);
+    if (params.is_upcoming !== undefined) query = query.eq('is_upcoming', params.is_upcoming);
+    if (params.game_category) query = query.eq('game_category', params.game_category);
 
     // Filter by genre
     if (params.genre && params.genre.length > 0) {
-        filtered = filtered.filter(game =>
-            game.genre?.some((g: string) => params.genre!.includes(g))
-        );
+        query = query.contains('genre', params.genre);
     }
 
     // Filter by tags
     if (params.tags && params.tags.length > 0) {
-        filtered = filtered.filter(game =>
-            game.tags?.some((t: string) => params.tags!.includes(t))
-        );
+        query = query.contains('tags', params.tags);
     }
 
     // Filter by price
     if (params.minPrice !== undefined) {
-        filtered = filtered.filter(game => Number(game.price) >= params.minPrice!);
+        query = query.gte('price', params.minPrice);
     }
     if (params.maxPrice !== undefined) {
-        filtered = filtered.filter(game => Number(game.price) <= params.maxPrice!);
+        query = query.lte('price', params.maxPrice);
     }
 
     // Filter by search
     if (params.search) {
-        const query = params.search.toLowerCase();
-        filtered = filtered.filter(game =>
-            game.title.toLowerCase().includes(query)
-        );
+        query = query.ilike('title', `%${params.search}%`);
     }
 
     // Apply pagination
     const offset = params.offset || 0;
-    const limit = params.limit || filtered.length;
-    const paginated = filtered.slice(offset, offset + limit);
+    const limit = params.limit || 50;
+    query = query.range(offset, offset + limit - 1);
 
-    return { data: paginated.map(normalizeGame), error: null };
+    const { data, error, count } = await query;
+
+    if (error) {
+        console.error("Error getting games:", error);
+        return { data: [], error, count: 0 };
+    }
+
+    return { data: data as Game[], error: null, count };
 }
 
 /**
  * Get total games count
  */
 export async function getTotalGamesCount() {
-    return { count: GAMES_DATABASE.length, error: null };
+    const { count, error } = await supabase
+        .from('games')
+        .select('*', { count: 'exact', head: true });
+
+    if (error) {
+        console.error("Error getting total games count:", error);
+        return { count: 0, error };
+    }
+
+    return { count: count || 0, error: null };
 }
 
 /**
  * Get all unique genres
  */
-export function getAllGenres(): string[] {
+export async function getAllGenres(): Promise<string[]> {
+    const { data, error } = await supabase
+        .from('games')
+        .select('genre');
+
+    if (error) {
+        console.error("Error getting genres:", error);
+        return [];
+    }
+
     const genres = new Set<string>();
-    GAMES_DATABASE.forEach(game => {
+    data.forEach(game => {
         if (Array.isArray(game.genre)) {
-            game.genre.forEach(g => genres.add(g));
-        } else if (game.genre) {
-            genres.add(game.genre);
+            game.genre.forEach((g: string) => genres.add(g));
         }
     });
     return Array.from(genres).sort();
@@ -144,11 +176,20 @@ export function getAllGenres(): string[] {
 /**
  * Get all unique tags
  */
-export function getAllTags(): string[] {
+export async function getAllTags(): Promise<string[]> {
+    const { data, error } = await supabase
+        .from('games')
+        .select('tags');
+
+    if (error) {
+        console.error("Error getting tags:", error);
+        return [];
+    }
+
     const tags = new Set<string>();
-    GAMES_DATABASE.forEach(game => {
-        if (game.tags) {
-            game.tags.forEach(t => tags.add(t));
+    data.forEach(game => {
+        if (Array.isArray(game.tags)) {
+            game.tags.forEach((t: string) => tags.add(t));
         }
     });
     return Array.from(tags).sort();

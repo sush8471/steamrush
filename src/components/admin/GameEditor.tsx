@@ -50,26 +50,17 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
       const d = result.data;
       const title = d.name || '';
       const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      const genres = (d.genres || []).map((g: any) => g.description);
-      const tags = (d.categories || []).map((c: any) => c.description);
-      // Steam price is in paise (INR) if cc=in, else cents
-      let price = game.price ?? 0;
-      let originalPrice = game.original_price ?? null;
-      if (d.price_overview) {
-        price = Math.round(d.price_overview.final / 100);
-        originalPrice = Math.round(d.price_overview.initial / 100);
-      }
-      setGame(prev => ({
-        ...prev,
-        title: prev.title || title,
-        slug: prev.slug || slug,
-        description: prev.description || d.short_description || '',
-        image_url: prev.image_url || d.header_image || '',
-        genre: (prev.genre && prev.genre.length > 0) ? prev.genre : genres,
-        tags: (prev.tags && prev.tags.length > 0) ? prev.tags : tags,
-        price,
-        original_price: originalPrice,
-      }));
+       const genres = (d.genres || []).map((g: any) => g.description);
+       const tags = (d.categories || []).map((c: any) => c.description);
+       setGame(prev => ({
+         ...prev,
+         title: prev.title || title,
+         slug: prev.slug || slug,
+         description: prev.description || d.short_description || '',
+         image_url: prev.image_url || d.header_image || '',
+         genre: (prev.genre && prev.genre.length > 0) ? prev.genre : genres,
+         tags: (prev.tags && prev.tags.length > 0) ? prev.tags : tags,
+       }));
       setSteamFetchMsg({ type: 'success', text: `Fetched data for "${title}" from Steam.` });
     } catch {
       setSteamFetchMsg({ type: 'error', text: 'Failed to reach Steam API. Try again.' });
@@ -81,11 +72,20 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-    
-    setGame(prev => ({
-      ...prev,
-      [name]: val
-    }));
+
+    setGame(prev => {
+      const updated = { ...prev, [name]: val };
+      if (name === 'price' || name === 'original_price') {
+        const sale = Number(name === 'price' ? val : prev.price) || 0;
+        const original = Number(name === 'original_price' ? val : prev.original_price) || 0;
+        if (original > 0 && sale >= 0 && sale < original) {
+          updated.discount_percentage = Math.round(((original - sale) / original) * 100);
+        } else {
+          updated.discount_percentage = 0;
+        }
+      }
+      return updated;
+    });
   };
 
   const handleCheckboxChange = (name: string, checked: boolean) => {
@@ -289,16 +289,17 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
                   onChange={handleChange}
                 />
               </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-400 mb-1">Discount (%)</label>
-              <input 
-                type="number" 
-                name="discount_percentage"
-                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-                value={game.discount_percentage || ""}
-                onChange={handleChange}
-              />
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Discount (%)</label>
+                <input 
+                  type="number" 
+                  name="discount_percentage"
+                  readOnly
+                  className="w-full px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-400 cursor-not-allowed font-mono"
+                  value={game.discount_percentage || ""}
+                  placeholder="Auto-calculated"
+                />
+              </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

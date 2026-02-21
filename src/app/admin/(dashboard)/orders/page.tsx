@@ -64,10 +64,10 @@ export default function OrdersPage() {
               {orders.map((order) => (
                 <tr key={order.id} className="hover:bg-slate-800/30 transition-colors">
                   <td className="px-6 py-4 font-mono text-sm text-indigo-400">{order.id}</td>
-                  <td className="px-6 py-4 text-sm text-white font-medium">{order.customer}</td>
-                  <td className="px-6 py-4 text-sm text-slate-300">{order.game}</td>
-                  <td className="px-6 py-4 text-sm font-mono text-white">${order.amount.toFixed(2)}</td>
-                  <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-sm text-white font-medium">{order.customer}</td>
+                    <td className="px-6 py-4 text-sm text-slate-300">{order.game}</td>
+                    <td className="px-6 py-4 text-sm font-mono text-white">₹{order.amount.toLocaleString('en-IN')}</td>
+                    <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                       order.status === 'Completed' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
                       order.status === 'Pending' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' :

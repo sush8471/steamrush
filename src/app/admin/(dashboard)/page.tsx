@@ -86,24 +86,24 @@ export default function AdminDashboardPage() {
                 <span>Status</span>
               </div>
               <div className="space-y-px">
-                <div className="grid grid-cols-4 p-4 text-sm hover:bg-slate-800/50 transition-colors border-b border-slate-800/50">
-                  <span>John Doe</span>
-                  <span className="truncate">Cyberpunk 2077</span>
-                  <span className="font-mono">$29.99</span>
-                  <span className="text-emerald-400">Completed</span>
-                </div>
-                <div className="grid grid-cols-4 p-4 text-sm hover:bg-slate-800/50 transition-colors border-b border-slate-800/50">
-                  <span>Alice Smith</span>
-                  <span className="truncate">GTA V Premium</span>
-                  <span className="font-mono">$19.99</span>
-                  <span className="text-amber-400">Pending</span>
-                </div>
-                <div className="grid grid-cols-4 p-4 text-sm hover:bg-slate-800/50 transition-colors border-b border-slate-800/50">
-                  <span>Michael Brown</span>
-                  <span className="truncate">Elden Ring</span>
-                  <span className="font-mono">$49.99</span>
-                  <span className="text-emerald-400">Completed</span>
-                </div>
+                  <div className="grid grid-cols-4 p-4 text-sm hover:bg-slate-800/50 transition-colors border-b border-slate-800/50">
+                    <span>John Doe</span>
+                    <span className="truncate">Cyberpunk 2077</span>
+                    <span className="font-mono">₹2,499</span>
+                    <span className="text-emerald-400">Completed</span>
+                  </div>
+                  <div className="grid grid-cols-4 p-4 text-sm hover:bg-slate-800/50 transition-colors border-b border-slate-800/50">
+                    <span>Alice Smith</span>
+                    <span className="truncate">GTA V Premium</span>
+                    <span className="font-mono">₹1,599</span>
+                    <span className="text-amber-400">Pending</span>
+                  </div>
+                  <div className="grid grid-cols-4 p-4 text-sm hover:bg-slate-800/50 transition-colors border-b border-slate-800/50">
+                    <span>Michael Brown</span>
+                    <span className="truncate">Elden Ring</span>
+                    <span className="font-mono">₹3,999</span>
+                    <span className="text-emerald-400">Completed</span>
+                  </div>
               </div>
             </div>
           </div>

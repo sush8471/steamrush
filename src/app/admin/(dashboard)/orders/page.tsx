@@ -1,12 +1,12 @@
 import { ShoppingCart, Package, Clock, CheckCircle2 } from "lucide-react";
 
 export default function OrdersPage() {
-  const orders = [
-    { id: "ORD-7291", customer: "John Doe", game: "Cyberpunk 2077", amount: 29.99, status: "Completed", date: "2024-02-20" },
-    { id: "ORD-7292", customer: "Alice Smith", game: "GTA V Premium", amount: 19.99, status: "Pending", date: "2024-02-21" },
-    { id: "ORD-7293", customer: "Michael Brown", game: "Elden Ring", amount: 49.99, status: "Completed", date: "2024-02-21" },
-    { id: "ORD-7294", customer: "Sarah Wilson", game: "Hogwarts Legacy", amount: 35.50, status: "Processing", date: "2024-02-21" },
-  ];
+    const orders = [
+      { id: "ORD-7291", customer: "John Doe", game: "Cyberpunk 2077", amount: 2499, status: "Completed", date: "2024-02-20" },
+      { id: "ORD-7292", customer: "Alice Smith", game: "GTA V Premium", amount: 1599, status: "Pending", date: "2024-02-21" },
+      { id: "ORD-7293", customer: "Michael Brown", game: "Elden Ring", amount: 3999, status: "Completed", date: "2024-02-21" },
+      { id: "ORD-7294", customer: "Sarah Wilson", game: "Hogwarts Legacy", amount: 2899, status: "Processing", date: "2024-02-21" },
+    ];
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">

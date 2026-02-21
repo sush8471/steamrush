@@ -151,19 +151,19 @@ export default function GamesManagerPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col">
-                        <span className="font-mono font-bold text-white">${Number(game.price).toFixed(2)}</span>
-                        {game.original_price && (
-                          <span className="text-xs text-slate-500 line-through">${Number(game.original_price).toFixed(2)}</span>
-                        )}
-                        {game.discount_percentage && (
-                          <Badge variant="outline" className="mt-1 text-[10px] text-emerald-400 border-emerald-400/20 py-0 h-4">
-                            -{game.discount_percentage}%
-                          </Badge>
-                        )}
-                      </div>
-                    </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col">
+                          <span className="font-mono font-bold text-white">₹{Number(game.price).toLocaleString('en-IN')}</span>
+                          {game.original_price && (
+                            <span className="text-xs text-slate-500 line-through">₹{Number(game.original_price).toLocaleString('en-IN')}</span>
+                          )}
+                          {game.discount_percentage && (
+                            <Badge variant="outline" className="mt-1 text-[10px] text-emerald-400 border-emerald-400/20 py-0 h-4">
+                              -{game.discount_percentage}%
+                            </Badge>
+                          )}
+                        </div>
+                      </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-wrap gap-1">
                         {game.is_featured && (

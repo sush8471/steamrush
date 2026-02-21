@@ -133,14 +133,14 @@ export default function AdminDashboardPage() {
               <span className="font-medium">Run Promo Sync</span>
             </button>
             
-            <button 
-              className="p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors flex flex-col gap-2 items-center text-center group"
-            >
-              <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
-                <Settings className="w-6 h-6" />
-              </div>
-              <span className="font-medium">Site Config</span>
-            </button>
+              <button 
+                className="p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors flex flex-col gap-2 items-center text-center group"
+              >
+                <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
+                  <SettingsIcon className="w-6 h-6" />
+                </div>
+                <span className="font-medium">Site Config</span>
+              </button>
             
             <button 
               className="p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors flex flex-col gap-2 items-center text-center group"

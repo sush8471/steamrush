@@ -5,7 +5,7 @@ import {
   Users, 
   DollarSign,
   Gamepad2,
-  Settings,
+  Settings as SettingsIcon,
   LogOut
 } from "lucide-react";
 import Link from "next/link";

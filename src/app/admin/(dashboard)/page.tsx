@@ -4,7 +4,9 @@ import {
   ShoppingCart, 
   Users, 
   DollarSign,
-  Gamepad2
+  Gamepad2,
+  Settings,
+  LogOut
 } from "lucide-react";
 import Link from "next/link";
 

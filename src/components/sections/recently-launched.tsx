@@ -1,21 +1,25 @@
 "use client";
 
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Rocket, ChevronLeft, ChevronRight } from "lucide-react";
-import { GAMES_DATABASE } from "@/data/games";
+import { Rocket, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { getGames, Game } from "@/lib/local-db";
 
 export default function RecentlyLaunched() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [games, setGames] = useState<Game[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Recently Launched Games: Filter games in the "RECENTLY LAUNCHED" section
-    const recentlyLaunchedGames = useMemo(() =>
-        GAMES_DATABASE.filter(game =>
-            ["reanimal", "nioh-3"].includes(game.id)
-        ),
-        []
-    );
+    useEffect(() => {
+        async function fetchRecentlyLaunched() {
+            setIsLoading(true);
+            const { data } = await getGames({ is_recently_launched: true, limit: 10 });
+            if (data) setGames(data);
+            setIsLoading(false);
+        }
+        fetchRecentlyLaunched();
+    }, []);
 
     const scroll = useCallback((direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -28,8 +32,8 @@ export default function RecentlyLaunched() {
         }
     }, []);
 
-    if (recentlyLaunchedGames.length === 0) {
-        return null; // Don't render section if no games
+    if (!isLoading && games.length === 0) {
+        return null;
     }
 
     return (
@@ -48,7 +52,7 @@ export default function RecentlyLaunched() {
                     </div>
 
                     {/* Navigation Buttons */}
-                    {recentlyLaunchedGames.length > 6 && (
+                    {!isLoading && games.length > 4 && (
                         <div className="hidden lg:flex items-center gap-2">
                             <button
                                 onClick={() => scroll('left')}
@@ -68,59 +72,66 @@ export default function RecentlyLaunched() {
                     )}
                 </div>
 
-                <div ref={scrollContainerRef} className="overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-                    {recentlyLaunchedGames.map((game) => {
-                        // Calculate discount percentage
-                        const discount = (game.originalPrice && typeof game.price === 'number')
-                            ? Math.round(((game.originalPrice - game.price) / game.originalPrice) * 100)
-                            : 0;
+                <div 
+                    ref={scrollContainerRef} 
+                    className="overflow-x-auto flex gap-4 pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
+                >
+                    {isLoading ? (
+                        <div className="flex items-center justify-center w-full h-40">
+                            <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+                        </div>
+                    ) : (
+                        games.map((game) => {
+                            const discount = game.discount_percentage || 0;
 
-                        return (
-                            <Link
-                                key={game.id}
-                                href={`/games/${game.id}`}
-                                className="flex-shrink-0 snap-start"
-                            >
-                                <div className="group relative bg-[#1A1F3A] rounded-lg overflow-hidden border border-[#2A2E4D] hover:border-[#00FF88]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] h-full cursor-pointer">
-                                    <div className="relative aspect-[3/4] w-full overflow-hidden">
-                                        <Image
-                                            src={game.image}
-                                            alt={game.title}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                            sizes="(max-width: 768px) 70vw, 16vw"
-                                        />
+                            return (
+                                <Link
+                                    key={game.id}
+                                    href={`/games/${game.slug}`}
+                                    className="flex-shrink-0 snap-start"
+                                >
+                                    <div className="group relative bg-[#1A1F3A] rounded-xl overflow-hidden border border-[#2A2E4D] hover:border-[#00FF88]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.15)] flex-shrink-0 w-[60vw] max-w-[240px] h-full cursor-pointer">
+                                        <div className="relative aspect-[3/4] w-full overflow-hidden">
+                                            <Image
+                                                src={game.image_url}
+                                                alt={game.title}
+                                                fill
+                                                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                                sizes="(max-width: 768px) 70vw, 16vw"
+                                            />
 
-                                        {/* NEW Badge */}
-                                        <div className="absolute top-2 left-2 bg-gradient-to-r from-[#00FF88] to-[#00CC6E] text-[#0A0E27] text-xs font-bold px-2.5 py-1 rounded-md shadow-lg flex items-center gap-1">
-                                            <Rocket className="w-3 h-3" />
-                                            NEW
-                                        </div>
-
-                                        {/* Discount Badge */}
-                                        {discount > 0 && (
-                                            <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-lg">
-                                                -{discount}%
+                                            {/* NEW Badge */}
+                                            <div className="absolute top-3 left-3 bg-gradient-to-r from-[#00FF88] to-[#00CC6E] text-[#0A0E27] text-[10px] font-black px-2.5 py-1 rounded-md shadow-lg flex items-center gap-1 uppercase tracking-tighter">
+                                                <Rocket className="w-3 h-3" />
+                                                NEW
                                             </div>
-                                        )}
-                                    </div>
 
-                                    <div className="p-2">
-                                        <div className="flex items-center gap-1.5">
-                                            <span className="text-white font-black text-xl">
-                                                ₹{game.price}
-                                            </span>
-                                            {game.originalPrice && typeof game.price === 'number' && (
-                                                <span className="text-[#B0B8D0] text-xs line-through">
-                                                    ₹{game.originalPrice}
-                                                </span>
+                                            {/* Discount Badge */}
+                                            {discount > 0 && (
+                                                <div className="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md shadow-lg uppercase tracking-tighter">
+                                                    -{discount}%
+                                                </div>
                                             )}
                                         </div>
+
+                                        <div className="p-3">
+                                            <p className="text-white font-bold text-sm truncate mb-1 group-hover:text-[#00FF88] transition-colors">{game.title}</p>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-white font-black text-xl">
+                                                    ₹{game.price}
+                                                </span>
+                                                {game.original_price && (
+                                                    <span className="text-[#B0B8D0] text-xs line-through opacity-50">
+                                                        ₹{game.original_price}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        );
-                    })}
+                                </Link>
+                            );
+                        })
+                    )}
                 </div>
             </div>
         </section>

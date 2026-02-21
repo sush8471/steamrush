@@ -10,7 +10,8 @@ import {
   Gamepad2, 
   Image as ImageIcon,
   Check,
-  Loader2
+  Loader2,
+  RefreshCw
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { saveGame, deleteGame } from "@/lib/actions/games";
@@ -18,6 +19,7 @@ import { Game } from "@/lib/local-db";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
+import { stripHtmlTags } from "@/lib/steam-api";
 
 interface GameEditorProps {
   game: Partial<Game>;
@@ -29,6 +31,7 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
   const [game, setGame] = useState(initialGame);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isFetchingSteam, setIsFetchingSteam] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -39,6 +42,57 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
       ...prev,
       [name]: val
     }));
+  };
+
+  const handleFetchSteamData = async () => {
+    if (!game.steam_app_id) {
+      alert("Please enter a Steam App ID first.");
+      return;
+    }
+
+    setIsFetchingSteam(true);
+    try {
+      const response = await fetch(`/api/steam?appId=${game.steam_app_id}`);
+      if (!response.ok) throw new Error("Failed to fetch from Steam");
+      
+      const json = await response.json();
+      const steamData = json[game.steam_app_id.toString()];
+      
+      if (steamData?.success && steamData.data) {
+        const d = steamData.data;
+        
+        // Auto-generate slug from name if current slug is empty
+        const generateSlug = (name: string) => {
+          return name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        };
+
+        const newSlug = !game.slug ? generateSlug(d.name) : game.slug;
+
+        // Populate fields
+        setGame(prev => ({
+          ...prev,
+          title: d.name || prev.title,
+          slug: newSlug,
+          description: d.short_description ? stripHtmlTags(d.short_description) : (d.detailed_description ? stripHtmlTags(d.detailed_description).slice(0, 500) : prev.description),
+          image_url: d.header_image || prev.image_url,
+          price: d.price_overview ? d.price_overview.final / 100 : prev.price,
+          original_price: d.price_overview ? d.price_overview.initial / 100 : prev.original_price,
+          discount_percentage: d.price_overview ? d.price_overview.discount_percent : prev.discount_percentage,
+          genre: d.genres ? d.genres.map((g: any) => g.description) : prev.genre,
+          tags: d.categories ? d.categories.map((c: any) => c.description).slice(0, 10) : prev.tags,
+        }));
+      } else {
+        alert("Could not find game data for this Steam App ID.");
+      }
+    } catch (error) {
+      console.error("Error fetching Steam data:", error);
+      alert("Error fetching data from Steam. Check the App ID and try again.");
+    } finally {
+      setIsFetchingSteam(false);
+    }
   };
 
   const handleCheckboxChange = (name: string, checked: boolean) => {
@@ -170,17 +224,31 @@ export default function GameEditor({ game: initialGame, isNew }: GameEditorProps
                   onChange={handleChange}
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1">Steam App ID</label>
-                <input 
-                  type="number" 
-                  name="steam_app_id"
-                  className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-                  placeholder="e.g. 1091500"
-                  value={game.steam_app_id || ""}
-                  onChange={handleChange}
-                />
-              </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-400 mb-1">Steam App ID</label>
+                  <div className="flex gap-2">
+                    <input 
+                      type="number" 
+                      name="steam_app_id"
+                      className="flex-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                      placeholder="e.g. 1091500"
+                      value={game.steam_app_id || ""}
+                      onChange={handleChange}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      size="icon"
+                      className="h-10 w-10 border-slate-700 bg-slate-800 hover:bg-slate-700 hover:text-indigo-400 shrink-0"
+                      onClick={handleFetchSteamData}
+                      disabled={isFetchingSteam}
+                      title="Fetch data from Steam"
+                    >
+                      {isFetchingSteam ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
             </div>
             
             <div>

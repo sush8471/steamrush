@@ -33,14 +33,14 @@ export default function SettingsPage() {
                 className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-white"
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-400">Default Currency</label>
-              <select className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-white">
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="GBP">GBP (£)</option>
-              </select>
-            </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-400">Default Currency</label>
+                <select className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-white">
+                  <option value="INR">INR (₹)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                </select>
+              </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-400">Support Email</label>
               <input 

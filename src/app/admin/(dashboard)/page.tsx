@@ -15,17 +15,17 @@ export default function AdminDashboardPage() {
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex items-start justify-between">
-          <div className="space-y-2">
-            <p className="text-slate-400 text-sm">Total Revenue</p>
-            <h3 className="text-2xl font-bold font-mono">$12,450.80</h3>
-            <div className="flex items-center gap-1 text-emerald-400 text-xs font-medium">
-              <TrendingUp className="w-3 h-3" />
-              <span>+14.5% from last month</span>
+            <div className="space-y-2">
+              <p className="text-slate-400 text-sm">Total Revenue</p>
+              <h3 className="text-2xl font-bold font-mono">₹1,24,450.80</h3>
+              <div className="flex items-center gap-1 text-emerald-400 text-xs font-medium">
+                <TrendingUp className="w-3 h-3" />
+                <span>+14.5% from last month</span>
+              </div>
             </div>
-          </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
-            <DollarSign className="w-6 h-6" />
-          </div>
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <IndianRupee className="w-6 h-6" />
+            </div>
         </div>
         
         <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex items-start justify-between">

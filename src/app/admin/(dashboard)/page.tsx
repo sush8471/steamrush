@@ -3,7 +3,7 @@ import {
   Package, 
   ShoppingCart, 
   Users, 
-  DollarSign,
+  IndianRupee,
   Gamepad2,
   Settings as SettingsIcon,
   LogOut

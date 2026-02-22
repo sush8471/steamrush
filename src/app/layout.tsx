@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { SearchProvider } from "@/context/SearchContext";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "SteamRush | Premium PC Games at Unbeatable Prices",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <CartProvider>
           <SearchProvider>
             {children}
+            <Analytics />
           </SearchProvider>
         </CartProvider>
       </body>

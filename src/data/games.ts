@@ -2952,6 +2952,18 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["nioh", "nioh 3", "souls", "action", "rpg", "samurai", "team ninja"],
     series: "Nioh",
   },
+  {
+    id: "resident-evil-requiem",
+    steamAppId: 3764200,
+    title: "Resident Evil: Requiem",
+    image: "/resident-evil-requiem.jpg",
+    price: 349,
+    originalPrice: 1999,
+    discount: "-83%",
+    genre: ["Horror", "Action", "Survival"],
+    tags: ["resident evil", "re", "horror", "survival", "capcom", "zombie"],
+    series: "Resident Evil",
+  },
 
   // === UPCOMING GAMES ===
   {
@@ -3001,16 +3013,6 @@ export const GAMES_DATABASE: Game[] = [
     price: "N/A",
     genre: ["Sci-Fi", "Action"],
     tags: ["pragmata", "capcom", "sci-fi", "action", "futuristic"],
-  },
-  {
-    id: "resident-evil-requiem",
-    steamAppId: 3764200,
-    title: "Resident Evil: Requiem",
-    image: "/resident-evil-requiem.jpg",
-    price: "N/A",
-    genre: ["Horror", "Action", "Survival"],
-    tags: ["resident evil", "re", "horror", "survival", "capcom", "zombie"],
-    series: "Resident Evil",
   },
   {
     id: "john-carpenters-toxic-commando",

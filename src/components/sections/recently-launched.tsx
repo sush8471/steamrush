@@ -12,7 +12,7 @@ export default function RecentlyLaunched() {
     // Recently Launched Games: Filter games in the "RECENTLY LAUNCHED" section
     const recentlyLaunchedGames = useMemo(() =>
         GAMES_DATABASE.filter(game =>
-            ["reanimal", "nioh-3"].includes(game.id)
+            ["reanimal", "nioh-3", "resident-evil-requiem"].includes(game.id)
         ),
         []
     );

@@ -2964,6 +2964,18 @@ export const GAMES_DATABASE: Game[] = [
     tags: ["resident evil", "re", "horror", "survival", "capcom", "zombie"],
     series: "Resident Evil",
   },
+  {
+    id: "ride-6",
+    steamAppId: 2815070,
+    title: "Ride 6",
+    image: "/ride-6.jpg",
+    price: 349,
+    originalPrice: 1999,
+    discount: "-83%",
+    genre: ["Racing", "Simulation", "Sports"],
+    tags: ["ride", "ride 6", "racing", "simulation", "bikes", "motorcycles"],
+    series: "Ride",
+  },
 
   // === UPCOMING GAMES ===
   {

@@ -1116,6 +1116,9 @@ export default function AdminGamesPage() {
                 <span>Delete permanently</span>
               </button>
             </div>
+          </div>
+        </div>
+      )}
       {/* Mobile Action Sheet Drawer */}
       {mobileActionGame && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm md:hidden">

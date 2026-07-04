@@ -67,7 +67,7 @@ export function NavbarSearch() {
     setShowSuggestions(false);
     setIsExpanded(false);
     setLocalQuery("");
-    router.push(`/games?search=${encodeURIComponent(query)}`);
+    router.push(`/games?q=${encodeURIComponent(query)}`);
   };
 
   const handleClear = () => {

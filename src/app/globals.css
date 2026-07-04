@@ -29,43 +29,43 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #080a10;
-  --color-foreground: #ffffff;
+  --color-background: #0c0a09;
+  --color-foreground: #f5f5f4;
 
-  --color-card: #121622;
-  --color-card-foreground: #ffffff;
+  --color-card: #1c1917;
+  --color-card-foreground: #f5f5f4;
 
-  --color-popover: #121622;
-  --color-popover-foreground: #ffffff;
+  --color-popover: #1c1917;
+  --color-popover-foreground: #f5f5f4;
 
-  --color-primary: #00d2ff;
-  --color-primary-foreground: #ffffff;
+  --color-primary: #d9a75d;
+  --color-primary-foreground: #1c1917;
 
-  --color-secondary: #4a5568;
+  --color-secondary: #44403c;
   --color-secondary-foreground: #ffffff;
 
-  --color-muted: #94a3b8;
-  --color-muted-foreground: #94a3b8;
+  --color-muted: #78716c;
+  --color-muted-foreground: #a8a29e;
 
-  --color-accent: #38bdf8;
-  --color-accent-foreground: #ffffff;
+  --color-accent: #e6b773;
+  --color-accent-foreground: #1c1917;
 
-  --color-destructive: #00d2ff; /* Default red, adjust if needed */
+  --color-destructive: #d9a75d;
   --color-destructive-foreground: #fafafa;
 
-  --color-border: #202838;
-  --color-input: #202838;
-  --color-ring: #00d2ff;
+  --color-border: #2e2a28;
+  --color-input: #2e2a28;
+  --color-ring: #d9a75d;
 
-  --color-chart-1: #e67e22;
-  --color-chart-2: #2d8659;
+  --color-chart-1: #d97706;
+  --color-chart-2: #15803d;
   --color-chart-3: #1e3a5f;
-  --color-chart-4: #f1c40f;
-  --color-chart-5: #e74c3c;
+  --color-chart-4: #eab308;
+  --color-chart-5: #b91c1c;
 
-  --color-background-secondary: #121622;
-  --color-text-secondary: #94a3b8;
-  --color-discount-badge: #00d2ff;
+  --color-background-secondary: #1c1917;
+  --color-text-secondary: #a8a29e;
+  --color-discount-badge: #d9a75d;
   --color-shadow-overlay: #000000;
 
   --font-display: "Rajdhani", sans-serif;
@@ -254,4 +254,76 @@
 
 .scrollbar-track-slate-900::-webkit-scrollbar-track {
   background-color: rgb(15 23 42);
+}
+
+/* ── Global Theme Overrides for Hardcoded Blue & Navy Arbitrary Colors ── */
+[class*="bg-\[\#3B82F6\]"],
+[class*="bg-primary"],
+[class*="bg-\[\#3b82f6\]"] {
+  background-color: var(--color-primary) !important;
+}
+[class*="hover\:bg-\[\#2563EB\]"]:hover,
+[class*="hover\:bg-primary-hover"]:hover {
+  background-color: var(--color-accent) !important;
+}
+[class*="text-\[\#3B82F6\]"],
+[class*="text-primary"],
+[class*="text-\[\#3b82f6\]"] {
+  color: var(--color-primary) !important;
+}
+[class*="border-\[\#3B82F6\]"],
+[class*="border-primary"],
+[class*="border-\[\#3b82f6\]"] {
+  border-color: var(--color-primary) !important;
+}
+[class*="bg-\[\#3B82F6\]\/15"],
+[class*="bg-\[\#3b82f6\]\/15"] {
+  background-color: rgba(217, 167, 93, 0.15) !important;
+}
+[class*="border-\[\#3B82F6\]\/50"],
+[class*="border-\[\#3b82f6\]\/50"] {
+  border-color: rgba(217, 167, 93, 0.5) !important;
+}
+[class*="shadow-\[0_0_16px_rgba\(59\,130\,246\,0.35\)\]"] {
+  box-shadow: 0 0 16px rgba(217, 167, 93, 0.35) !important;
+}
+[class*="shadow-\[0_0_16px_rgba\(59\,130\,246\,0.4\)\]"] {
+  box-shadow: 0 0 16px rgba(217, 167, 93, 0.4) !important;
+}
+[class*="shadow-\[0_4px_16px_rgba\(59\,130\,246\,0.3\)\]"] {
+  box-shadow: 0 4px 16px rgba(217, 167, 93, 0.3) !important;
+}
+[class*="shadow-\[0_8px_32px_rgba\(59\,130\,246\,0.4\)\]"] {
+  box-shadow: 0 8px 32px rgba(217, 167, 93, 0.4) !important;
+}
+
+/* Backgrounds mapping from dark navy to deep warm charcoal */
+[class*="bg-\[\#080A10\]"],
+[class*="bg-\[\#080a10\]"] {
+  background-color: var(--color-background) !important;
+}
+[class*="bg-\[\#0d1120\]"],
+[class*="bg-\[\#0D1120\]"],
+[class*="bg-\[\#121622\]"],
+[class*="bg-\[\#121830\]"],
+[class*="bg-\[\#121830\]\/90"],
+[class*="bg-\[\#0d1120\]\/90"] {
+  background-color: var(--color-card) !important;
+}
+
+/* Borders mapping from navy-gray to muted charcoal */
+[class*="border-\[\#1e2640\]"],
+[class*="border-\[\#1E2640\]"],
+[class*="border-\[\#202838\]"] {
+  border-color: var(--color-border) !important;
+}
+
+/* Text colors mapping from navy-blue secondary to warm muted gray */
+[class*="text-\[\#6B7BA4\]"],
+[class*="text-\[\#6b7ba4\]"],
+[class*="text-\[\#9BAACB\]"],
+[class*="text-\[\#9baacb\]"],
+[class*="text-\[\#B0B8D0\]"],
+[class*="text-\[\#b0b8d0\]"] {
+  color: var(--color-muted-foreground) !important;
 }

@@ -45,7 +45,7 @@ const gameCategories: GameCategory[] = [
   { href: "/games#horror", label: "Horror Games", description: "Spine-chilling thrills" },
 ];
 
-export default function SteamRushNavbar() {
+export default function GamerBhiduNavbar() {
   const { itemCount } = useCart();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isGamesOpen, setIsGamesOpen] = React.useState(false);
@@ -65,14 +65,14 @@ export default function SteamRushNavbar() {
             <SheetContent side="left" className="w-[240px] bg-[#080A10] border-[#202838]">
               <SheetHeader>
                 <SheetTitle className="flex items-center">
-                  <Image
-                    src="/new-logo.png"
-                    alt="Gamer Bhidu"
-                    width={140}
-                    height={44}
-                    className="h-8 w-auto"
-                    priority
-                  />
+                    <Image
+                      src="/new-logo.png"
+                      alt="Gamer Bhidu"
+                      width={180}
+                      height={56}
+                      className="h-10 w-auto"
+                      priority
+                    />
                 </SheetTitle>
               </SheetHeader>
 
@@ -86,59 +86,17 @@ export default function SteamRushNavbar() {
                   Home
                 </Link>
 
-                {/* Mobile Browse Games Collapsible */}
-                <Collapsible open={isGamesOpen} onOpenChange={setIsGamesOpen}>
-                  <div className="flex items-center w-full">
-                    {/* Browse Games Link */}
-                    <Link
-                      href="/games"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5 flex-1"
-                    >
-                      <Store className="h-4 w-4" />
-                      Browse Games
-                    </Link>
-
-                    {/* Chevron Toggle */}
-                    <CollapsibleTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-9 w-9 hover:bg-white/5"
-                      >
-                        <ChevronDown
-                          className={cn(
-                            "h-4 w-4 text-white transition-transform duration-200",
-                            isGamesOpen && "rotate-180"
-                          )}
-                        />
-                      </Button>
-                    </CollapsibleTrigger>
-                  </div>
-
-                  <CollapsibleContent className="ml-7 mt-1 space-y-1 border-l-2 border-[#3B82F6] pl-4">
-                    {gameCategories.map((cat) => (
-                      <Link
-                        key={cat.href}
-                        href={cat.href}
-                        onClick={() => setIsOpen(false)}
-                        className="block rounded-md px-3 py-2 text-sm text-[#B0B8D0] transition-colors hover:bg-white/5 hover:text-white"
-                      >
-                        {cat.label}
-                      </Link>
-                    ))}
-                    <Link
-                      href="/games"
-                      onClick={() => setIsOpen(false)}
-                      className="block rounded-md px-3 py-2 text-sm font-semibold text-[#3B82F6] transition-colors hover:bg-white/5"
-                    >
-                      View All →
-                    </Link>
-                  </CollapsibleContent>
-                </Collapsible>
+                <Link
+                  href="/games"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5"
+                >
+                  <Store className="h-4 w-4" />
+                  Browse Games
+                </Link>
 
                 <Link
-                  href="/#faq"
+                  href="/faq"
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/5"
                 >
@@ -168,9 +126,9 @@ export default function SteamRushNavbar() {
             <Image
               src="/new-logo.png"
               alt="Gamer Bhidu - Affordable Gaming"
-              width={200}
-              height={60}
-              className="h-10 sm:h-12 w-auto"
+              width={240}
+              height={70}
+              className="h-12 sm:h-14 w-auto"
               priority
             />
           </Link>
@@ -191,39 +149,16 @@ export default function SteamRushNavbar() {
             Home
           </Link>
 
-          {/* Browse Games Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-2 text-sm font-medium text-[#B0B8D0] hover:text-white hover:bg-white/5">
-                <Store className="h-4 w-4" />
-                Browse Games
-                <ChevronDown className="h-3 w-3" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56 bg-[#121622] border-[#202838]">
-              <DropdownMenuLabel className="text-white">Game Categories</DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-white/10" />
-              {gameCategories.map((cat) => (
-                <DropdownMenuItem key={cat.href} asChild className="focus:bg-white/5 focus:text-white">
-                  <Link href={cat.href} className="cursor-pointer">
-                    <div className="flex flex-col">
-                      <span className="font-medium text-white">{cat.label}</span>
-                      <span className="text-xs text-[#B0B8D0]">{cat.description}</span>
-                    </div>
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator className="bg-white/10" />
-              <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-white">
-                <Link href="/games" className="cursor-pointer font-semibold text-[#3B82F6]">
-                  View All Games →
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Link
+            href="/games"
+            className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-[#B0B8D0] transition-colors hover:bg-white/5 hover:text-white"
+          >
+            <Store className="h-4 w-4" />
+            Browse Games
+          </Link>
 
           <Link
-            href="/#faq"
+            href="/faq"
             className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-[#B0B8D0] transition-colors hover:bg-white/5 hover:text-white"
           >
             <HelpCircle className="h-4 w-4" />

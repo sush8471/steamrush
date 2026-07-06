@@ -16,7 +16,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import SteamRushNavbar from "@/components/sections/steamrush-navbar";
+import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import { useCart } from "@/context/CartContext";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { getGames } from "@/lib/local-db";
@@ -514,7 +514,7 @@ function BrowsePageInner() {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <main className="min-h-screen bg-[#080A10]">
-      <SteamRushNavbar />
+      <GamerBhiduNavbar />
 
       <div className="pt-6 pb-16">
         <div className="mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8">
@@ -527,29 +527,8 @@ function BrowsePageInner() {
                 Browse
               </h1>
               <p className="text-[#6B7BA4] text-xs sm:text-sm hidden sm:block mt-1">
-                {loading ? "Loading..." : `${totalCount.toLocaleString()} games available`} · Original Steam keys · Instant delivery
+                {loading ? "Loading..." : `${totalCount.toLocaleString()} games available`} · Original Steam games files · Instant delivery
               </p>
-            </div>
-            {/* Inline Mobile Search (Only visible on mobile viewports < sm) */}
-            <div className="flex-1 max-w-[200px] sm:hidden">
-              <div className="relative w-full">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6B7BA4]" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  placeholder="Search..."
-                  className="w-full h-9 pl-8 pr-8 bg-[#0d1120] border border-[#1e2640] rounded-lg text-white text-xs placeholder:text-[#4B5680] focus:outline-none focus:border-[#3B82F6] transition-colors"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => handleSearchChange("")}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 text-[#6B7BA4] hover:text-white rounded-full transition-colors"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                )}
-              </div>
             </div>
           </div>
 
@@ -585,30 +564,10 @@ function BrowsePageInner() {
               )}
             </button>
 
-            {/* Desktop Search Bar (Hidden on mobile) */}
-            <div className="hidden sm:block relative w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7BA4]" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Search games..."
-                className="w-full h-10 pl-9 pr-9 bg-[#121830] border border-[#1e2640] rounded-lg text-white text-sm placeholder:text-[#4B5680] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] transition-colors"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => handleSearchChange("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-[#6B7BA4] hover:text-white hover:bg-white/5 rounded-full transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-
             {/* Result count */}
             <span className="text-[#6B7BA4] text-sm flex-1 hidden sm:inline-block">
               {loading
-                ? "Searching..."
+                ? "Loading..."
                 : `${totalCount.toLocaleString()} result${totalCount !== 1 ? "s" : ""}`}
               {currentPage > 1 && !loading && (
                 <span className="ml-1 text-[#4B5680]">
@@ -619,7 +578,7 @@ function BrowsePageInner() {
 
             {/* Mobile Result Count Label */}
             <span className="text-[#6B7BA4] text-sm flex-1 sm:hidden">
-              {loading ? "Searching..." : `${totalCount.toLocaleString()} games`}
+              {loading ? "Loading..." : `${totalCount.toLocaleString()} games`}
             </span>
 
             {/* Sort selector (Custom Dropdown Menu for Premium Styling) */}

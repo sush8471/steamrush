@@ -5,14 +5,13 @@ import { AnimatedMarqueeHero } from "@/components/ui/hero-3";
 import HowItWorks from "@/components/sections/how-it-works";
 import GameCardsGridDiscover from "@/components/sections/game-cards-grid-discover";
 import SocialProof from "@/components/sections/social-proof";
-import SteamRushNavbar from "@/components/sections/steamrush-navbar";
+import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import { Typewriter } from "@/components/ui/typewriter-text";
 
 // Lazy load non-critical sections for better initial load performance
 const ComboDealSection = lazy(() => import("@/components/sections/combo-deals"));
 const RecentlyLaunched = lazy(() => import("@/components/sections/recently-launched"));
 const UpcomingGames = lazy(() => import("@/components/sections/upcoming-games"));
-const FAQ = lazy(() => import("@/components/sections/faq"));
 const Footer = lazy(() => import("@/components/sections/footer"));
 
 const GAME_POSTERS = [
@@ -30,7 +29,7 @@ const GAME_POSTERS = [
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#080A10]">
-      <SteamRushNavbar />
+      <GamerBhiduNavbar />
       <AnimatedMarqueeHero
         tagline={
           <Typewriter
@@ -72,11 +71,6 @@ export default function Home() {
       <Suspense fallback={<div className="h-96 bg-[#080A10]" />}>
         <UpcomingGames />
       </Suspense>
-      <div id="faq">
-        <Suspense fallback={<div className="h-64 bg-[#080A10]" />}>
-          <FAQ />
-        </Suspense>
-      </div>
       <Suspense fallback={<div className="h-32 bg-[#080A10]" />}>
         <Footer />
       </Suspense>

@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Trash2, ShoppingBag, ArrowLeft } from 'lucide-react'
 import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
-import SteamRushNavbar from '@/components/sections/steamrush-navbar'
+import GamerBhiduNavbar from '@/components/sections/gamerbhidu-navbar'
 import Footer from '@/components/sections/footer'
 
 export default function CartPage() {
@@ -57,7 +57,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-[#080A10]">
-      <SteamRushNavbar />
+      <GamerBhiduNavbar />
       
       <div className="py-20 px-4">
         <div className="max-w-6xl mx-auto">

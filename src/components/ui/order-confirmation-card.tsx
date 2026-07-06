@@ -64,7 +64,7 @@ export const OrderConfirmationCard: React.FC<OrderConfirmationCardProps> = ({
     // Create a link to download the QR code
     const link = document.createElement('a');
     link.href = '/payment-qr.png';
-    link.download = 'SteamRush-Payment-QR.png';
+    link.download = 'GamerBhidu-Payment-QR.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

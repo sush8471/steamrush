@@ -51,7 +51,7 @@ function FooterSection() {
               <Link href="/#combo-deals" className="block text-[#B0B8D0] transition-colors hover:text-[#3B82F6]">
                 Combo Deals
               </Link>
-              <Link href="/#faq" className="block text-[#B0B8D0] transition-colors hover:text-[#3B82F6]">
+              <Link href="/faq" className="block text-[#B0B8D0] transition-colors hover:text-[#3B82F6]">
                 FAQ
               </Link>
             </nav>

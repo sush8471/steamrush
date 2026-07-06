@@ -5,7 +5,7 @@ import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ChevronDown, MessageCircle, Check, Monitor, Share2, ChevronLeft, ChevronRight, HelpCircle, Gamepad2, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart } from "lucide-react";
-import SteamRushNavbar from "@/components/sections/steamrush-navbar";
+import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import Footer from "@/components/sections/footer";
 import { getSteamGameDetails, parseSystemRequirements, type SteamGameDetails } from "@/lib/steam-api";
 import { getGameBySlug, getGames, type Game } from "@/lib/local-db";
@@ -188,8 +188,8 @@ export default function GameDetailPage() {
       answer: "After payment, we provide a complete package including specialized files, resources, and a step-by-step tutorial. By following our guide and installing these files into your Steam application, the game will be permanently activated in your personal Steam library."
     },
     {
-      question: "Is this a Steam key or a shared account?",
-      answer: "Neither! We use a unique 'Personal Activation' method. This allows you to have the game in your own personal Steam library. You won't need to manage shared accounts or worry about keys; you'll have full access to download and play directly from Steam."
+      question: "Are these Steam games files or a shared account?",
+      answer: "Neither! We use a unique 'Personal Activation' method. This allows you to have the game in your own personal Steam library. You won't need to manage shared accounts or worry about steam games files; you'll have full access to download and play directly from Steam."
     },
     {
       question: "How fast will I receive the resources?",
@@ -220,7 +220,7 @@ export default function GameDetailPage() {
 
   return (
     <main className="min-h-screen bg-[#080A10] text-white selection:bg-[#00D2FF] selection:text-white pb-12 lg:pb-0">
-      <SteamRushNavbar />
+      <GamerBhiduNavbar />
 
       {/* IMMERSIVE BACKGROUND */}
       <div className="fixed inset-0 h-screen -z-10 pointer-events-none overflow-hidden">

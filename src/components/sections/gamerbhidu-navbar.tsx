@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Home, Store, HelpCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,9 +17,12 @@ export default function GamerBhiduNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/90">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
-        {/* Left Side: Full-screen menu trigger + Logo */}
+        {/* Left Side: Mobile menu trigger + Logo */}
         <div className="flex items-center gap-3">
-          <FullscreenMenu />
+          {/* Mobile-only hamburger */}
+          <div className="lg:hidden">
+            <FullscreenMenu />
+          </div>
 
           {/* Logo */}
           <Link href="/" className="flex items-center hover:opacity-90 transition-opacity flex-shrink-0">
@@ -41,6 +44,33 @@ export default function GamerBhiduNavbar() {
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center gap-1 lg:flex">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
+            >
+              <Home className="h-4 w-4" />
+              Home
+            </Link>
+
+            <Link
+              href="/games"
+              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
+            >
+              <Store className="h-4 w-4" />
+              Browse Games
+            </Link>
+
+            <Link
+              href="/faq"
+              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
+            >
+              <HelpCircle className="h-4 w-4" />
+              FAQ
+            </Link>
+          </nav>
+
           {/* WhatsApp Contact - Desktop */}
           <a
             href="https://wa.me/917752805529?text=Hi! I want to buy a game"

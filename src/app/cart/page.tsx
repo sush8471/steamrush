@@ -42,7 +42,7 @@ export default function CartPage() {
     }\n\n💰 Total: ₹${totalPrice}\n\nI'd like to proceed with this order!`
     
     // Open Instagram profile - user can then send DM with order details
-    window.open('https://www.instagram.com/steamrush_official', '_blank')
+    window.open('https://www.instagram.com/gamer_bhidu/', '_blank')
     
     // Copy order details to clipboard for easy pasting
     navigator.clipboard.writeText(message).then(() => {

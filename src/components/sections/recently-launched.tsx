@@ -50,7 +50,6 @@ export default function RecentlyLaunched() {
           <SectionHeader
             title="Recently Launched"
             subtitle="Fresh arrivals - Get them now!"
-            icon={<Rocket className="w-6 h-6 lg:w-8 lg:h-8" />}
           />
 
           <CarouselNav scrollRef={scrollContainerRef} itemCount={games.length} show={games.length > 1} />

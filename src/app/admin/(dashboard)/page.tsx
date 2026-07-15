@@ -74,9 +74,9 @@ export default function AdminDashboardPage() {
       title: "Upcoming Titles",
       value: stats.upcoming,
       icon: Calendar,
-      color: "from-[#00D2FF]/20 to-[#00F0FF]/5",
+      color: "from-primary/20 to-primary/5",
       iconColor: "text-primary",
-      glowColor: "group-hover:shadow-[#00D2FF]/10",
+      glowColor: "group-hover:shadow-primary/10",
     },
   ];
 
@@ -97,14 +97,14 @@ export default function AdminDashboardPage() {
           return (
             <div
               key={i}
-              className={`group bg-gradient-to-br ${item.color} border border-[#202838] rounded-xl p-3 lg:p-6 hover:border-[#3B82F6]/30 hover:shadow-[0_0_30px_rgba(0,0,0,0.2)] transition-all duration-300 ${item.glowColor}`}
+              className={`group bg-gradient-to-br ${item.color} border border-[#262626] rounded-xl p-3 lg:p-6 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,0,0,0.2)] transition-all duration-300 ${item.glowColor}`}
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="space-y-1 lg:space-y-2 min-w-0">
                   <p className="text-[10px] lg:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-tight">{item.title}</p>
                   <p className="text-2xl lg:text-3xl font-black text-white tracking-tight">{item.value}</p>
                 </div>
-                <div className={`p-2 lg:p-3 bg-[#080A10]/55 rounded-lg border border-[#202838]/60 flex-shrink-0 ${item.iconColor}`}>
+                <div className={`p-2 lg:p-3 bg-[#050505]/55 rounded-lg border border-[#262626]/60 flex-shrink-0 ${item.iconColor}`}>
                   <Icon className="w-4 h-4 lg:w-6 lg:h-6" />
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Admin Quick Walkthrough Panel */}
-      <div className="bg-[#121622] border border-[#202838] rounded-xl p-4 lg:p-8 space-y-4 lg:space-y-6">
+      <div className="bg-[#111111] border border-[#262626] rounded-xl p-4 lg:p-8 space-y-4 lg:space-y-6">
         <div className="space-y-2">
           <h3 className="text-xl font-bold text-white">Welcome, Administrator</h3>
           <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
@@ -125,7 +125,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
           <Link
             href="/admin/games"
-            className="flex items-center justify-between p-6 bg-[#080A10]/40 border border-[#202838] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
+            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
           >
             <div className="space-y-1">
               <h4 className="font-bold text-white group-hover:text-primary transition-colors">Games Catalogue CRUD</h4>
@@ -136,7 +136,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/homepage"
-            className="flex items-center justify-between p-6 bg-[#080A10]/40 border border-[#202838] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
+            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
           >
             <div className="space-y-1">
               <h4 className="font-bold text-white group-hover:text-primary transition-colors">Homepage Management</h4>

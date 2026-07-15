@@ -181,15 +181,11 @@ export default function SocialProof() {
       <section className="w-full bg-gradient-to-b from-background to-card py-16 lg:py-20">
         <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-4 mb-6 lg:mb-10">
-            <div className="flex-1" />
             <SectionHeader
               title="Trusted by Indian Gamers"
-              subtitle="Real payment proofs from customers who bought Steam games via WhatsApp & UPI."
-              align="center"
+              subtitle="Verified payments from real customers."
             />
-            <div className="flex-1 flex justify-end">
-              <CarouselNav scrollRef={scrollContainerRef} itemCount={proofImages.length} show={proofImages.length > 1} />
-            </div>
+            <CarouselNav scrollRef={scrollContainerRef} itemCount={proofImages.length} show={proofImages.length > 1} />
           </div>
 
           <div className="relative overflow-hidden">

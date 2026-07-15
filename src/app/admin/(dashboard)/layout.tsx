@@ -79,7 +79,7 @@ export default function AdminDashboardLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#080A10] flex flex-col items-center justify-center text-white gap-3">
+      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white gap-3">
         <Loader2 className="w-10 h-10 animate-spin text-primary" />
         <p className="text-sm font-medium tracking-wide text-muted-foreground">
           Verifying session...
@@ -89,7 +89,7 @@ export default function AdminDashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#080A10] text-white flex">
+    <div className="min-h-screen bg-[#050505] text-white flex">
       {/* ── Mobile Overlay Backdrop ── */}
       {sidebarOpen && (
         <div
@@ -102,7 +102,7 @@ export default function AdminDashboardLayout({
       <aside
         className={`
           fixed top-0 left-0 h-full z-50 w-72
-          bg-[#0d1120] border-r border-[#202838]
+          bg-[#111111] border-r border-[#262626]
           flex flex-col flex-shrink-0
           transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -110,9 +110,9 @@ export default function AdminDashboardLayout({
         `}
       >
         {/* Sidebar Header */}
-        <div className="p-5 border-b border-[#202838] flex items-center justify-between">
+        <div className="p-5 border-b border-[#262626] flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-base font-black tracking-wider uppercase bg-gradient-to-r from-[#00D2FF] to-[#00F0FF] bg-clip-text text-transparent">
+            <span className="text-base font-black tracking-wider uppercase text-primary">
               Gamer Bhidu
             </span>
             <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">
@@ -139,7 +139,7 @@ export default function AdminDashboardLayout({
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                   isActive
-                    ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_15px_rgba(0,210,255,0.05)]"
+                    ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_15px_rgba(59,130,246,0.05)]"
                     : "text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
@@ -152,8 +152,8 @@ export default function AdminDashboardLayout({
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-[#202838] space-y-3">
-          <div className="px-4 py-2.5 bg-black/25 rounded-xl border border-[#202838]/50">
+        <div className="p-4 border-t border-[#262626] space-y-3">
+          <div className="px-4 py-2.5 bg-black/25 rounded-xl border border-[#262626]/50">
             <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-0.5">
               Logged in as
             </p>
@@ -177,13 +177,13 @@ export default function AdminDashboardLayout({
       {/* ── Main Content Pane ── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Top Header */}
-        <header className="h-14 lg:h-16 border-b border-[#202838] bg-[#0d1120]/80 backdrop-blur-md flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30 gap-3">
+        <header className="h-14 lg:h-16 border-b border-[#262626] bg-[#111111]/80 backdrop-blur-md flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30 gap-3">
           {/* Left: Hamburger + Page title */}
           <div className="flex items-center gap-3 min-w-0">
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden flex-shrink-0 p-2 rounded-lg bg-[#202838] text-gray-300 hover:text-white hover:bg-[#2a3448] transition-colors"
+              className="lg:hidden flex-shrink-0 p-2 rounded-lg bg-[#262626] text-gray-300 hover:text-white hover:bg-[#2a3448] transition-colors"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
@@ -196,7 +196,7 @@ export default function AdminDashboardLayout({
           {/* Right: View Storefront */}
           <Link
             href="/"
-            className="flex-shrink-0 text-xs font-semibold px-3 py-1.5 bg-[#202838] border border-[#2a3448] rounded-full hover:border-gray-500 text-gray-300 transition-colors whitespace-nowrap"
+            className="flex-shrink-0 text-xs font-semibold px-3 py-1.5 bg-[#262626] border border-[#2a3448] rounded-full hover:border-gray-500 text-gray-300 transition-colors whitespace-nowrap"
           >
             View Storefront
           </Link>

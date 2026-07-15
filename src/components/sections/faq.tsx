@@ -74,7 +74,6 @@ export default function FAQ() {
           
           <SectionHeader
             title="Frequently Asked Questions"
-            align="center"
             className="mb-6 md:mb-10 lg:mb-14"
           />
 

@@ -259,7 +259,7 @@ export default function AdminHomepageSectionsPage() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Tab Selectors (Segmented Control style) */}
-      <div className="flex p-1 bg-[#080A10]/60 border border-[#202838] rounded-xl overflow-x-auto scrollbar-hide max-w-fit">
+      <div className="flex p-1 bg-[#050505]/60 border border-[#262626] rounded-xl overflow-x-auto scrollbar-hide max-w-fit">
         {sections.map((section) => {
           const isActive = activeSectionId === section.id;
           return (
@@ -280,10 +280,10 @@ export default function AdminHomepageSectionsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Mapping list table */}
-        <div className="lg:col-span-2 bg-[#121622] border border-[#202838] rounded-xl overflow-hidden shadow-xl">
-          <div className="px-6 py-4 border-b border-[#202838] flex items-center justify-between">
+        <div className="lg:col-span-2 bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
+          <div className="px-6 py-4 border-b border-[#262626] flex items-center justify-between">
             <h3 className="font-bold text-white">Active Section Listings</h3>
-            <span className="text-xs font-bold text-muted-foreground bg-[#202838] px-2.5 py-1 rounded-full">
+            <span className="text-xs font-bold text-muted-foreground bg-[#262626] px-2.5 py-1 rounded-full">
               {mappings.length} {mappings.length === 1 ? "game" : "games"}
             </span>
           </div>
@@ -299,18 +299,18 @@ export default function AdminHomepageSectionsPage() {
               <p className="text-xs font-semibold">No games assigned to this section</p>
             </div>
           ) : (
-            <div className="divide-y divide-[#202838]/60">
+            <div className="divide-y divide-[#262626]/60">
               {mappings.map((mapping, i) => (
                 <div key={mapping.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:p-4 hover:bg-white/[0.01] transition-colors gap-3 group">
                   {/* Info */}
                   <div className="flex items-center gap-3.5 min-w-0">
                     {/* Index Display Badge */}
-                    <span className="w-5 h-5 rounded-full bg-[#080A10]/80 border border-[#202838] flex items-center justify-center text-[10px] text-muted-foreground font-mono font-bold flex-shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-[#050505]/80 border border-[#262626] flex items-center justify-center text-[10px] text-muted-foreground font-mono font-bold flex-shrink-0">
                       {i + 1}
                     </span>
 
                     {/* Image */}
-                    <div className="relative w-8 h-10 bg-black/20 rounded border border-[#202838] overflow-hidden flex-shrink-0">
+                    <div className="relative w-8 h-10 bg-black/20 rounded border border-[#262626] overflow-hidden flex-shrink-0">
                       <Image
                         src={mapping.image_url}
                         alt={mapping.title}
@@ -330,7 +330,7 @@ export default function AdminHomepageSectionsPage() {
                   {/* Actions (Reorder/Remove) */}
                   <div className="flex items-center justify-end gap-3.5 flex-shrink-0">
                     {/* Move Controls */}
-                    <div className="flex items-center border border-[#202838] bg-[#080A10]/40 rounded-lg p-0.5">
+                    <div className="flex items-center border border-[#262626] bg-[#050505]/40 rounded-lg p-0.5">
                       <button
                         disabled={i === 0 || actionLoading}
                         onClick={() => handleSwapOrder(i, i - 1)}
@@ -339,7 +339,7 @@ export default function AdminHomepageSectionsPage() {
                       >
                         <ArrowUp className="w-4 h-4" />
                       </button>
-                      <div className="w-[1px] h-5 bg-[#202838]" />
+                      <div className="w-[1px] h-5 bg-[#262626]" />
                       <button
                         disabled={i === mappings.length - 1 || actionLoading}
                         onClick={() => handleSwapOrder(i, i + 1)}
@@ -367,7 +367,7 @@ export default function AdminHomepageSectionsPage() {
         </div>
 
         {/* Add game controller panel */}
-        <div className="bg-[#121622] border border-[#202838] rounded-xl p-6 space-y-4 shadow-xl">
+        <div className="bg-[#111111] border border-[#262626] rounded-xl p-6 space-y-4 shadow-xl">
           <div className="space-y-1">
             <h3 className="font-bold text-white">Add Game to Section</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
@@ -384,7 +384,7 @@ export default function AdminHomepageSectionsPage() {
                 disabled={actionLoading || unmappedGames.length === 0}
                 value={selectedGameId}
                 onChange={(e) => setSelectedGameId(e.target.value)}
-                className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 disabled:opacity-50 cursor-pointer"
+                className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 disabled:opacity-50 cursor-pointer"
               >
                 <option value="">-- Choose a game to add --</option>
                 {unmappedGames.map((game) => (
@@ -398,7 +398,7 @@ export default function AdminHomepageSectionsPage() {
             <button
               type="submit"
               disabled={actionLoading || !selectedGameId}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#00B8E6] text-primary-foreground font-black text-sm py-3 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-black text-sm py-3 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Assign to Section</span>

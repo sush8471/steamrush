@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ChevronDown, MessageCircle, Check, Monitor, Share2, ChevronLeft, ChevronRight, HelpCircle, Gamepad2, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart, ChevronUp } from "lucide-react";
+import { ArrowLeft, ChevronDown, MessageCircle, Check, Share2, ChevronLeft, ChevronRight, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart, ChevronUp } from "lucide-react";
 import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import Footer from "@/components/sections/footer";
 import { getSteamGameDetails, parseSystemRequirements, type SteamGameDetails } from "@/lib/steam-api";
@@ -13,6 +13,7 @@ import { useCart } from "@/context/CartContext";
 import { motion, Variants } from "framer-motion";
 import ThumbnailCarousel from "@/components/ui/thumbnail-carousel";
 import { SectionHeader } from "@/components/ui/section-header";
+import { CarouselNav } from "@/components/ui/carousel-nav";
 
 // Skeleton Component
 const Skeleton = ({ className }: { className?: string }) => (
@@ -70,6 +71,7 @@ export default function GameDetailPage() {
 
   const { addToCart, isInCart } = useCart();
   const isAdded = game ? isInCart(game.slug) : false;
+  const similarScrollRef = useRef<HTMLDivElement>(null);
 
   const handleAddToCart = () => {
     if (game) {
@@ -167,7 +169,7 @@ export default function GameDetailPage() {
       <main className="min-h-screen bg-background flex items-center justify-center text-white">
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-4">Game Not Found</h1>
-          <Link href="/games" className="text-white hover:underline">Back to Store</Link>
+          <Link href="/games" className="text-primary hover:underline">Back to Store</Link>
         </div>
       </main>
     );
@@ -226,8 +228,8 @@ export default function GameDetailPage() {
 
       {/* IMMERSIVE BACKGROUND */}
       <div className="fixed inset-0 h-screen -z-10 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0c0a09]/20 via-[#0c0a09]/80 to-[#0c0a09] z-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0c0a09]/50 via-transparent to-[#0c0a09]/50 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/80 to-background z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-transparent to-background/50 z-10" />
         <Image
           src={headerImage}
           alt=""
@@ -289,7 +291,7 @@ export default function GameDetailPage() {
               </div>
 
               {/* MOBILE: COMPACT INFO CARD (Rest of Content Below Gallery) */}
-              <div className="lg:hidden px-6 py-10 bg-gradient-to-b from-[#0c0a09] to-transparent">
+              <div className="lg:hidden px-6 py-10 bg-gradient-to-b from-background to-transparent">
 
                 {/* Short About & Metadata */}
                 <div className="space-y-8">
@@ -336,7 +338,6 @@ export default function GameDetailPage() {
                   >
                     <SectionHeader
                       title="System Requirements"
-                      icon={<Monitor className="w-5 h-5" />}
                       className="mb-5"
                     />
                     <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
@@ -461,7 +462,6 @@ export default function GameDetailPage() {
               >
                 <SectionHeader
                   title="Frequently Asked"
-                  icon={<HelpCircle className="w-5 h-5" />}
                   className="mb-5"
                 />
 
@@ -487,13 +487,15 @@ export default function GameDetailPage() {
                   variants={fadeInUp}
                   className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-none lg:rounded-3xl p-6 lg:p-12 shadow-2xl mt-8 lg:mt-16"
                 >
-                  <SectionHeader
-                    title="You May Also Like"
-                    icon={<Gamepad2 className="w-5 h-5" />}
-                    className="mb-4"
-                  />
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <SectionHeader
+                      title="You May Also Like"
+                      className="mb-0"
+                    />
+                    <CarouselNav scrollRef={similarScrollRef} itemCount={similarGames.length} />
+                  </div>
 
-                  <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-3 -mx-1 px-1 snap-x snap-mandatory">
+                  <div ref={similarScrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide pb-3 -mx-1 px-1 snap-x snap-mandatory">
                     {similarGames.map((sg) => (
                       <Link
                         key={sg.id}

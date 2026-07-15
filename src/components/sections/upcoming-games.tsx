@@ -48,7 +48,6 @@ export default function UpcomingGames() {
           <SectionHeader
             title="Upcoming Games"
             subtitle="New releases arriving soon"
-            icon={<Sparkles className="w-6 h-6 lg:w-8 lg:h-8" />}
           />
 
           <CarouselNav scrollRef={scrollContainerRef} itemCount={games.length} show={games.length > 1} />

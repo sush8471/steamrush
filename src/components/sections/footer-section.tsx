@@ -7,7 +7,7 @@ import { FaWhatsapp } from "react-icons/fa"
 
 const socialLinks = [
   {
-    href: "https://www.instagram.com/steam_rush/",
+    href: "https://www.instagram.com/gamer_bhidu/",
     label: "Instagram",
     icon: Instagram,
   },
@@ -37,13 +37,6 @@ const companyLinks = [
   { href: "/faq", label: "FAQ" },
   { href: "https://wa.me/917752805529", label: "Contact & Support" },
   { href: "/#how-it-works", label: "How It Works" },
-]
-
-const legalLinks = [
-  { href: "#", label: "Terms of Use" },
-  { href: "#", label: "Privacy Policy" },
-  { href: "#", label: "Refund Policy" },
-  { href: "#", label: "Cookie Policy" },
 ]
 
 function FooterLink({ href, label }: { href: string; label: string }) {
@@ -80,7 +73,7 @@ export function FooterSection() {
     <footer className="relative border-t border-white/10 bg-background text-white transition-colors duration-300">
       {/* Main Footer Grid */}
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14">
-        <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:grid-cols-4">
           
           {/* Follow Us */}
           <FooterColumn title="Follow Us">
@@ -117,15 +110,8 @@ export function FooterSection() {
             ))}
           </FooterColumn>
 
-          {/* Legal */}
-          <FooterColumn title="Legal">
-            {legalLinks.map((link) => (
-              <FooterLink key={link.label} href={link.href} label={link.label} />
-            ))}
-          </FooterColumn>
-
           {/* Back to Top */}
-          <div className="hidden lg:flex lg:justify-end">
+          <div className="hidden lg:flex lg:justify-end lg:items-start">
             <button
               onClick={scrollToTop}
               className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-200"
@@ -134,6 +120,8 @@ export function FooterSection() {
               <ArrowUp className="w-5 h-5" />
             </button>
           </div>
+
+
         </div>
       </div>
 

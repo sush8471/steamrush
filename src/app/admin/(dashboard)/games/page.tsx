@@ -450,7 +450,7 @@ export default function AdminGamesPage() {
   return (
     <div className="space-y-4 animate-fadeIn">
       {/* Control Bar */}
-      <div className="bg-[#121622] border border-[#202838] p-3 lg:p-4 rounded-xl space-y-3">
+      <div className="bg-[#111111] border border-[#262626] p-3 lg:p-4 rounded-xl space-y-3">
         {/* Search — full width */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -459,7 +459,7 @@ export default function AdminGamesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title, series, or slug..."
-            className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10"
+            className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10"
           />
         </div>
 
@@ -469,7 +469,7 @@ export default function AdminGamesPage() {
           <select
             value={selectedGenre}
             onChange={(e) => setSelectedGenre(e.target.value)}
-            className="flex-1 min-w-[130px] bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none cursor-pointer"
+            className="flex-1 min-w-[130px] bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none cursor-pointer"
           >
             {allGenres.map((g) => (
               <option key={g} value={g}>
@@ -482,7 +482,7 @@ export default function AdminGamesPage() {
           <select
             value={selectedVisibility}
             onChange={(e) => setSelectedVisibility(e.target.value)}
-            className="flex-1 min-w-[130px] bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none cursor-pointer"
+            className="flex-1 min-w-[130px] bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none cursor-pointer"
           >
             <option value="All">Visibility: All</option>
             <option value="Visible">Visible Only</option>
@@ -492,7 +492,7 @@ export default function AdminGamesPage() {
           {/* Add Game Button */}
           <button
             onClick={openAddModal}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-[#00D2FF] to-[#00B8E6] text-primary-foreground font-black text-sm rounded-lg hover:brightness-110 transition-all active:scale-[0.98] cursor-pointer whitespace-nowrap"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-black text-sm rounded-lg hover:brightness-110 transition-all active:scale-[0.98] cursor-pointer whitespace-nowrap"
           >
             <Plus className="w-4 h-4" />
             <span>Add Game</span>
@@ -501,7 +501,7 @@ export default function AdminGamesPage() {
       </div>
 
       {/* Main Panel */}
-      <div className="bg-[#121622] border border-[#202838] rounded-xl overflow-hidden shadow-xl">
+      <div className="bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
         {loading ? (
           <div className="h-72 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -523,11 +523,11 @@ export default function AdminGamesPage() {
         ) : (
           <>
             {/* ── Mobile Card List (< md) ── */}
-            <div className="md:hidden divide-y divide-[#202838]/60">
+            <div className="md:hidden divide-y divide-[#262626]/60">
               {paginatedGames.map((game) => (
                 <div key={game.id} className="flex items-center gap-3 p-3">
                   {/* Poster */}
-                  <div className="relative w-10 h-14 flex-shrink-0 bg-black/20 rounded border border-[#202838] overflow-hidden">
+                  <div className="relative w-10 h-14 flex-shrink-0 bg-black/20 rounded border border-[#262626] overflow-hidden">
                     <Image src={game.image_url} alt={game.title} fill sizes="40px" className="object-cover" />
                   </div>
 
@@ -540,7 +540,7 @@ export default function AdminGamesPage() {
                       {game.selling_price !== null ? (
                         <span className="text-xs font-black text-white">₹{game.selling_price}</span>
                       ) : (
-                        <span className="text-[10px] text-muted-foreground bg-[#202838] px-1.5 py-0.5 rounded">N/A</span>
+                        <span className="text-[10px] text-muted-foreground bg-[#262626] px-1.5 py-0.5 rounded">N/A</span>
                       )}
                       {/* Discount badge */}
                       {game.discount_percentage ? (
@@ -578,7 +578,7 @@ export default function AdminGamesPage() {
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-[#202838] bg-black/10 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                  <tr className="border-b border-[#262626] bg-black/10 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                     <th className="py-4 px-6 w-20">Image</th>
                     <th className="py-4 px-6">Title / Series</th>
                     <th className="py-4 px-6 w-32">Price</th>
@@ -588,11 +588,11 @@ export default function AdminGamesPage() {
                     <th className="py-4 px-6 w-28 text-center">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#202838]/60 text-sm">
+                <tbody className="divide-y divide-[#262626]/60 text-sm">
                   {paginatedGames.map((game) => (
                     <tr key={game.id} className="hover:bg-white/[0.02] transition-colors group">
                       <td className="py-3 px-6">
-                        <div className="relative w-10 h-12 bg-black/20 rounded border border-[#202838] overflow-hidden">
+                        <div className="relative w-10 h-12 bg-black/20 rounded border border-[#262626] overflow-hidden">
                           <Image src={game.image_url} alt={game.title} fill sizes="40px" className="object-cover" />
                         </div>
                       </td>
@@ -609,7 +609,7 @@ export default function AdminGamesPage() {
                             )}
                           </div>
                         ) : (
-                          <span className="text-xs text-muted-foreground font-bold bg-[#202838] px-2 py-0.5 rounded">N/A</span>
+                          <span className="text-xs text-muted-foreground font-bold bg-[#262626] px-2 py-0.5 rounded">N/A</span>
                         )}
                       </td>
                       <td className="py-3 px-6">
@@ -674,7 +674,7 @@ export default function AdminGamesPage() {
 
         {/* Pagination Footer */}
         {!loading && filteredGames.length > 0 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#202838] px-4 py-3 bg-black/5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#262626] px-4 py-3 bg-black/5">
             <p className="text-xs text-muted-foreground text-center sm:text-left">
               Showing{" "}
               <span className="font-semibold text-white">{(currentPage - 1) * itemsPerPage + 1}</span> –{" "}
@@ -685,7 +685,7 @@ export default function AdminGamesPage() {
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                className="p-2 border border-[#202838] rounded-lg bg-[#080A10]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="p-2 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -695,7 +695,7 @@ export default function AdminGamesPage() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                className="p-2 border border-[#202838] rounded-lg bg-[#080A10]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="p-2 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -707,9 +707,9 @@ export default function AdminGamesPage() {
       {/* CRUD Add/Edit Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full sm:max-w-2xl bg-[#121622] border border-[#202838] sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] animate-fadeIn">
+          <div className="w-full sm:max-w-2xl bg-[#111111] border border-[#262626] sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] animate-fadeIn">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-[#202838] flex items-center justify-between flex-shrink-0">
+            <div className="px-6 py-4 border-b border-[#262626] flex items-center justify-between flex-shrink-0">
               <h3 className="text-lg font-bold text-white">
                 {modalMode === "add" ? "Add Game Listing" : "Edit Game Listing"}
               </h3>
@@ -732,7 +732,7 @@ export default function AdminGamesPage() {
                 )}
 
               {/* Steam Autofill Control */}
-              <div className="bg-[#080A10]/40 border border-[#202838] rounded-xl p-4 space-y-3">
+              <div className="bg-[#050505]/40 border border-[#262626] rounded-xl p-4 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-wider">
                   <Sparkles className="w-4 h-4" />
                   <span>Autofill from Steam Store</span>
@@ -744,14 +744,14 @@ export default function AdminGamesPage() {
                       value={formData.steam_app_id}
                       onChange={(e) => setFormData(prev => ({ ...prev, steam_app_id: e.target.value }))}
                       placeholder="Enter Steam App ID (e.g. 3768760)"
-                      className="w-full bg-[#080A10]/80 border border-[#202838] focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none transition-all placeholder:text-gray-600 font-mono"
+                      className="w-full bg-[#050505]/80 border border-[#262626] focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none transition-all placeholder:text-gray-600 font-mono"
                     />
                   </div>
                   <button
                     type="button"
                     disabled={fetchingSteam || !formData.steam_app_id}
                     onClick={handleFetchSteam}
-                    className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#00D2FF] to-[#00B8E6] text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed font-black text-xs rounded-lg hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed font-black text-xs rounded-lg hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                   >
                     {fetchingSteam ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -780,8 +780,8 @@ export default function AdminGamesPage() {
                   onDragLeave={handleDrag}
                   onDrop={handleDrop}
                   onClick={() => document.getElementById("file-upload")?.click()}
-                  className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer relative overflow-hidden h-48 bg-[#080A10]/20 ${
-                    dragActive ? "border-primary bg-primary/5" : "border-[#202838] hover:border-primary/50"
+                  className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer relative overflow-hidden h-48 bg-[#050505]/20 ${
+                    dragActive ? "border-primary bg-primary/5" : "border-[#262626] hover:border-primary/50"
                   }`}
                 >
                   <input
@@ -832,7 +832,7 @@ export default function AdminGamesPage() {
                   value={formData.image_url}
                   onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
                   placeholder="Or enter poster URL manually (e.g. /gta-v.jpg)"
-                  className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none placeholder:text-gray-600 font-mono"
+                  className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none placeholder:text-gray-600 font-mono"
                 />
               </div>
 
@@ -848,7 +848,7 @@ export default function AdminGamesPage() {
                     value={formData.title}
                     onChange={handleTitleChange}
                     placeholder="Enter Title Name"
-                    className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
                   />
                 </div>
 
@@ -863,7 +863,7 @@ export default function AdminGamesPage() {
                     value={formData.slug}
                     onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
                     placeholder="Auto-generated slug name"
-                    className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
                   />
                 </div>
 
@@ -877,7 +877,7 @@ export default function AdminGamesPage() {
                     value={formData.original_price}
                     onChange={(e) => setFormData(prev => ({ ...prev, original_price: e.target.value }))}
                     placeholder="Original Price"
-                    className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
                   />
                 </div>
 
@@ -891,7 +891,7 @@ export default function AdminGamesPage() {
                     value={formData.selling_price}
                     onChange={(e) => setFormData(prev => ({ ...prev, selling_price: e.target.value }))}
                     placeholder="Selling/Discounted Price"
-                    className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
                   />
                 </div>
 
@@ -904,7 +904,7 @@ export default function AdminGamesPage() {
                     type="text"
                     disabled
                     value={formData.discount_percentage ? `${formData.discount_percentage}%` : "0% (Auto-Calculated)"}
-                    className="w-full bg-[#121622] border border-[#202838] rounded-lg px-3 py-2 text-sm text-muted-foreground focus:outline-none font-bold"
+                    className="w-full bg-[#111111] border border-[#262626] rounded-lg px-3 py-2 text-sm text-muted-foreground focus:outline-none font-bold"
                   />
                 </div>
 
@@ -918,7 +918,7 @@ export default function AdminGamesPage() {
                     value={formData.series}
                     onChange={(e) => setFormData(prev => ({ ...prev, series: e.target.value }))}
                     placeholder="Series Name"
-                    className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
                   />
                 </div>
               </div>
@@ -953,7 +953,7 @@ export default function AdminGamesPage() {
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer select-none active:scale-[0.97] ${
                           isChecked
                             ? "bg-primary/10 border-primary text-primary shadow-[0_0_12px_rgba(0,210,255,0.1)]"
-                            : "bg-[#080A10]/30 border-[#202838] text-muted-foreground hover:border-gray-500 hover:text-white"
+                            : "bg-[#050505]/30 border-[#262626] text-muted-foreground hover:border-gray-500 hover:text-white"
                         }`}
                       >
                         <input
@@ -973,7 +973,7 @@ export default function AdminGamesPage() {
                   value={formData.genre}
                   onChange={(e) => setFormData(prev => ({ ...prev, genre: e.target.value }))}
                   placeholder="Or enter custom genres manually (comma-separated, e.g. Platformer, VR)"
-                  className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 font-mono"
+                  className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 font-mono"
                 />
               </div>
 
@@ -987,7 +987,7 @@ export default function AdminGamesPage() {
                   value={formData.tags}
                   onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
                   placeholder="mario, nintendo, platforms"
-                  className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                  className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
                 />
               </div>
 
@@ -1001,11 +1001,11 @@ export default function AdminGamesPage() {
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="No need to fill this in if you have Steam App ID. It will be fetched automatically."
-                  className="w-full bg-[#080A10]/50 border border-[#202838] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 resize-none"
+                  className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 resize-none"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#202838] pt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#262626] pt-6">
                 {/* Release Status */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider font-bold">
@@ -1019,7 +1019,7 @@ export default function AdminGamesPage() {
                         value="released"
                         checked={formData.release_status === "released"}
                         onChange={() => setFormData(prev => ({ ...prev, release_status: "released" }))}
-                        className="accent-[#00D2FF]"
+                        className="accent-primary"
                       />
                       <span>Released</span>
                     </label>
@@ -1030,7 +1030,7 @@ export default function AdminGamesPage() {
                         value="upcoming"
                         checked={formData.release_status === "upcoming"}
                         onChange={() => setFormData(prev => ({ ...prev, release_status: "upcoming" }))}
-                        className="accent-[#00D2FF]"
+                        className="accent-primary"
                       />
                       <span>Upcoming</span>
                     </label>
@@ -1047,7 +1047,7 @@ export default function AdminGamesPage() {
                       type="checkbox"
                       checked={formData.visible}
                       onChange={(e) => setFormData(prev => ({ ...prev, visible: e.target.checked }))}
-                      className="w-4 h-4 rounded border-[#202838] accent-[#00D2FF]"
+                      className="w-4 h-4 rounded border-[#262626] accent-primary"
                     />
                     <span>Make listing visible on public storefront</span>
                   </label>
@@ -1057,18 +1057,18 @@ export default function AdminGamesPage() {
               </div>
 
               {/* Form Actions Footer */}
-              <div className="border-t border-[#202838] p-4 bg-[#121622] flex justify-end gap-3 flex-shrink-0">
+              <div className="border-t border-[#262626] p-4 bg-[#111111] flex justify-end gap-3 flex-shrink-0">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2.5 bg-[#202838] text-white font-bold text-sm rounded-lg hover:bg-[#363B5E] transition-colors cursor-pointer"
+                  className="px-4 py-2.5 bg-[#262626] text-white font-bold text-sm rounded-lg hover:bg-[#363B5E] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#00D2FF] to-[#00B8E6] text-primary-foreground font-black text-sm rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground font-black text-sm rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {formLoading && <Loader2 className="w-4 h-4 animate-spin" />}
                   <span>{modalMode === "add" ? "Save Game" : "Update Game"}</span>
@@ -1082,7 +1082,7 @@ export default function AdminGamesPage() {
       {/* Delete Confirmation Modal */}
       {deleteOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#121622] border border-red-500/20 rounded-2xl shadow-2xl p-6 space-y-6 animate-fadeIn">
+          <div className="w-full max-w-md bg-[#111111] border border-red-500/20 rounded-2xl shadow-2xl p-6 space-y-6 animate-fadeIn">
             <div className="flex items-start gap-4">
               <div className="p-3 bg-red-500/10 text-red-400 rounded-lg">
                 <AlertTriangle className="w-6 h-6" />
@@ -1102,7 +1102,7 @@ export default function AdminGamesPage() {
                   setDeleteOpen(false);
                   setGameToDelete(null);
                 }}
-                className="px-4 py-2.5 bg-[#202838] text-white font-bold text-sm rounded-lg hover:bg-[#363B5E] transition-colors cursor-pointer"
+                className="px-4 py-2.5 bg-[#262626] text-white font-bold text-sm rounded-lg hover:bg-[#363B5E] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -1125,9 +1125,9 @@ export default function AdminGamesPage() {
           {/* Backdrop click closer */}
           <div className="absolute inset-0" onClick={() => setMobileActionGame(null)} />
           
-          <div className="w-full bg-[#121622] border-t border-[#202838] rounded-t-2xl shadow-2xl p-6 relative z-10 flex flex-col space-y-4 animate-in slide-in-from-bottom duration-250">
+          <div className="w-full bg-[#111111] border-t border-[#262626] rounded-t-2xl shadow-2xl p-6 relative z-10 flex flex-col space-y-4 animate-in slide-in-from-bottom duration-250">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#202838] pb-3">
+            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
               <div className="min-w-0">
                 <h4 className="font-bold text-white text-sm truncate">{mobileActionGame.title}</h4>
                 <p className="text-[10px] text-muted-foreground font-mono">/{mobileActionGame.slug}</p>
@@ -1164,7 +1164,7 @@ export default function AdminGamesPage() {
                   openEditModal(mobileActionGame);
                   setMobileActionGame(null);
                 }}
-                className="flex items-center gap-3 w-full p-3 bg-[#202838]/50 hover:bg-[#202838] border border-[#202838] text-white rounded-xl text-sm font-bold transition-all cursor-pointer"
+                className="flex items-center gap-3 w-full p-3 bg-[#262626]/50 hover:bg-[#262626] border border-[#262626] text-white rounded-xl text-sm font-bold transition-all cursor-pointer"
               >
                 <Edit2 className="w-4 h-4 text-primary" />
                 <span>Edit Game Details</span>

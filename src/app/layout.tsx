@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { Analytics } from "@vercel/analytics/next";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Gamer Bhidu | Premium PC Games at Unbeatable Prices",
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground antialiased">
         <CartProvider>
           <SearchProvider>
+            <ScrollToTop />
             {children}
             <Analytics />
           </SearchProvider>

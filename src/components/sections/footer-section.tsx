@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Instagram, ArrowUp } from "lucide-react"
 import { FaWhatsapp } from "react-icons/fa"
 
@@ -122,18 +121,8 @@ export function FooterSection() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6">
-          <div className="flex flex-col items-center gap-4">
-            {/* Logo */}
-            <Image
-              src="/new-logo.png"
-              alt="Gamer Bhidu"
-              width={180}
-              height={50}
-              className="h-8 w-auto opacity-80"
-            />
-            
-            {/* Copyright */}
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-4">
+          <div className="flex flex-col items-center gap-2">
             <p className="text-xs text-muted-foreground text-center">
               © 2026 Gamer Bhidu. All rights reserved.
             </p>

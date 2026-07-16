@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Gamepad2,
   Home,
+  Layers,
   LogOut,
   Loader2,
   Menu,
@@ -72,6 +73,7 @@ export default function AdminDashboardLayout({
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/games", label: "Games Catalog", icon: Gamepad2 },
     { href: "/admin/homepage", label: "Homepage Sections", icon: Home },
+    { href: "/admin/combos", label: "Value Combos", icon: Layers },
   ];
 
   const currentPageLabel =

@@ -265,3 +265,128 @@ export async function getGamesBySection(sectionSlug: string) {
     return { data: gamesList, error: null };
 }
 
+/**
+ * Combo types for Value Combos section
+ */
+export interface Combo {
+    id: string;
+    title: string;
+    description: string | null;
+    image_url: string | null;
+    original_price: number | null;
+    discounted_price: number;
+    discount_details: string | null;
+    curiosity_cue: string | null;
+    value_anchor: string | null;
+    display_order: number;
+    visible: boolean;
+    created_at: string;
+    games?: ComboGame[];
+}
+
+export interface ComboGame {
+    id: string;
+    combo_id: string;
+    game_id: string;
+    display_order: number;
+    game?: {
+        id: string;
+        title: string;
+        slug: string;
+        image_url: string;
+    };
+}
+
+/**
+ * Get all visible combos ordered by display_order, with their associated games
+ */
+export async function getCombos() {
+    const { data, error } = await supabase
+        .from('combos')
+        .select(`
+            *,
+            combo_games (
+                id,
+                combo_id,
+                game_id,
+                display_order,
+                games (
+                    id,
+                    title,
+                    slug,
+                    image_url
+                )
+            )
+        `)
+        .eq('visible', true)
+        .order('display_order', { ascending: true });
+
+    if (error) {
+        return { data: [], error: error.message };
+    }
+
+    const combos: Combo[] = (data || []).map((combo: any) => ({
+        ...combo,
+        games: (combo.combo_games || [])
+            .filter((cg: any) => cg.games)
+            .sort((a: any, b: any) => a.display_order - b.display_order)
+            .map((cg: any) => ({
+                id: cg.id,
+                combo_id: cg.combo_id,
+                game_id: cg.game_id,
+                display_order: cg.display_order,
+                game: cg.games,
+            })),
+    }));
+
+    return { data: combos, error: null };
+}
+
+/**
+ * Get a single combo by ID with its associated games
+ */
+export async function getComboById(id: string) {
+    const { data, error } = await supabase
+        .from('combos')
+        .select(`
+            *,
+            combo_games (
+                id,
+                combo_id,
+                game_id,
+                display_order,
+                games (
+                    id,
+                    title,
+                    slug,
+                    image_url
+                )
+            )
+        `)
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        return { data: null, error: error.message };
+    }
+    if (!data) {
+        return { data: null, error: "Combo not found" };
+    }
+
+    const combo: Combo = {
+        ...data,
+        games: (data.combo_games || [])
+            .filter((cg: any) => cg.games)
+            .sort((a: any, b: any) => a.display_order - b.display_order)
+            .map((cg: any) => ({
+                id: cg.id,
+                combo_id: cg.combo_id,
+                game_id: cg.game_id,
+                display_order: cg.display_order,
+                game: cg.games,
+            })),
+    };
+
+    return { data: combo, error: null };
+}
+

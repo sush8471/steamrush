@@ -1,137 +1,49 @@
 "use client";
 
-import React, { useRef, useState, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { X, Check, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { getCombos, Combo, ComboGame } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
 
 interface ComboData {
-  id: number;
+  id: string;
   title: string;
-  description: string;
-  valueAnchor: string;
-  curiosityCue: string;
+  description: string | null;
+  valueAnchor: string | null;
+  curiosityCue: string | null;
   price: {
     original?: string;
     discounted: string;
     discountDetails?: string;
   };
   image: string;
-  hasGameList?: boolean;
+  hasGameList: boolean;
+  games?: ComboGame[];
 }
 
-const LOW_SPEC_GAMES = [
-  "Prototype 1",
-  "Prototype 2",
-  "GTA: San Andreas",
-  "GTA: Vice City",
-  "GTA III",
-  "Max Payne",
-  "Max Payne 2",
-  "Prince of Persia: Sands of Time",
-  "Prince of Persia: Warrior Within",
-  "Prince of Persia: Two Thrones",
-  "Tomb Raider (2013)",
-  "Assassin's Creed II",
-  "Assassin's Creed Brotherhood",
-  "Assassin's Creed Revelations",
-  "Bully: Scholarship Edition",
-  "Mafia (Classic)",
-  "Mafia II",
-  "Call of Duty 4: Modern Warfare",
-  "Call of Duty: World at War",
-  "Call of Duty: Modern Warfare 2 (2009)",
-  "Call of Duty: Modern Warfare 3",
-  "Call of Duty: Black Ops 1",
-  "Call of Duty: Black Ops 2",
-  "Left 4 Dead",
-  "Left 4 Dead 2",
-  "Far Cry 2",
-  "Far Cry 3",
-  "Need for Speed: Most Wanted (2005)",
-  "Need for Speed: Carbon",
-  "Need for Speed: Underground",
-  "Need for Speed: Underground 2",
-  "Burnout Paradise",
-  "Age of Empires II (HD Edition)",
-  "Plants vs Zombies",
-];
-
-const STORY_LOVER_GAMES = [
-  "The Last of Us Part I",
-  "The Last of Us Part II",
-  "God of War",
-  "God of War Ragnarök",
-  "Red Dead Redemption 2",
-  "Detroit: Become Human",
-  "Uncharted: Legacy of Thieves Collection",
-  "A Plague Tale: Innocence",
-  "A Plague Tale: Requiem",
-  "Disco Elysium",
-  "Mafia: Definitive Edition",
-  "Cyberpunk 2077",
-  "Star Wars Jedi: Fallen Order",
-  "Little Nightmares",
-  "Little Nightmares II",
-];
-
-const OPEN_WORLD_GAMES = [
-  "Grand Theft Auto V",
-  "Red Dead Redemption 2",
-  "Elden Ring",
-  "Ghost of Tsushima",
-  "Assassin's Creed Valhalla",
-  "Hogwarts Legacy",
-  "Horizon Zero Dawn",
-  "Far Cry 5",
-  "Forza Horizon 5",
-  "The Witcher 3: Wild Hunt",
-];
-
-const COMBOS: ComboData[] = [
-  {
-    id: 1,
-    title: "Low-Spec PC Bundle",
-    description: "Runs smooth on older hardware",
-    valueAnchor: "Worth ₹1,799 → Get for ₹199",
-    curiosityCue: "33 classic games included",
+function transformCombo(combo: Combo): ComboData {
+  const originalPrice = combo.original_price ? `₹${combo.original_price.toLocaleString()}` : undefined;
+  const discountedPrice = `₹${combo.discounted_price.toLocaleString()}`;
+  
+  return {
+    id: combo.id,
+    title: combo.title,
+    description: combo.description,
+    valueAnchor: combo.value_anchor,
+    curiosityCue: combo.curiosity_cue,
     price: {
-      discounted: "₹199",
+      original: originalPrice,
+      discounted: discountedPrice,
+      discountDetails: combo.discount_details ?? undefined,
     },
-    image: "/low-spec-bundle.jpg",
-    hasGameList: true,
-  },
-  {
-    id: 2,
-    title: "Story-Lover Pack",
-    description: "Perfect if you loved The Last of Us",
-    valueAnchor: "Worth ₹3,774 → Get for ₹499",
-    curiosityCue: "15 narrative masterpieces included",
-    price: {
-      original: "₹3,774",
-      discounted: "₹499",
-      discountDetails: "-87%",
-    },
-    image: "/story-lover-pack.jpg",
-    hasGameList: true,
-  },
-  {
-    id: 3,
-    title: "Open-World Addict",
-    description: "Explore massive worlds, your way",
-    valueAnchor: "Worth ₹3,176 → Get for ₹699",
-    curiosityCue: "10 massive open-world games",
-    price: {
-      original: "₹3,176",
-      discounted: "₹699",
-      discountDetails: "-78%",
-    },
-    image: "/open-world-addict.jpg",
-    hasGameList: true,
-  },
-];
+    image: combo.image_url || "",
+    hasGameList: (combo.games?.length || 0) > 0,
+    games: combo.games,
+  };
+}
 
 function GameListDialog({ 
   isOpen, 
@@ -144,25 +56,7 @@ function GameListDialog({
 }) {
   if (!isOpen || !bundle) return null;
 
-  const getGameList = (bundleId: number) => {
-    if (bundleId === 1) return LOW_SPEC_GAMES;
-    if (bundleId === 2) return STORY_LOVER_GAMES;
-    if (bundleId === 3) return OPEN_WORLD_GAMES;
-    return [];
-  };
-
-  const getBundleIcon = (bundleId: number) => {
-    return "";
-  };
-
-  const getBundleSubtitle = (bundleId: number) => {
-    if (bundleId === 1) return "Classic Games • Perfect for Older Hardware";
-    if (bundleId === 2) return "Narrative Masterpieces • Emotional Storytelling";
-    if (bundleId === 3) return "Massive Open Worlds • Endless Exploration";
-    return "";
-  };
-
-  const games = getGameList(bundle.id);
+  const games = bundle.games || [];
   const gameCount = games.length;
 
   return (
@@ -176,7 +70,7 @@ function GameListDialog({
                 {bundle.title}
               </h2>
               <p className="text-muted-foreground text-sm">
-                {gameCount} {getBundleSubtitle(bundle.id)}
+                {gameCount} games included
               </p>
               <div className="mt-3 inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-lg px-3 py-1.5">
                 <span className="text-white font-black text-lg">{bundle.price.discounted}</span>
@@ -195,8 +89,9 @@ function GameListDialog({
         {/* Game List */}
         <div className="overflow-y-auto max-h-[calc(85vh-220px)] p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {games.map((game, index) => {
-              const isGTAV = game === "Grand Theft Auto V";
+            {games.map((gameItem, index) => {
+              const game = gameItem.game;
+              const isGTAV = game?.title === "Grand Theft Auto V";
               const Content = (
                 <>
                   <div className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 border border-white/15 flex items-center justify-center">
@@ -207,16 +102,16 @@ function GameListDialog({
                     )}
                   </div>
                   <span className="text-muted-foreground text-sm group-hover:text-white transition-colors">
-                    {game}
+                    {game?.title || "Unknown Game"}
                   </span>
                 </>
               );
 
-              if (isGTAV) {
+              if (isGTAV && game?.slug) {
                 return (
                   <Link
                     key={index}
-                    href="/games/gta-v"
+                    href={`/games/${game.slug}`}
                     onClick={onClose}
                     className="flex items-center gap-3 p-3 rounded-lg bg-background/50 border border-white/5 hover:border-white/10 hover:bg-card transition-all duration-200 group cursor-pointer"
                   >
@@ -244,7 +139,9 @@ function GameListDialog({
               window.parent.postMessage(
                 {
                   type: "OPEN_EXTERNAL_URL",
-                  data: { url: `https://wa.me/917752805529?text=I want to buy the ${bundle.title} (${gameCount} games for ${bundle.price.discounted})` },
+                  data: { 
+                    url: `https://wa.me/917752805529?text=I want to buy the ${bundle.title} (${gameCount} games for ${bundle.price.discounted})` 
+                  },
                 },
                 "*"
               );
@@ -264,8 +161,32 @@ function GameListDialog({
 
 export default function ComboDealSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [combos, setCombos] = useState<ComboData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedBundle, setSelectedBundle] = useState<ComboData | null>(null);
+
+  const loadCombos = useCallback(async () => {
+    try {
+      const { data, error: fetchError } = await getCombos();
+      if (fetchError) throw new Error(fetchError);
+      if (data && data.length > 0) {
+        setCombos(data.map(transformCombo));
+      } else {
+        setError("No combos found");
+      }
+    } catch (err: any) {
+      console.error("Failed to load combos:", err);
+      setError(err?.message || "Failed to load combos");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCombos();
+  }, [loadCombos]);
 
   const handleComboClick = (combo: ComboData) => {
     if (combo.hasGameList) {
@@ -284,6 +205,45 @@ export default function ComboDealSection() {
     setSelectedBundle(null);
   };
 
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="w-full bg-background py-12 lg:py-16">
+        <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4 mb-4 lg:mb-6">
+            <SectionHeader
+              title="Value Combos"
+              subtitle="Multiple games at unbeatable prices"
+            />
+          </div>
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show empty state if no combos or error
+  if (combos.length === 0) {
+    return (
+      <section className="w-full bg-background py-12 lg:py-16">
+        <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4 mb-4 lg:mb-6">
+            <SectionHeader
+              title="Value Combos"
+              subtitle="Multiple games at unbeatable prices"
+            />
+          </div>
+          <section className="text-center py-12 text-muted-foreground">
+            <p className="font-medium">No combo deals available right now.</p>
+            {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
+          </section>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       <section className="w-full bg-background py-12 lg:py-16">
@@ -293,11 +253,14 @@ export default function ComboDealSection() {
               title="Value Combos"
               subtitle="Multiple games at unbeatable prices"
             />
-            <CarouselNav scrollRef={scrollContainerRef} itemCount={COMBOS.length} show={COMBOS.length > 1} />
+            <CarouselNav scrollRef={scrollContainerRef} itemCount={combos.length} show={combos.length > 1} />
           </div>
 
-          <div ref={scrollContainerRef} className="lg:grid lg:grid-cols-3 lg:gap-4 overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
-            {COMBOS.map((combo) => (
+          <div 
+            ref={scrollContainerRef} 
+            className="lg:grid lg:grid-cols-3 lg:gap-4 overflow-x-auto flex gap-3 pb-2 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0"
+          >
+            {combos.map((combo) => (
               <button
                 key={combo.id}
                 onClick={() => handleComboClick(combo)}

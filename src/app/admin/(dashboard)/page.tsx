@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Gamepad2, Eye, EyeOff, Calendar, Loader2, ArrowRight } from "lucide-react";
+import { Gamepad2, Eye, EyeOff, Calendar, Loader2, ArrowRight, Layers } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
@@ -122,7 +122,7 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
           <Link
             href="/admin/games"
             className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
@@ -141,6 +141,17 @@ export default function AdminDashboardPage() {
             <div className="space-y-1">
               <h4 className="font-bold text-white group-hover:text-primary transition-colors">Homepage Management</h4>
               <p className="text-xs text-muted-foreground">Reorder and map listings inside storefront sections</p>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
+          </Link>
+
+          <Link
+            href="/admin/combos"
+            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
+          >
+            <div className="space-y-1">
+              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Value Combos</h4>
+              <p className="text-xs text-muted-foreground">Manage combo bundles and game associations</p>
             </div>
             <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
           </Link>

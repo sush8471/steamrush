@@ -7,6 +7,7 @@ import Link from "next/link";
 import { getCombos, Combo, ComboGame } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
+import ComboDealSkeleton from "@/components/ui/combo-deal-skeleton";
 
 interface ComboData {
   id: string;
@@ -207,21 +208,7 @@ export default function ComboDealSection() {
 
   // Show loading state
   if (loading) {
-    return (
-      <section className="w-full bg-background py-12 lg:py-16">
-        <div className="mx-auto max-w-[1400px] px-4 md:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4 mb-4 lg:mb-6">
-            <SectionHeader
-              title="Value Combos"
-              subtitle="Multiple games at unbeatable prices"
-            />
-          </div>
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
-          </div>
-        </div>
-      </section>
-    );
+    return <ComboDealSkeleton />;
   }
 
   // Show empty state if no combos or error

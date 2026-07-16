@@ -15,11 +15,7 @@ import ThumbnailCarousel from "@/components/ui/thumbnail-carousel";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
 import GameDetailSkeleton from "@/components/ui/game-detail-skeleton";
-
-// Skeleton Component
-const Skeleton = ({ className }: { className?: string }) => (
-  <div className={`animate-pulse bg-white/10 rounded ${className}`} />
-);
+import { Skeleton } from "@/components/ui/skeleton";
 
 // FAQ Item Component
 const FAQItem = ({ question, answer, isOpen, onClick }: { question: string; answer: string; isOpen: boolean; onClick: () => void }) => (

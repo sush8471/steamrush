@@ -7,6 +7,8 @@ import GameCardsGridDiscover from "@/components/sections/game-cards-grid-discove
 import SocialProof from "@/components/sections/social-proof";
 import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import { Typewriter } from "@/components/ui/typewriter-text";
+import ComboDealSkeleton from "@/components/ui/combo-deal-skeleton";
+import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
 
 // Lazy load non-critical sections for better initial load performance
 const ComboDealSection = lazy(() => import("@/components/sections/combo-deals"));
@@ -60,15 +62,19 @@ export default function Home() {
       <div id="hot-deals">
         <GameCardsGridDiscover />
       </div>
-      <Suspense fallback={<div className="h-96 bg-background" />}>
+      <Suspense fallback={<ComboDealSkeleton />}>
         <ComboDealSection />
       </Suspense>
       <SocialProof />
 
-      <Suspense fallback={<div className="h-96 bg-background" />}>
+      <Suspense fallback={
+        <GameCardRowSkeleton title="Recently Launched" subtitle="Fresh arrivals - Get them now!" count={6} />
+      }>
         <RecentlyLaunched />
       </Suspense>
-      <Suspense fallback={<div className="h-96 bg-background" />}>
+      <Suspense fallback={
+        <GameCardRowSkeleton title="Upcoming Games" subtitle="New releases arriving soon" count={6} />
+      }>
         <UpcomingGames />
       </Suspense>
       <Suspense fallback={<div className="h-32 bg-background" />}>

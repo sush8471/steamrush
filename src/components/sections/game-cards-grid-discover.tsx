@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getGamesBySection } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
+import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
 
 type Game = {
   id: string;
@@ -38,8 +39,18 @@ export default function GameCardsGridDiscover() {
     loadGames();
   }, []);
 
-  if (loading || games.length === 0) {
-    return null; // Don't render while loading or if empty
+  if (loading) {
+    return (
+      <GameCardRowSkeleton
+        title="Hot Deals"
+        subtitle="Premium games at India's best prices"
+        count={6}
+      />
+    );
+  }
+
+  if (games.length === 0) {
+    return null;
   }
 
   return (

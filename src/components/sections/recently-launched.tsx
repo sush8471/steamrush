@@ -7,6 +7,7 @@ import { Rocket } from "lucide-react";
 import { getGamesBySection } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
+import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
 
 type Game = {
   id: string;
@@ -39,8 +40,18 @@ export default function RecentlyLaunched() {
     loadGames();
   }, []);
 
-  if (loading || games.length === 0) {
-    return null; // Don't render while loading or if empty
+  if (loading) {
+    return (
+      <GameCardRowSkeleton
+        title="Recently Launched"
+        subtitle="Fresh arrivals - Get them now!"
+        count={6}
+      />
+    );
+  }
+
+  if (games.length === 0) {
+    return null;
   }
 
   return (

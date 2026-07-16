@@ -7,6 +7,7 @@ import { Sparkles } from "lucide-react";
 import { getGamesBySection } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
+import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
 
 type Game = {
   id: string;
@@ -38,7 +39,13 @@ export default function UpcomingGames() {
   }, []);
 
   if (loading) {
-    return null; // Don't render anything while loading
+    return (
+      <GameCardRowSkeleton
+        title="Upcoming Games"
+        subtitle="New releases arriving soon"
+        count={6}
+      />
+    );
   }
 
   return (

@@ -22,6 +22,8 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { getGames } from "@/lib/local-db";
 import type { SortField, SortDir } from "@/lib/local-db";
 import { Suspense } from "react";
+import GamesPageSkeleton from "@/components/ui/games-page-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Sheet,
   SheetContent,
@@ -239,12 +241,12 @@ function GameCard({ game, priority = false }: { game: Game; priority?: boolean }
 
 function SkeletonCard() {
   return (
-    <div className="bg-card rounded-xl overflow-hidden border-0 animate-pulse">
-      <div className="aspect-[3/4] w-full bg-background-secondary" />
+    <div className="bg-card rounded-xl overflow-hidden border-0">
+      <Skeleton className="aspect-[3/4] w-full rounded-xl" />
       <div className="p-2.5 space-y-2">
-        <div className="h-4 bg-background-secondary rounded w-3/4" />
-        <div className="h-3 bg-background-secondary rounded w-1/2" />
-        <div className="h-7 bg-background-secondary rounded w-full mt-2" />
+        <Skeleton className="h-4 w-3/4 rounded" />
+        <Skeleton className="h-3 w-1/2 rounded" />
+        <Skeleton className="h-7 w-full rounded-lg mt-2" />
       </div>
     </div>
   );
@@ -526,9 +528,13 @@ function BrowsePageInner() {
                 <LayoutGrid className="w-5 h-5 sm:w-7 sm:h-7 text-white/60" />
                 Browse
               </h1>
-              <p className="text-muted-foreground text-xs sm:text-sm hidden sm:block mt-1">
-                {loading ? "Loading..." : `${totalCount.toLocaleString()} games available`} · Original Steam games files · Instant delivery
-              </p>
+              {loading ? (
+                <Skeleton className="h-4 w-64 hidden sm:block mt-2 rounded" />
+              ) : (
+                <p className="text-muted-foreground text-xs sm:text-sm hidden sm:block mt-1">
+                  {totalCount.toLocaleString()} games available · Original Steam games files · Instant delivery
+                </p>
+              )}
             </div>
           </div>
 
@@ -565,21 +571,27 @@ function BrowsePageInner() {
             </button>
 
             {/* Result count */}
-            <span className="text-muted-foreground text-sm flex-1 hidden sm:inline-block">
-              {loading
-                ? "Loading..."
-                : `${totalCount.toLocaleString()} result${totalCount !== 1 ? "s" : ""}`}
-              {currentPage > 1 && !loading && (
-                <span className="ml-1 text-muted-foreground">
-                  — Page {currentPage} of {totalPages}
-                </span>
-              )}
-            </span>
+            {loading ? (
+              <Skeleton className="h-4 w-32 flex-1 hidden sm:inline-block rounded" />
+            ) : (
+              <span className="text-muted-foreground text-sm flex-1 hidden sm:inline-block">
+                {totalCount.toLocaleString()} result{totalCount !== 1 ? "s" : ""}
+                {currentPage > 1 && (
+                  <span className="ml-1 text-muted-foreground">
+                    — Page {currentPage} of {totalPages}
+                  </span>
+                )}
+              </span>
+            )}
 
             {/* Mobile Result Count Label */}
-            <span className="text-muted-foreground text-sm flex-1 sm:hidden">
-              {loading ? "Loading..." : `${totalCount.toLocaleString()} games`}
-            </span>
+            {loading ? (
+              <Skeleton className="h-4 w-24 flex-1 sm:hidden rounded" />
+            ) : (
+              <span className="text-muted-foreground text-sm flex-1 sm:hidden">
+                {totalCount.toLocaleString()} games
+              </span>
+            )}
 
             {/* Sort selector (Custom Dropdown Menu for Premium Styling) */}
             <div className="flex items-center gap-2">
@@ -1001,8 +1013,15 @@ function BrowsePageInner() {
 
                 <div className="pt-3 border-t border-border mt-auto">
                   <SheetClose asChild>
-                    <button className="w-full py-3 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-lg transition-colors border border-white/20 cursor-pointer flex items-center justify-center gap-2">
-                      {loading ? "Updating..." : `Show ${totalCount.toLocaleString()} Games`}
+                    <button
+                      disabled={loading}
+                      className="w-full py-3 bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-lg transition-colors border border-white/20 cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <Skeleton className="h-4 w-32 rounded" />
+                      ) : (
+                        `Show ${totalCount.toLocaleString()} Games`
+                      )}
                     </button>
                   </SheetClose>
                 </div>
@@ -1018,15 +1037,7 @@ function BrowsePageInner() {
 
 export default function GamesPage() {
   return (
-    <Suspense
-      fallback={
-        <main className="min-h-screen bg-background">
-          <div className="pt-20 flex items-center justify-center">
-            <div className="animate-pulse text-muted-foreground">Loading...</div>
-          </div>
-        </main>
-      }
-    >
+    <Suspense fallback={<GamesPageSkeleton />}>
       <BrowsePageInner />
     </Suspense>
   );

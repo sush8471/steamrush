@@ -140,18 +140,7 @@ export default function AdminDashboardPage() {
           >
             <div className="space-y-1">
               <h4 className="font-bold text-white group-hover:text-primary transition-colors">Homepage Management</h4>
-              <p className="text-xs text-muted-foreground">Reorder and map listings inside storefront sections</p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
-          </Link>
-
-          <Link
-            href="/admin/combos"
-            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
-          >
-            <div className="space-y-1">
-              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Value Combos</h4>
-              <p className="text-xs text-muted-foreground">Manage combo bundles and game associations</p>
+              <p className="text-xs text-muted-foreground">Manage storefront sections, game mappings, and value combos</p>
             </div>
             <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
           </Link>

@@ -5,9 +5,19 @@ import { supabase } from "@/lib/supabase";
 import { 
   Gamepad2, Search, Plus, Edit2, Trash2, Eye, EyeOff, Check, X, 
   Loader2, ChevronLeft, ChevronRight, AlertTriangle, HelpCircle, Sparkles, Upload, FileImage,
-  MoreVertical
+  MoreVertical, RotateCcw
 } from "lucide-react";
 import Image from "next/image";
+import GenreSelector from "@/components/admin/genre-selector";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 type DbGame = {
   id: string;
@@ -27,14 +37,6 @@ type DbGame = {
   created_at?: string;
 };
 
-const AVAILABLE_GENRES = [
-  "Action", "Adventure", "Open-World", "RPG", "FPS", "TPS",
-  "Horror", "Survival", "Sports", "Racing", "Strategy", "Simulation",
-  "Fighting", "Stealth", "Sci-Fi", "Fantasy", "Indie", "Puzzle",
-  "Platformer", "Souls-like", "Co-op", "Metroidvania", "Roguelike",
-  "Casual", "JRPG", "Sandbox", "Superhero", "Psychological",
-];
-
 export default function AdminGamesPage() {
   const [games, setGames] = useState<DbGame[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,6 +46,7 @@ export default function AdminGamesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("All");
   const [selectedVisibility, setSelectedVisibility] = useState("All");
+  const [sortBy, setSortBy] = useState<"name" | "price" | "created">("name");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -56,9 +59,13 @@ export default function AdminGamesPage() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [gameToDelete, setGameToDelete] = useState<DbGame | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // Mobile Bottom Sheet Action State
   const [mobileActionGame, setMobileActionGame] = useState<DbGame | null>(null);
+
+  // Visibility toggle confirmation
+  const [pendingToggleId, setPendingToggleId] = useState<string | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -225,7 +232,7 @@ export default function AdminGamesPage() {
 
   const handleImageUpload = async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      alert("Please upload an image file.");
+      setFormError("Please upload an image file.");
       return;
     }
 
@@ -355,6 +362,7 @@ export default function AdminGamesPage() {
       }
 
       setModalOpen(false);
+      toast.success(modalMode === "add" ? "Game listing created" : "Game listing updated");
       loadGames();
     } catch (err: any) {
       setFormError(err?.message || "Failed to save the game listing.");
@@ -365,32 +373,41 @@ export default function AdminGamesPage() {
 
   // Toggle visible value inline
   const handleToggleVisible = async (game: DbGame) => {
-    const updatedVisible = !game.visible;
-    
-    setGames(prev =>
-      prev.map(g => (g.id === game.id ? { ...g, visible: updatedVisible } : g))
-    );
+    if (pendingToggleId === game.id) {
+      // Confirmed — perform the toggle
+      setPendingToggleId(null);
+      const updatedVisible = !game.visible;
 
-    try {
-      const { error: updateError } = await supabase
-        .from("games")
-        .update({ visible: updatedVisible })
-        .eq("id", game.id);
-
-      if (updateError) {
-        throw updateError;
-      }
-    } catch (err) {
-      console.error("Failed to update visibility:", err);
       setGames(prev =>
-        prev.map(g => (g.id === game.id ? { ...g, visible: game.visible } : g))
+        prev.map(g => (g.id === game.id ? { ...g, visible: updatedVisible } : g))
       );
+
+      try {
+        const { error: updateError } = await supabase
+          .from("games")
+          .update({ visible: updatedVisible })
+          .eq("id", game.id);
+
+        if (updateError) throw updateError;
+        toast.success(updatedVisible ? "Game is now visible on storefront" : "Game is now hidden from storefront");
+      } catch (err) {
+        console.error("Failed to update visibility:", err);
+        setGames(prev =>
+          prev.map(g => (g.id === game.id ? { ...g, visible: game.visible } : g))
+        );
+        toast.error("Failed to update visibility");
+      }
+    } else {
+      // First tap — set pending
+      setPendingToggleId(game.id);
+      setTimeout(() => setPendingToggleId(prev => prev === game.id ? null : prev), 3000);
     }
   };
 
   // Open Delete Confirmation
   const openDeleteConfirm = (game: DbGame) => {
     setGameToDelete(game);
+    setDeleteError(null);
     setDeleteOpen(true);
   };
 
@@ -408,17 +425,19 @@ export default function AdminGamesPage() {
 
       setDeleteOpen(false);
       setGameToDelete(null);
+      setDeleteError(null);
+      toast.success("Game listing deleted");
       loadGames();
     } catch (err: any) {
-      alert(err?.message || "Failed to delete the game listing.");
+      setDeleteError(err?.message || "Failed to delete the game listing.");
     } finally {
       setDeleteLoading(false);
     }
   };
 
-  // Filter games based on searches & dropdown filters
+  // Filter and sort games
   const filteredGames = useMemo(() => {
-    return games.filter((game) => {
+    const filtered = games.filter((game) => {
       const matchesSearch =
         game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         game.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -434,7 +453,13 @@ export default function AdminGamesPage() {
 
       return matchesSearch && matchesGenre && matchesVisibility;
     });
-  }, [games, searchQuery, selectedGenre, selectedVisibility]);
+
+    return [...filtered].sort((a, b) => {
+      if (sortBy === "name") return a.title.localeCompare(b.title);
+      if (sortBy === "price") return (a.selling_price ?? 0) - (b.selling_price ?? 0);
+      return 0; // created — use default order from DB
+    });
+  }, [games, searchQuery, selectedGenre, selectedVisibility, sortBy]);
 
   // Compute pagination values
   const totalPages = Math.ceil(filteredGames.length / itemsPerPage) || 1;
@@ -459,12 +484,21 @@ export default function AdminGamesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title, series, or slug..."
-            className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10"
+            className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10"
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-white rounded transition-colors cursor-pointer"
+              title="Clear search"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
         {/* Filters row + Add button */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 items-center">
           {/* Genre Filter */}
           <select
             value={selectedGenre}
@@ -489,19 +523,68 @@ export default function AdminGamesPage() {
             <option value="Hidden">Hidden Only</option>
           </select>
 
-          {/* Add Game Button */}
-          <button
-            onClick={openAddModal}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-black text-sm rounded-lg hover:brightness-110 transition-all active:scale-[0.98] cursor-pointer whitespace-nowrap"
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "name" | "price" | "created")}
+            className="flex-1 min-w-[110px] bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none cursor-pointer"
           >
+            <option value="name">Sort: Name</option>
+            <option value="price">Sort: Price</option>
+            <option value="created">Sort: Created</option>
+          </select>
+
+          {/* Reset filters */}
+          {(searchQuery || selectedGenre !== "All" || selectedVisibility !== "All") && (
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedGenre("All");
+                setSelectedVisibility("All");
+              }}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-muted-foreground hover:text-white hover:bg-white/5 rounded-lg border border-[#262626] transition-all cursor-pointer"
+              title="Clear all filters"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Reset</span>
+            </button>
+          )}
+
+          {/* Add Game Button */}
+          <Button onClick={openAddModal} className="w-full sm:w-auto font-black active:scale-[0.98]">
             <Plus className="w-4 h-4" />
-            <span>Add Game</span>
-          </button>
+            Add Game
+          </Button>
         </div>
       </div>
 
       {/* Main Panel */}
-      <div className="bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
+      <div
+        className="bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl"
+        onTouchStart={(e) => {
+          const el = e.currentTarget;
+          el.dataset.touchStartY = String(e.touches[0].clientY);
+          el.dataset.touchStartScroll = String(el.scrollTop);
+        }}
+        onTouchMove={(e) => {
+          const el = e.currentTarget;
+          const startY = Number(el.dataset.touchStartY || 0);
+          const startScroll = Number(el.dataset.touchStartScroll || 0);
+          const currentY = e.touches[0].clientY;
+          const diff = currentY - startY;
+          if (startScroll <= 0 && diff > 120 && !el.dataset.pullTriggered) {
+            el.dataset.pullTriggered = "1";
+            loadGames();
+            toast.success("Refreshing games...");
+          }
+        }}
+        onTouchEnd={(e) => {
+          const el = e.currentTarget;
+          delete el.dataset.touchStartY;
+          delete el.dataset.touchStartScroll;
+          delete el.dataset.pullTriggered;
+        }}
+      >
         {loading ? (
           <div className="h-72 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -516,9 +599,21 @@ export default function AdminGamesPage() {
             </button>
           </div>
         ) : filteredGames.length === 0 ? (
-          <div className="h-72 flex flex-col items-center justify-center gap-2 text-muted-foreground">
+          <div className="h-72 flex flex-col items-center justify-center gap-3 text-muted-foreground">
             <Gamepad2 className="w-12 h-12 stroke-[1.25]" />
-            <p className="text-sm font-semibold">No game listings found</p>
+            <div className="text-center space-y-1">
+              <p className="text-sm font-semibold">No game listings found</p>
+              <p className="text-xs text-muted-foreground">{searchQuery || selectedGenre !== "All" || selectedVisibility !== "All" ? "Try adjusting your filters" : "Get started by adding your first game"}</p>
+            </div>
+            {!searchQuery && selectedGenre === "All" && selectedVisibility === "All" && (
+              <button
+                onClick={openAddModal}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-black text-xs rounded-lg hover:brightness-110 transition-all cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add Game</span>
+              </button>
+            )}
           </div>
         ) : (
           <>
@@ -564,7 +659,7 @@ export default function AdminGamesPage() {
                     {/* More actions drawer trigger */}
                     <button
                       onClick={() => setMobileActionGame(game)}
-                      className="p-2 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-all cursor-pointer"
+                      className="p-2.5 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-all cursor-pointer"
                       title="More actions"
                     >
                       <MoreVertical className="w-5 h-5" />
@@ -624,13 +719,17 @@ export default function AdminGamesPage() {
                       <td className="py-3 px-6 text-center">
                         <button
                           onClick={() => handleToggleVisible(game)}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                            game.visible
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                              : "bg-gray-500/10 text-muted-foreground border border-gray-500/20 hover:text-white"
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer min-h-[36px] ${
+                            pendingToggleId === game.id
+                              ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                              : game.visible
+                                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                                : "bg-gray-500/10 text-muted-foreground border border-gray-500/20 hover:text-white"
                           }`}
                         >
-                          {game.visible ? (
+                          {pendingToggleId === game.id ? (
+                            <><AlertTriangle className="w-3.5 h-3.5" /><span>Confirm?</span></>
+                          ) : game.visible ? (
                             <><Eye className="w-3.5 h-3.5" /><span>Visible</span></>
                           ) : (
                             <><EyeOff className="w-3.5 h-3.5" /><span>Hidden</span></>
@@ -650,14 +749,14 @@ export default function AdminGamesPage() {
                         <div className="flex items-center justify-center gap-2.5">
                           <button
                             onClick={() => openEditModal(game)}
-                            className="p-1.5 text-muted-foreground hover:text-primary hover:bg-white/5 rounded transition-all cursor-pointer"
+                            className="p-2.5 text-muted-foreground hover:text-primary hover:bg-white/5 rounded transition-all cursor-pointer"
                             title="Edit game listing"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => openDeleteConfirm(game)}
-                            className="p-1.5 text-muted-foreground hover:text-red-400 hover:bg-red-500/5 rounded transition-all cursor-pointer"
+                            className="p-2.5 text-muted-foreground hover:text-red-400 hover:bg-red-500/5 rounded transition-all cursor-pointer"
                             title="Delete game listing"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -685,7 +784,7 @@ export default function AdminGamesPage() {
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                className="p-2 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="p-2.5 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -695,7 +794,7 @@ export default function AdminGamesPage() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                className="p-2 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="p-2.5 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -715,7 +814,7 @@ export default function AdminGamesPage() {
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="text-muted-foreground hover:text-white transition-colors cursor-pointer"
+                className="p-1 text-muted-foreground hover:text-white transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -730,6 +829,10 @@ export default function AdminGamesPage() {
                     <span>{formError}</span>
                   </div>
                 )}
+
+              {/* Section: Media & Autofill */}
+              <div className="border-t border-[#262626] pt-5">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3">Media & Autofill</p>
 
               {/* Steam Autofill Control */}
               <div className="bg-[#050505]/40 border border-[#262626] rounded-xl p-4 space-y-3">
@@ -835,6 +938,11 @@ export default function AdminGamesPage() {
                   className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none placeholder:text-gray-600 font-mono"
                 />
               </div>
+              </div>
+
+              {/* Section: Basic Info */}
+              <div className="border-t border-[#262626] pt-5">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3">Basic Info</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Title */}
@@ -922,60 +1030,17 @@ export default function AdminGamesPage() {
                   />
                 </div>
               </div>
+              </div>
+
+              {/* Section: Metadata */}
+              <div className="border-t border-[#262626] pt-5">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3">Metadata</p>
 
               {/* Genre (Pill checkboxes format) */}
-              <div className="space-y-2.5">
-                <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                  Allot Genres / Categories <span className="text-red-500">*</span>
-                </label>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {AVAILABLE_GENRES.map((g) => {
-                    const currentGenres = formData.genre
-                      .split(",")
-                      .map((x) => x.trim())
-                      .filter(Boolean);
-                    const isChecked = currentGenres.includes(g);
-
-                    const handleCheckboxChange = (checked: boolean) => {
-                      let updated;
-                      if (checked) {
-                        updated = [...currentGenres, g];
-                      } else {
-                        updated = currentGenres.filter((x) => x !== g);
-                      }
-                      const unique = Array.from(new Set(updated)).join(", ");
-                      setFormData((prev) => ({ ...prev, genre: unique }));
-                    };
-
-                    return (
-                      <label
-                        key={g}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer select-none active:scale-[0.97] ${
-                          isChecked
-                            ? "bg-primary/10 border-primary text-primary shadow-[0_0_12px_rgba(0,210,255,0.1)]"
-                            : "bg-[#050505]/30 border-[#262626] text-muted-foreground hover:border-gray-500 hover:text-white"
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={(e) => handleCheckboxChange(e.target.checked)}
-                          className="hidden"
-                        />
-                        <span>{g}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-                
-                <input
-                  type="text"
-                  value={formData.genre}
-                  onChange={(e) => setFormData(prev => ({ ...prev, genre: e.target.value }))}
-                  placeholder="Or enter custom genres manually (comma-separated, e.g. Platformer, VR)"
-                  className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 font-mono"
-                />
-              </div>
+              <GenreSelector
+                value={formData.genre}
+                onChange={(genre) => setFormData(prev => ({ ...prev, genre }))}
+              />
 
               {/* Tags */}
               <div className="space-y-1.5">
@@ -1004,8 +1069,13 @@ export default function AdminGamesPage() {
                   className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 resize-none"
                 />
               </div>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#262626] pt-6">
+              {/* Section: Publishing */}
+              <div className="border-t border-[#262626] pt-5">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3">Publishing</p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Release Status */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider font-bold">
@@ -1055,24 +1125,25 @@ export default function AdminGamesPage() {
               </div>
 
               </div>
+              </div>
 
               {/* Form Actions Footer */}
               <div className="border-t border-[#262626] p-4 bg-[#111111] flex justify-end gap-3 flex-shrink-0">
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2.5 bg-[#262626] text-white font-bold text-sm rounded-lg hover:bg-[#363B5E] transition-colors cursor-pointer"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={formLoading}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground font-black text-sm rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                  className="font-black active:scale-[0.98]"
                 >
                   {formLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-                  <span>{modalMode === "add" ? "Save Game" : "Update Game"}</span>
-                </button>
+                  {modalMode === "add" ? "Save Game" : "Update Game"}
+                </Button>
               </div>
             </form>
           </div>
@@ -1095,96 +1166,103 @@ export default function AdminGamesPage() {
               </div>
             </div>
 
+            {deleteError && (
+              <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-4 py-3 rounded-lg leading-relaxed">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span>{deleteError}</span>
+              </div>
+            )}
+
             <div className="flex justify-end gap-3 pt-2">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => {
                   setDeleteOpen(false);
                   setGameToDelete(null);
                 }}
-                className="px-4 py-2.5 bg-[#262626] text-white font-bold text-sm rounded-lg hover:bg-[#363B5E] transition-colors cursor-pointer"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="destructive"
                 onClick={handleDeleteSubmit}
                 disabled={deleteLoading}
-                className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white font-bold text-sm rounded-lg hover:bg-red-700 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                className="active:scale-[0.98]"
               >
                 {deleteLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-                <span>Delete permanently</span>
-              </button>
+                Delete permanently
+              </Button>
             </div>
           </div>
         </div>
       )}
       {/* Mobile Action Sheet Drawer */}
-      {mobileActionGame && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm md:hidden">
-          {/* Backdrop click closer */}
-          <div className="absolute inset-0" onClick={() => setMobileActionGame(null)} />
-          
-          <div className="w-full bg-[#111111] border-t border-[#262626] rounded-t-2xl shadow-2xl p-6 relative z-10 flex flex-col space-y-4 animate-in slide-in-from-bottom duration-250">
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3">
-              <div className="min-w-0">
-                <h4 className="font-bold text-white text-sm truncate">{mobileActionGame.title}</h4>
-                <p className="text-[10px] text-muted-foreground font-mono">/{mobileActionGame.slug}</p>
+      <Sheet open={!!mobileActionGame} onOpenChange={(open) => !open && setMobileActionGame(null)}>
+        <SheetContent side="bottom" className="bg-[#111111] border-t border-[#262626] rounded-t-2xl shadow-2xl p-6 flex flex-col space-y-4 md:hidden">
+          {mobileActionGame && (
+            <>
+              <SheetHeader className="border-b border-[#262626] pb-3">
+                <SheetTitle className="text-white text-sm font-bold truncate">{mobileActionGame.title}</SheetTitle>
+                <SheetDescription className="text-[10px] text-muted-foreground font-mono">/{mobileActionGame.slug}</SheetDescription>
+              </SheetHeader>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-2.5">
+                {/* Toggle visibility */}
+                <button
+                  onClick={() => {
+                    handleToggleVisible(mobileActionGame);
+                    if (pendingToggleId === mobileActionGame.id) {
+                      setMobileActionGame(null);
+                    }
+                  }}
+                  className={`flex items-center gap-3 w-full p-3 rounded-xl border text-sm font-bold transition-all cursor-pointer ${
+                    pendingToggleId === mobileActionGame.id
+                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                      : mobileActionGame.visible
+                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                        : "bg-gray-500/5 text-muted-foreground border-gray-500/10"
+                  }`}
+                >
+                  {pendingToggleId === mobileActionGame.id ? (
+                    <><AlertTriangle className="w-4 h-4" /><span>Tap again to confirm</span></>
+                  ) : mobileActionGame.visible ? (
+                    <><Eye className="w-4 h-4" /><span>Storefront Visibility: Visible</span></>
+                  ) : (
+                    <><EyeOff className="w-4 h-4" /><span>Storefront Visibility: Hidden</span></>
+                  )}
+                </button>
+
+                {/* Edit Listing */}
+                <button
+                  onClick={() => {
+                    openEditModal(mobileActionGame);
+                    setMobileActionGame(null);
+                  }}
+                  className="flex items-center gap-3 w-full p-3 bg-[#262626]/50 hover:bg-[#262626] border border-[#262626] text-white rounded-xl text-sm font-bold transition-all cursor-pointer"
+                >
+                  <Edit2 className="w-4 h-4 text-primary" />
+                  <span>Edit Game Details</span>
+                </button>
+
+                {/* Delete Listing */}
+                <button
+                  onClick={() => {
+                    openDeleteConfirm(mobileActionGame);
+                    setMobileActionGame(null);
+                  }}
+                  className="flex items-center gap-3 w-full p-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-xl text-sm font-bold transition-all cursor-pointer"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Delete Game Listing</span>
+                </button>
               </div>
-              <button 
-                onClick={() => setMobileActionGame(null)}
-                className="text-muted-foreground hover:text-white p-1 rounded-lg hover:bg-white/5 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-2.5">
-              {/* Toggle visibility */}
-              <button
-                onClick={() => {
-                  handleToggleVisible(mobileActionGame);
-                  setMobileActionGame(null);
-                }}
-                className={`flex items-center gap-3 w-full p-3 rounded-xl border text-sm font-bold transition-all cursor-pointer ${
-                  mobileActionGame.visible
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                    : "bg-gray-500/5 text-muted-foreground border-gray-500/10"
-                }`}
-              >
-                {mobileActionGame.visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                <span>{mobileActionGame.visible ? "Storefront Visibility: Visible" : "Storefront Visibility: Hidden"}</span>
-              </button>
-              
-              {/* Edit Listing */}
-              <button
-                onClick={() => {
-                  openEditModal(mobileActionGame);
-                  setMobileActionGame(null);
-                }}
-                className="flex items-center gap-3 w-full p-3 bg-[#262626]/50 hover:bg-[#262626] border border-[#262626] text-white rounded-xl text-sm font-bold transition-all cursor-pointer"
-              >
-                <Edit2 className="w-4 h-4 text-primary" />
-                <span>Edit Game Details</span>
-              </button>
-              
-              {/* Delete Listing */}
-              <button
-                onClick={() => {
-                  openDeleteConfirm(mobileActionGame);
-                  setMobileActionGame(null);
-                }}
-                className="flex items-center gap-3 w-full p-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-xl text-sm font-bold transition-all cursor-pointer"
-              >
-                <Trash2 className="w-4 h-4" />
-                <span>Delete Game Listing</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

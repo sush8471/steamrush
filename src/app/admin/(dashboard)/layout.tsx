@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   Gamepad2,
   Home,
-  Layers,
   LogOut,
   Loader2,
   Menu,
@@ -73,7 +72,6 @@ export default function AdminDashboardLayout({
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/games", label: "Games Catalog", icon: Gamepad2 },
     { href: "/admin/homepage", label: "Homepage Sections", icon: Home },
-    { href: "/admin/combos", label: "Value Combos", icon: Layers },
   ];
 
   const currentPageLabel =
@@ -124,7 +122,7 @@ export default function AdminDashboardLayout({
           {/* Close button — mobile only */}
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1.5 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+            className="lg:hidden p-2.5 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -185,7 +183,7 @@ export default function AdminDashboardLayout({
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden flex-shrink-0 p-2 rounded-lg bg-[#262626] text-gray-300 hover:text-white hover:bg-[#2a3448] transition-colors"
+              className="lg:hidden flex-shrink-0 p-2.5 rounded-lg bg-[#262626] text-gray-300 hover:text-white hover:bg-[#2a3448] transition-colors"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />

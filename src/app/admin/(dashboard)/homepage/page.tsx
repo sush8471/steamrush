@@ -3,9 +3,12 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { 
-  Home, Plus, Trash2, ArrowUp, ArrowDown, Loader2, AlertTriangle, CheckCircle 
+  Home, Plus, Trash2, ArrowUp, ArrowDown, Loader2, AlertTriangle, CheckCircle, Layers
 } from "lucide-react";
 import Image from "next/image";
+import CombosTab from "@/components/admin/combos-tab";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 type Section = {
   id: string;
@@ -33,6 +36,7 @@ type DropdownGame = {
 export default function AdminHomepageSectionsPage() {
   const [sections, setSections] = useState<Section[]>([]);
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const [showCombos, setShowCombos] = useState(false);
   const [mappings, setMappings] = useState<GameMapping[]>([]);
   const [allVisibleGames, setAllVisibleGames] = useState<DropdownGame[]>([]);
   
@@ -40,6 +44,7 @@ export default function AdminHomepageSectionsPage() {
   const [mappingsLoading, setMappingsLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   // Selector form state
   const [selectedGameId, setSelectedGameId] = useState("");
@@ -191,6 +196,7 @@ export default function AdminHomepageSectionsPage() {
     if (!selectedGameId || !activeSectionId) return;
 
     setActionLoading(true);
+    setActionError(null);
     try {
       const nextOrder = mappings.length > 0 
         ? Math.max(...mappings.map((m) => m.display_order)) + 1 
@@ -209,10 +215,11 @@ export default function AdminHomepageSectionsPage() {
       if (insertError) throw insertError;
 
       setSelectedGameId("");
+      toast.success("Game assigned to section");
       loadSectionMappings(activeSectionId);
     } catch (err) {
       console.error("Failed to add game mapping:", err);
-      alert("Failed to assign game to this section.");
+      setActionError("Failed to assign game to this section.");
     } finally {
       setActionLoading(false);
     }
@@ -221,6 +228,7 @@ export default function AdminHomepageSectionsPage() {
   // Remove Game Mapping
   const handleRemoveGame = async (mappingId: string) => {
     setActionLoading(true);
+    setActionError(null);
     try {
       const { error: deleteError } = await supabase
         .from("section_games")
@@ -230,9 +238,10 @@ export default function AdminHomepageSectionsPage() {
       if (deleteError) throw deleteError;
 
       if (activeSectionId) loadSectionMappings(activeSectionId);
+      toast.success("Game removed from section");
     } catch (err) {
       console.error("Failed to remove game mapping:", err);
-      alert("Failed to remove game from this section.");
+      setActionError("Failed to remove game from this section.");
     } finally {
       setActionLoading(false);
     }
@@ -259,28 +268,71 @@ export default function AdminHomepageSectionsPage() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Tab Selectors (Segmented Control style) */}
-      <div className="flex p-1 bg-[#050505]/60 border border-[#262626] rounded-xl overflow-x-auto scrollbar-hide max-w-fit">
-        {sections.map((section) => {
-          const isActive = activeSectionId === section.id;
-          return (
-            <button
-              key={section.id}
-              onClick={() => setActiveSectionId(section.id)}
-              className={`px-4 py-2 text-xs lg:text-sm font-bold tracking-wide transition-all rounded-lg cursor-pointer whitespace-nowrap ${
-                isActive
-                  ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(0,210,255,0.05)]"
-                  : "text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent"
-              }`}
-            >
-              {section.name}
-            </button>
-          );
-        })}
+      <div className="relative max-w-fit">
+        <div className="flex p-1 bg-[#050505]/60 border border-[#262626] rounded-xl overflow-x-auto max-w-fit">
+          {sections.map((section) => {
+            const isActive = !showCombos && activeSectionId === section.id;
+            return (
+              <button
+                key={section.id}
+                onClick={() => { setShowCombos(false); setActiveSectionId(section.id); }}
+                className={`px-4 py-2 text-xs lg:text-sm font-bold tracking-wide transition-all rounded-lg cursor-pointer whitespace-nowrap ${
+                  isActive
+                    ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(0,210,255,0.05)]"
+                    : "text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent"
+                }`}
+              >
+                {section.name}
+              </button>
+            );
+          })}
+          <button
+            onClick={() => { setShowCombos(true); setActiveSectionId(null); }}
+            className={`px-4 py-2 text-xs lg:text-sm font-bold tracking-wide transition-all rounded-lg cursor-pointer whitespace-nowrap ${
+              showCombos
+                ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(0,210,255,0.05)]"
+                : "text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 inline-block mr-1.5 -mt-0.5" />
+            Value Combos
+          </button>
+        </div>
+        {/* Right-edge overflow indicator */}
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#050505] to-transparent rounded-r-xl lg:hidden" />
       </div>
 
+      {showCombos ? (
+        <CombosTab />
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Mapping list table */}
-        <div className="lg:col-span-2 bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
+        <div
+          className="lg:col-span-2 bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl"
+          onTouchStart={(e) => {
+            const el = e.currentTarget;
+            el.dataset.touchStartY = String(e.touches[0].clientY);
+            el.dataset.touchStartScroll = String(el.scrollTop);
+          }}
+          onTouchMove={(e) => {
+            const el = e.currentTarget;
+            const startY = Number(el.dataset.touchStartY || 0);
+            const startScroll = Number(el.dataset.touchStartScroll || 0);
+            const currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            if (startScroll <= 0 && diff > 120 && activeSectionId && !el.dataset.pullTriggered) {
+              el.dataset.pullTriggered = "1";
+              loadSectionMappings(activeSectionId);
+              toast.success("Refreshing section...");
+            }
+          }}
+          onTouchEnd={(e) => {
+            const el = e.currentTarget;
+            delete el.dataset.touchStartY;
+            delete el.dataset.touchStartScroll;
+            delete el.dataset.pullTriggered;
+          }}
+        >
           <div className="px-6 py-4 border-b border-[#262626] flex items-center justify-between">
             <h3 className="font-bold text-white">Active Section Listings</h3>
             <span className="text-xs font-bold text-muted-foreground bg-[#262626] px-2.5 py-1 rounded-full">
@@ -294,9 +346,12 @@ export default function AdminHomepageSectionsPage() {
               <p className="text-xs text-muted-foreground font-medium">Updating section games...</p>
             </div>
           ) : mappings.length === 0 ? (
-            <div className="h-64 flex flex-col items-center justify-center gap-2 text-muted-foreground">
+            <div className="h-64 flex flex-col items-center justify-center gap-3 text-muted-foreground">
               <Home className="w-10 h-10 stroke-[1.25]" />
-              <p className="text-xs font-semibold">No games assigned to this section</p>
+              <div className="text-center space-y-1">
+                <p className="text-xs font-semibold">No games assigned to this section</p>
+                <p className="text-[10px] text-muted-foreground">Use the panel on the right to add games</p>
+              </div>
             </div>
           ) : (
             <div className="divide-y divide-[#262626]/60">
@@ -305,7 +360,7 @@ export default function AdminHomepageSectionsPage() {
                   {/* Info */}
                   <div className="flex items-center gap-3.5 min-w-0">
                     {/* Index Display Badge */}
-                    <span className="w-5 h-5 rounded-full bg-[#050505]/80 border border-[#262626] flex items-center justify-center text-[10px] text-muted-foreground font-mono font-bold flex-shrink-0">
+                    <span className="w-6 h-6 rounded-full bg-[#050505]/80 border border-[#262626] flex items-center justify-center text-[10px] text-muted-foreground font-mono font-bold flex-shrink-0">
                       {i + 1}
                     </span>
 
@@ -334,7 +389,7 @@ export default function AdminHomepageSectionsPage() {
                       <button
                         disabled={i === 0 || actionLoading}
                         onClick={() => handleSwapOrder(i, i - 1)}
-                        className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 disabled:pointer-events-none transition-colors cursor-pointer"
+                        className="p-2.5 text-muted-foreground hover:text-primary disabled:opacity-20 disabled:pointer-events-none transition-colors cursor-pointer"
                         title="Move Up"
                       >
                         <ArrowUp className="w-4 h-4" />
@@ -343,7 +398,7 @@ export default function AdminHomepageSectionsPage() {
                       <button
                         disabled={i === mappings.length - 1 || actionLoading}
                         onClick={() => handleSwapOrder(i, i + 1)}
-                        className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 disabled:pointer-events-none transition-colors cursor-pointer"
+                        className="p-2.5 text-muted-foreground hover:text-primary disabled:opacity-20 disabled:pointer-events-none transition-colors cursor-pointer"
                         title="Move Down"
                       >
                         <ArrowDown className="w-4 h-4" />
@@ -354,7 +409,7 @@ export default function AdminHomepageSectionsPage() {
                     <button
                       disabled={actionLoading}
                       onClick={() => handleRemoveGame(mapping.id)}
-                      className="p-2 text-muted-foreground hover:text-red-400 hover:bg-red-500/5 rounded-lg border border-transparent hover:border-red-500/10 transition-all cursor-pointer"
+                      className="p-2.5 text-muted-foreground hover:text-red-400 hover:bg-red-500/5 rounded-lg border border-transparent hover:border-red-500/10 transition-all cursor-pointer"
                       title="Remove from section"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -374,6 +429,13 @@ export default function AdminHomepageSectionsPage() {
               Assign a visible catalog game to the currently selected homepage section. New games are appended to the bottom.
             </p>
           </div>
+
+          {actionError && (
+            <div className="flex items-start gap-2.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] p-3 rounded-lg leading-relaxed">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <span>{actionError}</span>
+            </div>
+          )}
 
           <form onSubmit={handleAddGame} className="space-y-4 pt-2">
             <div className="space-y-1.5">
@@ -395,14 +457,14 @@ export default function AdminHomepageSectionsPage() {
               </select>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={actionLoading || !selectedGameId}
-              className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-black text-sm py-3 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full font-black active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
-              <span>Assign to Section</span>
-            </button>
+              Assign to Section
+            </Button>
           </form>
 
           {unmappedGames.length === 0 && (
@@ -413,6 +475,7 @@ export default function AdminHomepageSectionsPage() {
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }

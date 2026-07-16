@@ -4,6 +4,7 @@ import { CartProvider } from "@/context/CartContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
+import { SignInPrompt } from "@/components/ui/sign-in-prompt";
 
 export const metadata: Metadata = {
   title: "Gamer Bhidu | Premium PC Games at Unbeatable Prices",
@@ -32,6 +33,7 @@ export default function RootLayout({
                 },
               }}
             />
+            <SignInPrompt />
           </SearchProvider>
         </CartProvider>
       </body>

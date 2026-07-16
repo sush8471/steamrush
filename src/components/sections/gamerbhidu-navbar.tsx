@@ -1,18 +1,65 @@
 "use client";
 
-import * as React from "react";
-import { ShoppingCart, Home, Store, HelpCircle } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ShoppingCart, LogOut, User, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
-import { FaWhatsapp } from "react-icons/fa";
+
 import { NavbarSearch } from "@/components/ui/navbar-search";
 import { FullscreenMenu } from "@/components/ui/fullscreen-menu";
+import { supabase } from "@/lib/supabase";
 
 export default function GamerBhiduNavbar() {
   const { itemCount } = useCart();
+  const [user, setUser] = useState<any>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function getSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setAuthLoading(false);
+    }
+    getSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownOpen]);
+
+  const handleSignIn = () => {
+    supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
+    });
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.reload();
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/90">
@@ -48,39 +95,69 @@ export default function GamerBhiduNavbar() {
           <nav className="hidden items-center gap-1 lg:flex">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
             >
-              <Home className="h-4 w-4" />
               Home
             </Link>
 
             <Link
               href="/games"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
             >
-              <Store className="h-4 w-4" />
               Browse Games
             </Link>
 
             <Link
               href="/faq"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-white"
             >
-              <HelpCircle className="h-4 w-4" />
               FAQ
             </Link>
           </nav>
 
-          {/* WhatsApp Contact - Desktop */}
-          <a
-            href="https://wa.me/917752805529?text=Hi! I want to buy a game"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden lg:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white bg-[#25D366] hover:bg-[#20BA5A] transition-colors"
-          >
-            <FaWhatsapp className="h-4 w-4" />
-            Contact Us
-          </a>
+          {/* Auth - Sign In / User Dropdown */}
+          {!authLoading && (
+            <div className="flex items-center gap-2">
+              {user ? (
+                <div ref={dropdownRef} className="relative">
+                  <button
+                    onClick={() => setDropdownOpen((v) => !v)}
+                    className="flex items-center gap-2 rounded-full bg-white/5 hover:bg-white/10 px-3 py-1.5 text-xs text-white border border-white/10 hover:border-white/20 transition-all"
+                  >
+                    <User className="h-3.5 w-3.5 text-primary" />
+                    <span className="hidden sm:inline max-w-[120px] truncate">{user.email?.split('@')[0]}</span>
+                    <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {dropdownOpen && (
+                    <div className="absolute right-0 top-[calc(100%+8px)] w-56 bg-[#111111] border border-[#262626] rounded-xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                      <div className="px-4 py-2 border-b border-white/5">
+                        <p className="text-xs text-muted-foreground">Signed in as</p>
+                        <p className="text-sm text-white font-medium truncate">{user.email}</p>
+                      </div>
+                      <button
+                        onClick={() => { handleSignOut(); setDropdownOpen(false); }}
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 hover:text-red-300 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignIn}
+                  className="rounded-full border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-white gap-1.5 text-xs font-semibold px-4"
+                >
+                  <User className="h-4 w-4" />
+                  <span className="hidden sm:inline">Sign In</span>
+                </Button>
+              )}
+            </div>
+          )}
 
           {/* Search Icon - Mobile Only */}
           <div className="lg:hidden">

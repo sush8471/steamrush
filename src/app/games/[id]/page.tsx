@@ -14,6 +14,7 @@ import { motion, Variants } from "framer-motion";
 import ThumbnailCarousel from "@/components/ui/thumbnail-carousel";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
+import GameDetailSkeleton from "@/components/ui/game-detail-skeleton";
 
 // Skeleton Component
 const Skeleton = ({ className }: { className?: string }) => (
@@ -151,16 +152,9 @@ export default function GameDetailPage() {
     fetchSteamData();
   }, [game?.steam_app_id]);
 
-  // Show loading state while fetching
+  // Show skeleton loading state while fetching
   if (loading) {
-    return (
-      <main className="min-h-screen bg-background flex items-center justify-center text-white">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white/40 mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading game details...</p>
-        </div>
-      </main>
-    );
+    return <GameDetailSkeleton />;
   }
 
   // Show "not found" only after loading completes and game is still null

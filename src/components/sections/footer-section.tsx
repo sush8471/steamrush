@@ -63,7 +63,7 @@ export function FooterSection() {
     <footer className="relative border-t border-white/10 bg-background text-white transition-colors duration-300">
       {/* Main Footer Grid */}
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-8">
-        <div className="grid gap-6 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           
           {/* Follow Us */}
           <FooterColumn title="Follow Us">

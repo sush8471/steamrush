@@ -307,32 +307,7 @@ export default function AdminHomepageSectionsPage() {
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Mapping list table */}
-        <div
-          className="lg:col-span-2 bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl"
-          onTouchStart={(e) => {
-            const el = e.currentTarget;
-            el.dataset.touchStartY = String(e.touches[0].clientY);
-            el.dataset.touchStartScroll = String(el.scrollTop);
-          }}
-          onTouchMove={(e) => {
-            const el = e.currentTarget;
-            const startY = Number(el.dataset.touchStartY || 0);
-            const startScroll = Number(el.dataset.touchStartScroll || 0);
-            const currentY = e.touches[0].clientY;
-            const diff = currentY - startY;
-            if (startScroll <= 0 && diff > 120 && activeSectionId && !el.dataset.pullTriggered) {
-              el.dataset.pullTriggered = "1";
-              loadSectionMappings(activeSectionId);
-              toast.success("Refreshing section...");
-            }
-          }}
-          onTouchEnd={(e) => {
-            const el = e.currentTarget;
-            delete el.dataset.touchStartY;
-            delete el.dataset.touchStartScroll;
-            delete el.dataset.pullTriggered;
-          }}
-        >
+        <div className="lg:col-span-2 bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
           <div className="px-6 py-4 border-b border-[#262626] flex items-center justify-between">
             <h3 className="font-bold text-white">Active Section Listings</h3>
             <span className="text-xs font-bold text-muted-foreground bg-[#262626] px-2.5 py-1 rounded-full">

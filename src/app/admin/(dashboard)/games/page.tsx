@@ -559,32 +559,7 @@ export default function AdminGamesPage() {
       </div>
 
       {/* Main Panel */}
-      <div
-        className="bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl"
-        onTouchStart={(e) => {
-          const el = e.currentTarget;
-          el.dataset.touchStartY = String(e.touches[0].clientY);
-          el.dataset.touchStartScroll = String(el.scrollTop);
-        }}
-        onTouchMove={(e) => {
-          const el = e.currentTarget;
-          const startY = Number(el.dataset.touchStartY || 0);
-          const startScroll = Number(el.dataset.touchStartScroll || 0);
-          const currentY = e.touches[0].clientY;
-          const diff = currentY - startY;
-          if (startScroll <= 0 && diff > 120 && !el.dataset.pullTriggered) {
-            el.dataset.pullTriggered = "1";
-            loadGames();
-            toast.success("Refreshing games...");
-          }
-        }}
-        onTouchEnd={(e) => {
-          const el = e.currentTarget;
-          delete el.dataset.touchStartY;
-          delete el.dataset.touchStartScroll;
-          delete el.dataset.pullTriggered;
-        }}
-      >
+      <div className="bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
         {loading ? (
           <div className="h-72 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />

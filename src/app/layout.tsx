@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { Analytics } from "@vercel/analytics/next";
@@ -19,23 +20,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-foreground antialiased">
-        <CartProvider>
-          <SearchProvider>
-            {children}
-            <Analytics />
-            <Toaster
-              position="bottom-center"
-              toastOptions={{
-                style: {
-                  background: "#111111",
-                  border: "1px solid #262626",
-                  color: "#fff",
-                },
-              }}
-            />
-            <SignInPrompt />
-          </SearchProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <SearchProvider>
+              {children}
+              <Analytics />
+              <Toaster
+                position="bottom-center"
+                toastOptions={{
+                  style: {
+                    background: "#111111",
+                    border: "1px solid #262626",
+                    color: "#fff",
+                  },
+                }}
+              />
+              <SignInPrompt />
+            </SearchProvider>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

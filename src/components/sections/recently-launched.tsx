@@ -8,6 +8,7 @@ import { getGamesBySection } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
 import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
+import { WishlistButton } from "@/components/ui/wishlist-button";
 
 type Game = {
   id: string;
@@ -98,6 +99,18 @@ export default function RecentlyLaunched() {
                         -{game.discount_percentage}%
                       </div>
                     )}
+                    {/* Wishlist heart — bottom-right so it doesn't clash with NEW badge */}
+                    <div className="absolute bottom-2 right-2">
+                      <WishlistButton
+                        item={{
+                          gameId: game.slug,
+                          gameName: game.title,
+                          image: game.image_url,
+                          price: Number(game.price),
+                        }}
+                        size="sm"
+                      />
+                    </div>
                   </div>
 
                   <div className="p-2">

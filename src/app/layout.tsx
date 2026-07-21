@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground antialiased">
         <AuthProvider>
           <CartProvider>
+            <WishlistProvider>
             <SearchProvider>
               {children}
               <Analytics />
@@ -37,6 +39,7 @@ export default function RootLayout({
               />
               <SignInPrompt />
             </SearchProvider>
+            </WishlistProvider>
           </CartProvider>
         </AuthProvider>
       </body>

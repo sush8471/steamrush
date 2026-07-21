@@ -7,6 +7,7 @@ import { getGamesBySection } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
 import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
+import { WishlistButton } from "@/components/ui/wishlist-button";
 
 type Game = {
   id: string;
@@ -89,6 +90,18 @@ export default function GameCardsGridDiscover() {
                         -{game.discount_percentage}%
                       </div>
                     )}
+                    {/* Wishlist heart */}
+                    <div className="absolute top-2 left-2">
+                      <WishlistButton
+                        item={{
+                          gameId: game.slug,
+                          gameName: game.title,
+                          image: game.image_url,
+                          price: Number(game.price),
+                        }}
+                        size="sm"
+                      />
+                    </div>
                   </div>
                   <div className="p-2">
                     <div className="flex items-center gap-1.5">

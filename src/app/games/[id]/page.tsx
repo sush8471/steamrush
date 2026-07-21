@@ -5,6 +5,7 @@ import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ChevronDown, MessageCircle, Check, Share2, ChevronLeft, ChevronRight, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart, ChevronUp } from "lucide-react";
+import { WishlistButton } from "@/components/ui/wishlist-button";
 import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import Footer from "@/components/sections/footer";
 import { getSteamGameDetails, parseSystemRequirements, type SteamGameDetails } from "@/lib/steam-api";
@@ -547,33 +548,44 @@ export default function GameDetailPage() {
                         </div>
                       </div>
 
-                      <div className="grid gap-2">
-                        <button
-                          onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
-                          className="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border border-white/20"
-                        >
-                          <MessageCircle className="w-4 h-4 fill-white/20" />
-                          Buy Now
-                        </button>
+                        <div className="grid gap-2">
+                          <button
+                            onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
+                            className="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border border-white/20"
+                          >
+                            <MessageCircle className="w-4 h-4 fill-white/20" />
+                            Buy Now
+                          </button>
 
-                        <button
-                          onClick={handleAddToCart}
-                          disabled={isAdded}
-                          className={`w-full text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border ${isAdded ? 'bg-card border-white/10 cursor-default opacity-70' : 'bg-card hover:bg-card border-white/10'}`}
-                        >
-                          {isAdded ? (
-                            <>
-                              <Check className="w-4 h-4 text-white" />
-                              In Cart
-                            </>
-                          ) : (
-                            <>
-                              <ShoppingCart className="w-4 h-4 text-white" />
-                              Add to Cart
-                            </>
-                          )}
-                        </button>
-                      </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={handleAddToCart}
+                              disabled={isAdded}
+                              className={`flex-1 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border ${isAdded ? 'bg-card border-white/10 cursor-default opacity-70' : 'bg-card hover:bg-card border-white/10'}`}
+                            >
+                              {isAdded ? (
+                                <>
+                                  <Check className="w-4 h-4 text-white" />
+                                  In Cart
+                                </>
+                              ) : (
+                                <>
+                                  <ShoppingCart className="w-4 h-4 text-white" />
+                                  Add to Cart
+                                </>
+                              )}
+                            </button>
+                            <WishlistButton
+                              item={{
+                                gameId: game.slug,
+                                gameName: game.title,
+                                image: game.image_url,
+                                price: Number(game.price),
+                              }}
+                              size="md"
+                            />
+                          </div>
+                        </div>
                     </div>
                   </div>
 

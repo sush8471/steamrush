@@ -8,6 +8,7 @@ import { getGamesBySection } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
 import GameCardRowSkeleton from "@/components/ui/game-card-row-skeleton";
+import { WishlistButton } from "@/components/ui/wishlist-button";
 
 type Game = {
   id: string;
@@ -85,6 +86,18 @@ export default function UpcomingGames() {
                     <div className="absolute top-2 right-2 bg-white/15 text-white text-xs font-bold px-2 py-1 rounded-md backdrop-blur-sm flex items-center gap-1">
                       <Sparkles className="w-3 h-3" />
                       Coming Soon
+                    </div>
+                    {/* Wishlist heart */}
+                    <div className="absolute top-2 left-2">
+                      <WishlistButton
+                        item={{
+                          gameId: game.slug,
+                          gameName: game.title,
+                          image: game.image_url,
+                          price: null,
+                        }}
+                        size="sm"
+                      />
                     </div>
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>

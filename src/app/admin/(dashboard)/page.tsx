@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Gamepad2, Eye, EyeOff, Calendar, Loader2, ArrowRight, Layers } from "lucide-react";
+import { Gamepad2, Eye, EyeOff, Calendar, Loader2, ArrowRight, ShoppingBag, Wrench } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
@@ -11,6 +11,8 @@ export default function AdminDashboardPage() {
     visible: 0,
     hidden: 0,
     upcoming: 0,
+    totalOrders: 0,
+    openRefix: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -21,12 +23,16 @@ export default function AdminDashboardPage() {
           totalRes,
           visibleRes,
           hiddenRes,
-          upcomingRes
+          upcomingRes,
+          ordersRes,
+          refixRes,
         ] = await Promise.all([
           supabase.from("games").select("*", { count: "exact", head: true }),
           supabase.from("games").select("*", { count: "exact", head: true }).eq("visible", true),
           supabase.from("games").select("*", { count: "exact", head: true }).eq("visible", false),
-          supabase.from("games").select("*", { count: "exact", head: true }).eq("release_status", "upcoming")
+          supabase.from("games").select("*", { count: "exact", head: true }).eq("release_status", "upcoming"),
+          supabase.from("orders").select("*", { count: "exact", head: true }),
+          supabase.from("refix_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
         ]);
 
         setStats({
@@ -34,6 +40,8 @@ export default function AdminDashboardPage() {
           visible: visibleRes.count || 0,
           hidden: hiddenRes.count || 0,
           upcoming: upcomingRes.count || 0,
+          totalOrders: ordersRes.count || 0,
+          openRefix: refixRes.count || 0,
         });
       } catch (err) {
         console.error("Failed to load dashboard metrics:", err);
@@ -78,6 +86,22 @@ export default function AdminDashboardPage() {
       iconColor: "text-primary",
       glowColor: "group-hover:shadow-primary/10",
     },
+    {
+      title: "Total Orders",
+      value: stats.totalOrders,
+      icon: ShoppingBag,
+      color: "from-violet-500/20 to-purple-500/5",
+      iconColor: "text-violet-400",
+      glowColor: "group-hover:shadow-violet-500/10",
+    },
+    {
+      title: "Open Re-Fix Requests",
+      value: stats.openRefix,
+      icon: Wrench,
+      color: "from-rose-500/20 to-red-500/5",
+      iconColor: "text-rose-400",
+      glowColor: "group-hover:shadow-rose-500/10",
+    },
   ];
 
   if (loading) {
@@ -91,7 +115,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Metric Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6">
         {cardItems.map((item, i) => {
           const Icon = item.icon;
           return (
@@ -141,6 +165,28 @@ export default function AdminDashboardPage() {
             <div className="space-y-1">
               <h4 className="font-bold text-white group-hover:text-primary transition-colors">Homepage Management</h4>
               <p className="text-xs text-muted-foreground">Manage storefront sections, game mappings, and value combos</p>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
+          </Link>
+
+          <Link
+            href="/admin/orders"
+            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
+          >
+            <div className="space-y-1">
+              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Order Management</h4>
+              <p className="text-xs text-muted-foreground">View all orders and update their delivery status</p>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
+          </Link>
+
+          <Link
+            href="/admin/refix"
+            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
+          >
+            <div className="space-y-1">
+              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Re-Fix Requests</h4>
+              <p className="text-xs text-muted-foreground">Schedule fix sessions for users with broken game activations</p>
             </div>
             <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
           </Link>

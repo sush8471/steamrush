@@ -12,6 +12,8 @@ import {
   Menu,
   X,
   ChevronRight,
+  ShoppingBag,
+  Wrench,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -69,9 +71,11 @@ export default function AdminDashboardLayout({
   };
 
   const navItems = [
-    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/admin/games", label: "Games Catalog", icon: Gamepad2 },
-    { href: "/admin/homepage", label: "Homepage Sections", icon: Home },
+    { href: "/admin",        label: "Dashboard",        icon: LayoutDashboard },
+    { href: "/admin/games",  label: "Games Catalog",    icon: Gamepad2        },
+    { href: "/admin/homepage", label: "Homepage Sections", icon: Home          },
+    { href: "/admin/orders", label: "Orders",            icon: ShoppingBag    },
+    { href: "/admin/refix",  label: "Re-Fix Requests",  icon: Wrench         },
   ];
 
   const currentPageLabel =

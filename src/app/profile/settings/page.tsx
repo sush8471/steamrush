@@ -338,6 +338,18 @@ export default function ProfileSettingsPage() {
                             <div className="text-[11px] text-muted-foreground">Found in Library</div>
                           </div>
                           <button
+                            onClick={async () => {
+                              toast.promise(connectSteam(steamProfile.steamId), {
+                                loading: "Refreshing Steam library...",
+                                success: "Steam library refreshed!",
+                                error: "Failed to refresh Steam library",
+                              });
+                            }}
+                            className="bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 text-xs font-semibold px-3 py-2 rounded-xl transition-colors cursor-pointer border border-sky-500/20"
+                          >
+                            Refresh
+                          </button>
+                          <button
                             onClick={handleDisconnectSteam}
                             className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-semibold px-4 py-2 rounded-xl transition-colors cursor-pointer border border-rose-500/20"
                           >
@@ -345,6 +357,34 @@ export default function ProfileSettingsPage() {
                           </button>
                         </div>
                       </div>
+
+                      {/* Zero Games Privacy Help Banner */}
+                      {ownedAppIds.length === 0 && (
+                        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex gap-3 text-xs text-amber-200">
+                          <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                          <div className="space-y-1.5">
+                            <p className="font-bold text-white">Why does it show 0 games?</p>
+                            <p className="leading-relaxed">
+                              Steam sets <strong>&quot;Game details&quot; privacy to Friends Only by default</strong> for all accounts. Steam&apos;s servers hide your games list from apps until you enable public access:
+                            </p>
+                            <ol className="list-decimal list-inside space-y-1 pt-1 font-medium text-amber-300">
+                              <li>
+                                Open your <a href="https://steamcommunity.com/my/edit/settings" target="_blank" rel="noreferrer" className="underline hover:text-white font-bold">Steam Privacy Settings</a> page.
+                              </li>
+                              <li>
+                                Change <strong>&quot;Game details&quot;</strong> from <em>Friends Only / Private</em> &rarr; <strong>Public</strong>.
+                              </li>
+                              <li>
+                                Uncheck <em>&quot;Always keep my total playtime private&quot;</em>.
+                              </li>
+                            </ol>
+                            <p className="pt-1.5 text-[11px] text-muted-foreground">
+                              Once updated on Steam, click the <strong>Refresh</strong> button above to load Left 4 Dead 2, EA Sports FC, and all your Steam games!
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
 
                       {/* Benefits & Features Enabled */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -309,7 +309,7 @@ function BrowsePageInner() {
   const [priceRange, setPriceRange] = useState<string>(() => searchParams.get("price") || "all");
   const [onSaleOnly, setOnSaleOnly] = useState<boolean>(() => searchParams.get("sale") === "1");
   const [searchQuery, setSearchQuery] = useState<string>(() => searchParams.get("q") || searchParams.get("search") || "");
-  const [sortKey, setSortKey] = useState<string>(() => searchParams.get("sort") || "newest");
+  const [sortKey, setSortKey] = useState<string>(() => searchParams.get("sort") || "name:-a-to-z");
   const [currentPage, setCurrentPage] = useState<number>(() =>
     parseInt(searchParams.get("page") || "1", 10)
   );
@@ -443,7 +443,7 @@ function BrowsePageInner() {
     }
 
     if (updates.sort !== undefined) {
-      if (updates.sort !== "newest") {
+      if (updates.sort !== "name:-a-to-z") {
         params.set("sort", updates.sort);
       } else {
         params.delete("sort");
@@ -471,7 +471,7 @@ function BrowsePageInner() {
       setSearchQuery(urlQ);
     }
 
-    const sort = searchParams.get("sort") || "newest";
+    const sort = searchParams.get("sort") || "name:-a-to-z";
     setSortKey(sort);
 
     const page = parseInt(searchParams.get("page") || "1", 10);

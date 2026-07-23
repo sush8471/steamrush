@@ -89,6 +89,7 @@ type Game = {
   discount: number | null;
   genre: string[];
   slug: string;
+  releaseStatus: string;
 };
 
 // ─── Pagination ────────────────────────────────────────────────────────────────
@@ -197,9 +198,9 @@ function GameCard({ game, priority = false }: { game: Game; priority?: boolean }
             -{game.discount}%
           </div>
         ) : null}
-        {game.price === 0 ? (
-          <div className="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-black px-2 py-1 rounded-md shadow-lg">
-            FREE
+        {game.releaseStatus === "upcoming" ? (
+          <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-xs font-black px-2 py-1 rounded-md shadow-lg">
+            UPCOMING
           </div>
         ) : null}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent" />
@@ -354,6 +355,7 @@ function BrowsePageInner() {
         discount: g.discount_percentage ?? null,
         genre: g.genre || [],
         slug: g.slug || "",
+        releaseStatus: g.release_status || "released",
       }));
       setGames(mapped.filter((g) => g.title !== "Dead Island"));
       setTotalCount(count || 0);

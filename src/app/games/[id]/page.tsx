@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ChevronDown, MessageCircle, Check, Share2, ChevronLeft, ChevronRight, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart, ChevronUp } from "lucide-react";
+import { ArrowLeft, ChevronDown, MessageCircle, Check, Share2, ChevronLeft, ChevronRight, ShieldCheck, Zap, Clock, ThumbsUp, ShoppingCart, ChevronUp, CalendarClock } from "lucide-react";
 import { WishlistButton } from "@/components/ui/wishlist-button";
 import { SteamOwnedBadge } from "@/components/ui/steam-owned-badge";
 import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
@@ -557,55 +557,67 @@ export default function GameDetailPage() {
                           <SteamOwnedBadge size="md" className="w-full justify-center py-1.5" />
                         </div>
                       )}
-                      <div className="flex items-end gap-2 mb-1">
 
-                        <div className="bg-white/15 px-2 py-0.5 rounded-sm">
-                          <span className="text-white text-sm font-bold">{discount}</span>
-                        </div>
-                        <div className="flex flex-col leading-none">
-                          <span className="text-muted-foreground text-[11px] line-through decoration-[1px]">₹{game.original_price}</span>
-                          <span className="text-white text-lg font-bold">₹{game.price}</span>
-                        </div>
-                      </div>
-
-                        <div className="grid gap-2">
-                          <button
-                            onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
-                            className="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border border-white/20"
-                          >
-                            <MessageCircle className="w-4 h-4 fill-white/20" />
-                            Buy Now
-                          </button>
-
-                          <div className="flex gap-2">
-                            <button
-                              onClick={handleAddToCart}
-                              disabled={isAdded}
-                              className={`flex-1 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border ${isAdded ? 'bg-card border-white/10 cursor-default opacity-70' : 'bg-card hover:bg-card border-white/10'}`}
-                            >
-                              {isAdded ? (
-                                <>
-                                  <Check className="w-4 h-4 text-white" />
-                                  In Cart
-                                </>
-                              ) : (
-                                <>
-                                  <ShoppingCart className="w-4 h-4 text-white" />
-                                  Add to Cart
-                                </>
-                              )}
-                            </button>
-                            <WishlistButton
-                              item={{
-                                gameId: game.slug,
-                                gameName: game.title,
-                                image: game.image_url,
-                                price: Number(game.price),
-                              }}
-                              size="md"
-                            />
+                      {game.release_status === "upcoming" ? (
+                        <div className="text-center py-2">
+                          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-lg">
+                            <CalendarClock className="w-4 h-4 text-primary" />
+                            <span className="text-primary font-bold text-sm">Coming Soon</span>
                           </div>
+                          <p className="text-muted-foreground text-xs mt-2">This game has not launched yet. Add to wishlist to get notified.</p>
                         </div>
+                      ) : (
+                        <>
+                          <div className="flex items-end gap-2 mb-1">
+                            <div className="bg-white/15 px-2 py-0.5 rounded-sm">
+                              <span className="text-white text-sm font-bold">{discount}</span>
+                            </div>
+                            <div className="flex flex-col leading-none">
+                              <span className="text-muted-foreground text-[11px] line-through decoration-[1px]">{"\u20B9"}{game.original_price}</span>
+                              <span className="text-white text-lg font-bold">{"\u20B9"}{game.price}</span>
+                            </div>
+                          </div>
+
+                          <div className="grid gap-2">
+                            <button
+                              onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
+                              className="w-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border border-white/20"
+                            >
+                              <MessageCircle className="w-4 h-4 fill-white/20" />
+                              Buy Now
+                            </button>
+
+                            <div className="flex gap-2">
+                              <button
+                                onClick={handleAddToCart}
+                                disabled={isAdded}
+                                className={`flex-1 text-white text-sm font-medium py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all border ${isAdded ? 'bg-card border-white/10 cursor-default opacity-70' : 'bg-card hover:bg-card border-white/10'}`}
+                              >
+                                {isAdded ? (
+                                  <>
+                                    <Check className="w-4 h-4 text-white" />
+                                    In Cart
+                                  </>
+                                ) : (
+                                  <>
+                                    <ShoppingCart className="w-4 h-4 text-white" />
+                                    Add to Cart
+                                  </>
+                                )}
+                              </button>
+                              <WishlistButton
+                                item={{
+                                  gameId: game.slug,
+                                  gameName: game.title,
+                                  image: game.image_url,
+                                  price: Number(game.price),
+                                }}
+                                size="md"
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -657,44 +669,59 @@ export default function GameDetailPage() {
 
       {/* MOBILE STICKY BUY BAR - Modern Glassmorphism */}
       <div className={`fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-white/10 lg:hidden transform transition-all duration-300 z-40 pb-safe ${showStickyNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
-        {/* Safe area padding for iPhones without home button */}
         <div className="px-4 py-3 pb-6 flex items-center justify-between gap-4">
+          {game.release_status === "upcoming" ? (
+            <>
+              <div className="flex items-center gap-2">
+                <CalendarClock className="w-4 h-4 text-primary" />
+                <span className="text-primary font-bold text-sm">Coming Soon</span>
+              </div>
+              <WishlistButton
+                item={{
+                  gameId: game.slug,
+                  gameName: game.title,
+                  image: game.image_url,
+                  price: Number(game.price),
+                }}
+                size="md"
+              />
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col flex-shrink-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="bg-white/15 text-white text-[10px] font-black px-1.5 py-0.5 rounded shadow-inner">{discount}</span>
+                  <span className="text-muted-foreground text-[10px] line-through decoration-white/20">{"\u20B9"}{game.original_price}</span>
+                </div>
+                <span className="text-white text-xl font-black tracking-tight leading-none">{"\u20B9"}{game.price}</span>
+              </div>
 
-          {/* Price Section */}
-          <div className="flex flex-col flex-shrink-0">
-            <div className="flex items-center gap-2 mb-0.5">
-              <span className="bg-white/15 text-white text-[10px] font-black px-1.5 py-0.5 rounded shadow-inner">{discount}</span>
-              <span className="text-muted-foreground text-[10px] line-through decoration-white/20">₹{game.original_price}</span>
-            </div>
-            <span className="text-white text-xl font-black tracking-tight leading-none">₹{game.price}</span>
-          </div>
+              <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isAdded}
+                  className={`h-10 w-10 sm:w-auto sm:px-4 border text-white rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 flex-shrink-0 ${isAdded ? 'bg-card border-white/10 opacity-70' : 'bg-card hover:bg-card border-white/10'}`}
+                  aria-label={isAdded ? "Already in Cart" : "Add to Cart"}
+                >
+                  {isAdded ? (
+                    <Check className="w-5 h-5 text-white" />
+                  ) : (
+                    <ShoppingCart className="w-5 h-5 text-white" />
+                  )}
+                  <span className="hidden sm:inline text-xs font-bold">{isAdded ? "Added" : "Cart"}</span>
+                </button>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
-            <button
-              onClick={handleAddToCart}
-              disabled={isAdded}
-              className={`h-10 w-10 sm:w-auto sm:px-4 border text-white rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 flex-shrink-0 ${isAdded ? 'bg-card border-white/10 opacity-70' : 'bg-card hover:bg-card border-white/10'}`}
-              aria-label={isAdded ? "Already in Cart" : "Add to Cart"}
-            >
-              {isAdded ? (
-                <Check className="w-5 h-5 text-white" />
-              ) : (
-                <ShoppingCart className="w-5 h-5 text-white" />
-              )}
-              <span className="hidden sm:inline text-xs font-bold">{isAdded ? "Added" : "Cart"}</span>
-            </button>
-
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
-              className="flex-1 h-10 bg-white/15 hover:bg-white/25 text-white px-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 border border-white/20 whitespace-nowrap"
-            >
-              <MessageCircle className="w-4 h-4 fill-white/20" />
-              Buy Now
-            </motion.button>
-          </div>
-
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => window.open(`https://wa.me/917752805529?text=I want to buy ${game.title}`, '_blank')}
+                  className="flex-1 h-10 bg-white/15 hover:bg-white/25 text-white px-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 border border-white/20 whitespace-nowrap"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white/20" />
+                  Buy Now
+                </motion.button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

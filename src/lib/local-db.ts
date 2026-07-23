@@ -18,6 +18,7 @@ export interface Game {
     tags: string[];
     steam_app_id?: number | null;
     series?: string | null;
+    release_status?: "released" | "upcoming";
 }
 
 // Convert Supabase database row format to Game format
@@ -34,6 +35,7 @@ const normalizeDbGame = (dbGame: any): Game => ({
     tags: dbGame.tags || [],
     steam_app_id: dbGame.steam_app_id,
     series: dbGame.series,
+    release_status: dbGame.release_status || "released",
 });
 
 /**

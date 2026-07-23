@@ -40,16 +40,11 @@ export default function GamesTable({
   hasActiveFilters,
 }: Props) {
   const [heldGameId, setHeldGameId] = useState<string | null>(null);
-  const [holding, setHolding] = useState(false);
   const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const holdStart = useRef<number>(0);
 
   const startHold = useCallback((game: DbGame) => {
-    holdStart.current = Date.now();
-    setHolding(true);
     holdTimer.current = setTimeout(() => {
       setHeldGameId(game.id);
-      setHolding(false);
     }, HOLD_DELAY_MS);
   }, []);
 
@@ -58,7 +53,6 @@ export default function GamesTable({
       clearTimeout(holdTimer.current);
       holdTimer.current = null;
     }
-    setHolding(false);
   }, []);
 
   const closeActions = useCallback(() => setHeldGameId(null), []);
@@ -123,14 +117,6 @@ export default function GamesTable({
               onPointerCancel={cancelHold}
               onContextMenu={(e) => e.preventDefault()}
             >
-              {/* Hold progress indicator */}
-              {holding && heldGameId !== game.id && (
-                <div className="absolute inset-0 z-10 pointer-events-none">
-                  <div className="absolute inset-0 bg-primary/5" />
-                  <div className="absolute bottom-0 left-0 h-0.5 bg-primary animate-[holdProgress_500ms_linear_forwards]" />
-                </div>
-              )}
-
               {/* Normal card content */}
               {!isHeld && (
                 <div className="flex items-center gap-4 p-4">

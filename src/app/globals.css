@@ -309,9 +309,5 @@ header button:hover {
   text-decoration: none !important;
 }
 
-/* Hold-to-reveal progress bar animation */
-@keyframes holdProgress {
-  from { width: 0; }
-  to { width: 100%; }
-}
+
 

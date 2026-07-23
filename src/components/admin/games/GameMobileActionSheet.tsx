@@ -29,59 +29,51 @@ export default function GameMobileActionSheet({
 }: Props) {
   return (
     <Sheet open={!!game} onOpenChange={(open) => !open && onOpenChange(false)}>
-      <SheetContent side="bottom" className="bg-[#111111] border-t border-[#262626] rounded-t-2xl shadow-2xl p-6 flex flex-col space-y-4 md:hidden">
+      <SheetContent side="bottom" className="bg-card border-t border-border rounded-t-2xl shadow-2xl p-4 md:hidden">
         {game && (
           <>
-            <SheetHeader className="border-b border-[#262626] pb-3">
+            <SheetHeader className="pb-3 border-b border-border">
               <SheetTitle className="text-white text-sm font-bold truncate">{game.title}</SheetTitle>
               <SheetDescription className="text-[10px] text-muted-foreground font-mono">/{game.slug}</SheetDescription>
             </SheetHeader>
 
-            <div className="flex flex-col gap-2.5">
+            <div className="flex gap-2 pt-3">
               <button
                 onClick={() => {
                   onToggleVisibility(game);
-                  if (pendingToggleId === game.id) {
-                    onOpenChange(false);
-                  }
+                  if (pendingToggleId === game.id) onOpenChange(false);
                 }}
-                className={`flex items-center gap-3 w-full p-3 rounded-xl border text-sm font-bold transition-all cursor-pointer ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer border ${
                   pendingToggleId === game.id
                     ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
                     : game.visible
                       ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                      : "bg-gray-500/5 text-muted-foreground border-gray-500/10"
+                      : "bg-muted/10 text-muted-foreground border-border"
                 }`}
               >
                 {pendingToggleId === game.id ? (
-                  <><AlertTriangle className="w-4 h-4" /><span>Tap again to confirm</span></>
+                  <><AlertTriangle className="w-3.5 h-3.5" />Confirm</>
                 ) : game.visible ? (
-                  <><Eye className="w-4 h-4" /><span>Storefront Visibility: Visible</span></>
+                  <><Eye className="w-3.5 h-3.5" />Visible</>
                 ) : (
-                  <><EyeOff className="w-4 h-4" /><span>Storefront Visibility: Hidden</span></>
+                  <><EyeOff className="w-3.5 h-3.5" />Hidden</>
                 )}
               </button>
 
               <button
-                onClick={() => {
-                  onEdit(game);
-                  onOpenChange(false);
-                }}
-                className="flex items-center gap-3 w-full p-3 bg-[#262626]/50 hover:bg-[#262626] border border-[#262626] text-white rounded-xl text-sm font-bold transition-all cursor-pointer"
+                onClick={() => { onEdit(game); onOpenChange(false); }}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-background border border-border rounded-lg text-xs font-bold text-white hover:border-primary/40 transition-all cursor-pointer"
               >
-                <Edit2 className="w-4 h-4 text-primary" />
-                <span>Edit Game Details</span>
+                <Edit2 className="w-3.5 h-3.5 text-primary" />
+                Edit
               </button>
 
               <button
-                onClick={() => {
-                  onDelete(game);
-                  onOpenChange(false);
-                }}
-                className="flex items-center gap-3 w-full p-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-xl text-sm font-bold transition-all cursor-pointer"
+                onClick={() => { onDelete(game); onOpenChange(false); }}
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-background border border-red-500/20 rounded-lg text-xs font-bold text-red-400 hover:border-red-500/40 transition-all cursor-pointer"
               >
-                <Trash2 className="w-4 h-4" />
-                <span>Delete Game Listing</span>
+                <Trash2 className="w-3.5 h-3.5" />
+                Delete
               </button>
             </div>
           </>

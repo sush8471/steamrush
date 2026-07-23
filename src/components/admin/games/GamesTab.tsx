@@ -50,7 +50,7 @@ export default function GamesTab() {
   const [formData, setFormData] = useState<GameFormData>({
     title: "", slug: "", image_url: "",
     selling_price: "", original_price: "", discount_percentage: "",
-    genre: "", tags: "", series: "", description: "",
+    genre: "", series: "", description: "",
     release_status: "released", visible: true, steam_app_id: "",
   });
   const [formError, setFormError] = useState<string | null>(null);
@@ -58,6 +58,7 @@ export default function GamesTab() {
 
   // Steam & upload state
   const [fetchingSteam, setFetchingSteam] = useState(false);
+  const [fetchedTags, setFetchedTags] = useState<string[]>([]);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
@@ -161,11 +162,11 @@ export default function GamesTab() {
       const slug = title.toLowerCase().trim()
         .replace(/[^\w\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
       const genres = s.genres ? s.genres.map((g: any) => g.description).join(", ") : "";
+      setFetchedTags([title.toLowerCase(), ...(s.genres ? s.genres.map((g: any) => g.description.toLowerCase()) : [])]);
       setFormData(prev => ({
         ...prev,
         title, slug,
         genre: genres,
-        tags: `${title.toLowerCase()}, ${genres.toLowerCase()}`,
         image_url: s.header_image || prev.image_url,
         description: s.short_description || prev.description,
       }));
@@ -225,11 +226,12 @@ export default function GamesTab() {
     setFormData({
       title: "", slug: "", image_url: "",
       selling_price: "", original_price: "", discount_percentage: "",
-      genre: "", tags: "", series: "", description: "",
+      genre: "", series: "", description: "",
       release_status: "released", visible: true, steam_app_id: "",
     });
     setFormError(null);
     setModalOpen(true);
+    setFetchedTags([]);
   };
 
   // Open edit modal
@@ -244,7 +246,6 @@ export default function GamesTab() {
       original_price: game.original_price !== null ? game.original_price.toString() : "",
       discount_percentage: game.discount_percentage !== null ? game.discount_percentage.toString() : "",
       genre: game.genre ? game.genre.join(", ") : "",
-      tags: game.tags ? game.tags.join(", ") : "",
       series: game.series || "",
       description: game.description || "",
       release_status: game.release_status,
@@ -253,6 +254,7 @@ export default function GamesTab() {
     });
     setFormError(null);
     setModalOpen(true);
+    setFetchedTags([]);
   };
 
   // Form submit
@@ -279,7 +281,7 @@ export default function GamesTab() {
       original_price: formData.original_price.trim() !== "" ? Number(formData.original_price) : null,
       discount_percentage: formData.discount_percentage.trim() !== "" ? parseInt(formData.discount_percentage) : null,
       genre: formData.genre ? formData.genre.split(",").map(g => g.trim()).filter(Boolean) : [],
-      tags: formData.tags ? formData.tags.split(",").map(t => t.trim()).filter(Boolean) : [],
+      tags: fetchedTags.length > 0 ? fetchedTags : formData.title ? formData.title.split(" ").concat(formData.genre ? formData.genre.split(",").map(g => g.trim()) : []) : [],
       series: formData.series.trim() || null,
       description: formData.description.trim() || null,
       release_status: formData.release_status,

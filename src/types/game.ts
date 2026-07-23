@@ -24,7 +24,6 @@ export type GameFormData = {
   original_price: string;
   discount_percentage: string;
   genre: string;
-  tags: string;
   series: string;
   description: string;
   release_status: "released" | "upcoming";

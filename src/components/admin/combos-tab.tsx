@@ -123,6 +123,13 @@ export default function CombosTab() {
     loadGames();
   }, []);
 
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = ""; };
+    }
+  }, [modalOpen]);
+
   const filteredCombos = useMemo(() => {
     const filtered = combos.filter((c) =>
       c.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -506,15 +513,15 @@ export default function CombosTab() {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full sm:max-w-lg bg-card border border-border sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm overflow-hidden">
+          <div className="w-full h-full sm:h-auto sm:max-w-lg bg-card border-0 sm:border border-border sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col sm:max-h-[90vh] animate-fadeIn">
             <div className="px-6 py-4 border-b border-border flex items-center justify-between flex-shrink-0">
               <h3 className="text-lg font-bold text-foreground">{modalMode === "add" ? "Add Combo Deal" : "Edit Combo Deal"}</h3>
               <button onClick={() => setModalOpen(false)} className="p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
 
             <form onSubmit={handleFormSubmit} className="flex-1 flex flex-col min-h-0">
-              <div className="flex-1 overflow-y-auto min-h-0 p-6 space-y-5">
+              <div className="flex-1 overflow-y-auto min-h-0 overscroll-contain p-6 space-y-5">
                 {formError && (
                   <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-4 py-3 rounded-lg leading-relaxed">
                     <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   X, AlertTriangle, Sparkles, Loader2, Upload, FileImage,
 } from "lucide-react";
@@ -45,14 +46,21 @@ export default function GameFormModal({
   onDrop,
   onFileInput,
 }: Props) {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = ""; };
+    }
+  }, [open]);
+
   if (!open) return null;
 
   const set = (field: keyof GameFormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     onFormDataChange((prev) => ({ ...prev, [field]: e.target.value }));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full sm:max-w-lg bg-card border border-border sm:rounded-xl rounded-t-xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm overflow-hidden">
+      <div className="w-full h-full sm:h-auto sm:max-w-lg bg-card border-0 sm:border border-border sm:rounded-xl shadow-2xl overflow-hidden flex flex-col sm:max-h-[90vh]">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-border">
           <h3 className="text-base font-bold text-foreground">
@@ -65,7 +73,7 @@ export default function GameFormModal({
 
         {/* Form */}
         <form onSubmit={onSubmit} className="flex-1 flex flex-col min-h-0">
-          <div className="flex-1 overflow-y-auto min-h-0 p-5 space-y-4">
+          <div className="flex-1 overflow-y-auto min-h-0 overscroll-contain p-5 space-y-4">
             {formError && (
               <div className="flex items-start gap-2 bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-3 py-2.5 rounded-lg">
                 <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />

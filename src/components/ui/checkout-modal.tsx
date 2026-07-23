@@ -14,7 +14,6 @@ import type { CartItem } from "@/context/CartContext";
 interface CheckoutModalProps {
   open: boolean;
   onClose: () => void;
-  orderId: string;
   items: CartItem[];
   totalPrice: number;
   /** Pre-filled from Google profile — optional */
@@ -29,7 +28,6 @@ interface CheckoutModalProps {
 export function CheckoutModal({
   open,
   onClose,
-  orderId,
   items,
   totalPrice,
   userName,
@@ -45,7 +43,7 @@ export function CheckoutModal({
 
   const buildOrderMessage = () => {
     return [
-      `🎮 *Gamer Bhidu Order ${orderId}*`,
+      `🎮 *Gamer Bhidu Purchase*`,
       "",
       userName ? `👤 *Customer:* ${userName}` : null,
       userEmail ? `📧 *Email:* ${userEmail}` : null,
@@ -56,7 +54,7 @@ export function CheckoutModal({
       `💰 *Total Paid:* ₹${totalPrice}`,
       `💳 *UPI UTR / Ref No:* ${utrNumber.trim()}`,
       "",
-      "I have completed the UPI payment with UTR above. Please verify and confirm my order!",
+      "I have completed the UPI payment with UTR above. Please verify and confirm!",
     ]
       .filter((l) => l !== null)
       .join("\n");
@@ -92,15 +90,13 @@ export function CheckoutModal({
             {/* Close button */}
             <div className="flex items-center justify-between px-6 pt-5 pb-0">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
-                </div>
-                <div>
-                  <h2 className="text-base font-bold text-white">Order Summary & Payment</h2>
-                  <p className="text-xs text-muted-foreground">
-                    Order ID: <span className="text-white font-mono">{orderId}</span>
-                  </p>
-                </div>
+                  <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-base font-bold text-white">Complete Payment</h2>
+                    <p className="text-xs text-muted-foreground">Scan QR to pay via UPI</p>
+                  </div>
               </div>
               <button
                 onClick={onClose}

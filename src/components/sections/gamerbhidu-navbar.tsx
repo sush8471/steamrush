@@ -6,10 +6,7 @@ import {
   LogOut,
   User,
   ChevronDown,
-  PackageOpen,
   Heart,
-  Trophy,
-  Settings,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,10 +23,7 @@ import { FullscreenMenu } from "@/components/ui/fullscreen-menu";
 // ---------------------------------------------------------------------------
 
 const MENU_ITEMS = [
-  { href: "/orders",           icon: PackageOpen, label: "My Orders"        },
   { href: "/wishlist",         icon: Heart,       label: "Wishlist"         },
-  { href: "/rewards",          icon: Trophy,      label: "My Rewards"       },
-  { href: "/profile/settings", icon: Settings,    label: "Profile Settings" },
 ] as const;
 
 // ---------------------------------------------------------------------------

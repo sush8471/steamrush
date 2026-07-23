@@ -10,7 +10,7 @@ import {
   useMemo,
 } from "react";
 import { useAuth } from "./AuthContext";
-import { getProfile, updateSteamId } from "@/lib/db/user-db";
+import { getProfile } from "@/lib/db/user-db";
 
 export interface SteamProfileSummary {
   steamId: string;
@@ -154,12 +154,6 @@ export function SteamProvider({ children }: { children: ReactNode }) {
       }
 
       const success = await fetchSteamData(cleanId);
-      if (success) {
-        // If authenticated, update Supabase user_profiles table
-        if (user) {
-          await updateSteamId(user.id, cleanId);
-        }
-      }
       return success;
     },
     [user, fetchSteamData]
@@ -177,10 +171,6 @@ export function SteamProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem(LOCAL_STORAGE_KEY_STEAM_ID);
       localStorage.removeItem(LOCAL_STORAGE_KEY_STEAM_PROFILE);
       localStorage.removeItem(LOCAL_STORAGE_KEY_OWNED_APP_IDS);
-    }
-
-    if (user) {
-      await updateSteamId(user.id, null);
     }
   }, [user]);
 

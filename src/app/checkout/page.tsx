@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
-import { createOrder, generateOrderId } from "@/lib/db/order-db";
 import { CheckoutModal } from "@/components/ui/checkout-modal";
 import { UserAvatar } from "@/components/ui/user-avatar";
 import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
@@ -15,9 +13,8 @@ import { ArrowLeft, ShoppingBag, Lock, Pencil } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CheckoutPage() {
-  const { cart, totalPrice, itemCount, clearCart } = useCart();
+  const { cart, totalPrice, itemCount } = useCart();
   const { user, isAuthenticated } = useAuth();
-  const router = useRouter();
 
   // Auto-fill from Google profile, user can edit
   const [name, setName] = useState(
@@ -25,21 +22,10 @@ export default function CheckoutPage() {
   );
   const [email, setEmail] = useState(user?.email ?? "");
 
-  const [orderId] = useState(() => generateOrderId());
   const [modalOpen, setModalOpen] = useState(false);
-  const [isCreatingOrder, setIsCreatingOrder] = useState(false);
 
-  const handleProceed = async () => {
+  const handleProceed = () => {
     if (cart.length === 0) return;
-
-    setIsCreatingOrder(true);
-
-    // Save order to DB if authenticated
-    if (isAuthenticated && user) {
-      await createOrder(user.id, cart, totalPrice, orderId);
-    }
-
-    setIsCreatingOrder(false);
     setModalOpen(true);
   };
 
@@ -259,17 +245,10 @@ export default function CheckoutPage() {
                 {/* CTA */}
                 <button
                   onClick={handleProceed}
-                  disabled={isCreatingOrder || cart.length === 0}
+                  disabled={cart.length === 0}
                   className="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold hover:bg-[#20BA5A] disabled:opacity-60 disabled:cursor-not-allowed transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-base"
                 >
-                  {isCreatingOrder ? (
-                    <>
-                      <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Preparing order…
-                    </>
-                  ) : (
-                    "Proceed to Payment →"
-                  )}
+                  Proceed to Payment →
                 </button>
 
                 <p className="text-xs text-muted-foreground text-center mt-3">
@@ -285,7 +264,6 @@ export default function CheckoutPage() {
       <CheckoutModal
         open={modalOpen}
         onClose={handleModalClose}
-        orderId={orderId}
         items={cart}
         totalPrice={totalPrice}
         userName={name || undefined}

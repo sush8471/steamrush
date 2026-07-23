@@ -1,14 +1,11 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
 import {
   Gamepad2, Plus, Edit2, Trash2, Eye, EyeOff, AlertTriangle,
   MoreVertical, Loader2,
 } from "lucide-react";
 import Image from "next/image";
 import type { DbGame } from "@/types/game";
-
-const HOLD_DELAY_MS = 500;
 
 type Props = {
   loading: boolean;
@@ -39,23 +36,6 @@ export default function GamesTable({
   onAdd,
   hasActiveFilters,
 }: Props) {
-  const [heldGameId, setHeldGameId] = useState<string | null>(null);
-  const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const startHold = useCallback((game: DbGame) => {
-    holdTimer.current = setTimeout(() => {
-      setHeldGameId(game.id);
-    }, HOLD_DELAY_MS);
-  }, []);
-
-  const cancelHold = useCallback(() => {
-    if (holdTimer.current) {
-      clearTimeout(holdTimer.current);
-      holdTimer.current = null;
-    }
-  }, []);
-
-  const closeActions = useCallback(() => setHeldGameId(null), []);
 
   if (loading) {
     return (
@@ -105,106 +85,47 @@ export default function GamesTable({
     <>
       {/* Mobile card list */}
       <div className="md:hidden divide-y divide-border/60">
-        {paginatedGames.map((game) => {
-          const isHeld = heldGameId === game.id;
-          return (
-            <div
-              key={game.id}
-              className="relative select-none touch-none"
-              onPointerDown={() => startHold(game)}
-              onPointerUp={cancelHold}
-              onPointerLeave={cancelHold}
-              onPointerCancel={cancelHold}
-              onContextMenu={(e) => e.preventDefault()}
-            >
-              {/* Normal card content */}
-              {!isHeld && (
-                <div className="flex items-center gap-4 p-4">
-                  <div className="relative w-14 h-20 flex-shrink-0 bg-black/20 rounded-lg border border-border overflow-hidden">
-                    <Image src={game.image_url} alt={game.title} fill sizes="56px" className="object-cover" />
-                  </div>
-
-                  <div className="flex-1 min-w-0 space-y-1.5">
-                    <p className="text-white font-bold text-sm leading-tight truncate">{game.title}</p>
-                    <p className="text-[11px] text-muted-foreground font-mono truncate">/{game.slug}</p>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {game.selling_price !== null ? (
-                        <span className="text-sm font-black text-white">₹{game.selling_price}</span>
-                      ) : (
-                        <span className="text-[11px] text-muted-foreground bg-border/50 px-1.5 py-0.5 rounded">N/A</span>
-                      )}
-                      {game.discount_percentage ? (
-                        <span className="text-[11px] font-black bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/20">
-                          -{game.discount_percentage}%
-                        </span>
-                      ) : null}
-                      <span className={`text-[11px] font-black uppercase px-1.5 py-0.5 rounded border ${
-                        game.release_status === "released"
-                          ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
-                          : "bg-cyan-500/10 text-cyan-400 border-cyan-500/20"
-                      }`}>
-                        {game.release_status}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center flex-shrink-0">
-                    <button
-                      onClick={() => onOpenMobileActions(game)}
-                      className="p-2.5 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-all cursor-pointer"
-                      title="More actions"
-                    >
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Hold-to-reveal actions */}
-              {isHeld && (
-                <div className="p-4 bg-primary/5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="relative w-14 h-20 flex-shrink-0 bg-black/20 rounded-lg border border-primary/30 overflow-hidden">
-                      <Image src={game.image_url} alt={game.title} fill sizes="56px" className="object-cover" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-bold text-sm truncate">{game.title}</p>
-                      <p className="text-[11px] text-muted-foreground font-mono truncate">/{game.slug}</p>
-                    </div>
-                    <button onClick={closeActions} className="text-xs text-muted-foreground hover:text-white px-2 py-1 rounded cursor-pointer">
-                      Close
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      onClick={() => { onEdit(game); closeActions(); }}
-                      className="flex flex-col items-center gap-1.5 p-3 bg-background border border-border rounded-lg hover:border-primary/40 transition-colors cursor-pointer"
-                    >
-                      <Edit2 className="w-4 h-4 text-primary" />
-                      <span className="text-[11px] font-semibold text-white">Edit</span>
-                    </button>
-                    <button
-                      onClick={() => { onToggleVisibility(game); closeActions(); }}
-                      className={`flex flex-col items-center gap-1.5 p-3 bg-background border rounded-lg transition-colors cursor-pointer ${
-                        game.visible ? "border-emerald-500/20" : "border-border"
-                      }`}
-                    >
-                      {game.visible ? <Eye className="w-4 h-4 text-emerald-400" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
-                      <span className="text-[11px] font-semibold text-white">{game.visible ? "Visible" : "Hidden"}</span>
-                    </button>
-                    <button
-                      onClick={() => { onDelete(game); closeActions(); }}
-                      className="flex flex-col items-center gap-1.5 p-3 bg-background border border-red-500/20 rounded-lg hover:border-red-500/40 transition-colors cursor-pointer"
-                    >
-                      <Trash2 className="w-4 h-4 text-red-400" />
-                      <span className="text-[11px] font-semibold text-white">Delete</span>
-                    </button>
-                  </div>
-                </div>
-              )}
+        {paginatedGames.map((game) => (
+          <div key={game.id} className="flex items-center gap-4 p-4">
+            <div className="relative w-14 h-20 flex-shrink-0 bg-black/20 rounded-lg border border-border overflow-hidden">
+              <Image src={game.image_url} alt={game.title} fill sizes="56px" className="object-cover" />
             </div>
-          );
-        })}
+
+            <div className="flex-1 min-w-0 space-y-1.5">
+              <p className="text-white font-bold text-sm leading-tight truncate">{game.title}</p>
+              <p className="text-[11px] text-muted-foreground font-mono truncate">/{game.slug}</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                {game.selling_price !== null ? (
+                  <span className="text-sm font-black text-white">₹{game.selling_price}</span>
+                ) : (
+                  <span className="text-[11px] text-muted-foreground bg-border/50 px-1.5 py-0.5 rounded">N/A</span>
+                )}
+                {game.discount_percentage ? (
+                  <span className="text-[11px] font-black bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/20">
+                    -{game.discount_percentage}%
+                  </span>
+                ) : null}
+                <span className={`text-[11px] font-black uppercase px-1.5 py-0.5 rounded border ${
+                  game.release_status === "released"
+                    ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20"
+                    : "bg-cyan-500/10 text-cyan-400 border-cyan-500/20"
+                }`}>
+                  {game.release_status}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center flex-shrink-0">
+              <button
+                onClick={() => onOpenMobileActions(game)}
+                className="p-2.5 text-muted-foreground hover:text-white rounded-lg hover:bg-white/5 transition-all cursor-pointer"
+                title="More actions"
+              >
+                <MoreVertical className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Desktop table */}

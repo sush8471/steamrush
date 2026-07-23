@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Gamepad2, Eye, EyeOff, Calendar, Layers, Loader2, ArrowRight } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
@@ -45,45 +45,6 @@ export default function AdminDashboardPage() {
     loadStats();
   }, []);
 
-  const cardItems = [
-    {
-      title: "Total Listings",
-      value: stats.total,
-      icon: Gamepad2,
-      link: "/admin/games",
-      color: "from-blue-500/20 to-indigo-500/5",
-      iconColor: "text-blue-400",
-      glowColor: "group-hover:shadow-blue-500/10",
-    },
-    {
-      title: "Visible Storefront Listings",
-      value: stats.visible,
-      icon: Eye,
-      link: "/admin/games?visibility=Visible",
-      color: "from-emerald-500/20 to-teal-500/5",
-      iconColor: "text-emerald-400",
-      glowColor: "group-hover:shadow-emerald-500/10",
-    },
-    {
-      title: "Hidden Listings",
-      value: stats.hidden,
-      icon: EyeOff,
-      link: "/admin/games?visibility=Hidden",
-      color: "from-amber-500/20 to-orange-500/5",
-      iconColor: "text-amber-400",
-      glowColor: "group-hover:shadow-amber-500/10",
-    },
-    {
-      title: "Upcoming Titles",
-      value: stats.upcoming,
-      icon: Calendar,
-      link: "/admin/games?status=upcoming",
-      color: "from-primary/20 to-primary/5",
-      iconColor: "text-primary",
-      glowColor: "group-hover:shadow-primary/10",
-    },
-  ];
-
   if (loading) {
     return (
       <div className="h-96 flex items-center justify-center">
@@ -93,73 +54,40 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-      {/* Metric Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
-        {cardItems.map((item, i) => {
-          const Icon = item.icon;
-          return (
-            <Link
-              key={i}
-              href={item.link}
-              className={`group bg-gradient-to-br ${item.color} border border-[#262626] rounded-xl p-3 lg:p-6 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,0,0,0.2)] transition-all duration-300 ${item.glowColor}`}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <div className="space-y-1 lg:space-y-2 min-w-0">
-                  <p className="text-[10px] lg:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-tight">{item.title}</p>
-                  <p className="text-2xl lg:text-3xl font-black text-white tracking-tight">{item.value}</p>
-                </div>
-                <div className={`p-2 lg:p-3 bg-[#050505]/55 rounded-lg border border-[#262626]/60 flex-shrink-0 ${item.iconColor}`}>
-                  <Icon className="w-4 h-4 lg:w-6 lg:h-6" />
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+    <div className="space-y-6 animate-fadeIn">
+      {/* Stats Row */}
+      <div className="flex items-center gap-6 border-b border-border pb-4">
+        {[
+          { label: "Total", value: stats.total },
+          { label: "Visible", value: stats.visible },
+          { label: "Hidden", value: stats.hidden },
+          { label: "Upcoming", value: stats.upcoming },
+        ].map((s) => (
+          <Link key={s.label} href="/admin/games" className="group">
+            <p className="text-2xl font-black text-white">{s.value}</p>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">{s.label}</p>
+          </Link>
+        ))}
       </div>
 
-      {/* Admin Quick Walkthrough Panel */}
-      <div className="bg-[#111111] border border-[#262626] rounded-xl p-4 lg:p-8 space-y-4 lg:space-y-6">
-        <div className="space-y-2">
-          <h3 className="text-xl font-bold text-white">Welcome, Administrator</h3>
-          <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-            This administration panel allows you to manage the entire storefront catalog. Modify prices, toggles, metadata tags, and sections live without changing any code or executing redeploys.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-          <Link
-            href="/admin/games"
-            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
-          >
-            <div className="space-y-1">
-              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Games Catalogue CRUD</h4>
-              <p className="text-xs text-muted-foreground">Add, edit details, hide, or delete games listings</p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
-          </Link>
-
-          <Link
-            href="/admin/homepage"
-            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
-          >
-            <div className="space-y-1">
-              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Homepage Management</h4>
-              <p className="text-xs text-muted-foreground">Manage storefront sections, game mappings, and value combos</p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
-          </Link>
-
-          <Link
-            href="/admin/combos"
-            className="flex items-center justify-between p-6 bg-[#050505]/40 border border-[#262626] rounded-lg hover:border-primary/30 hover:bg-primary/5 transition-all group"
-          >
-            <div className="space-y-1">
-              <h4 className="font-bold text-white group-hover:text-primary transition-colors">Value Combo Deals</h4>
-              <p className="text-xs text-muted-foreground">Create and manage bundle deals with multiple games</p>
-            </div>
-            <Layers className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all" />
-          </Link>
+      {/* Welcome + Quick Links */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-bold text-white">Welcome, Administrator</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {[
+            { label: "Games", desc: "Add, edit, hide, or delete listings", href: "/admin/games" },
+            { label: "Homepage", desc: "Manage sections, games, and combos", href: "/admin/homepage" },
+            { label: "Combos", desc: "Create and manage bundle deals", href: "/admin/combos" },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="block p-4 bg-card border border-border rounded-lg hover:border-primary/40 transition-colors"
+            >
+              <h4 className="text-sm font-semibold text-white">{item.label}</h4>
+              <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

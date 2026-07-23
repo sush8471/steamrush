@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import {
-  Layers, Search, Plus, Edit2, Trash2, Eye, EyeOff, Check, X,
+  Layers, Search, Plus, Edit2, Trash2, Eye, EyeOff, X,
   Loader2, ChevronLeft, ChevronRight, AlertTriangle, Upload, FileImage,
 } from "lucide-react";
 import Image from "next/image";
@@ -46,7 +46,6 @@ export default function CombosTab() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  // Visibility toggle confirmation
   const [pendingToggleId, setPendingToggleId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
@@ -140,7 +139,9 @@ export default function CombosTab() {
     return filteredCombos.slice(start, start + itemsPerPage);
   }, [filteredCombos, currentPage]);
 
-  useEffect(() => { setCurrentPage(1); }, [searchQuery]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const resetForm = () => {
     setFormData({ title: "", description: "", curiosity_cue: "", value_anchor: "", image_url: "", original_price: "", discounted_price: "", visible: true });
@@ -315,9 +316,12 @@ export default function CombosTab() {
     }
   };
 
+  const showStart = Math.min((currentPage - 1) * itemsPerPage + 1, filteredCombos.length);
+  const showEnd = Math.min(currentPage * itemsPerPage, filteredCombos.length);
+
   return (
     <div className="space-y-4">
-      <div className="bg-[#111111] border border-[#262626] p-3 lg:p-4 rounded-xl space-y-3">
+      <div className="bg-card border border-border p-3 lg:p-4 rounded-xl space-y-3">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
@@ -325,12 +329,12 @@ export default function CombosTab() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search combos..."
-            className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10"
+            className="w-full bg-background border border-border focus:border-primary rounded-lg pl-10 pr-10 py-2.5 text-sm text-foreground focus:outline-none"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-white rounded transition-colors cursor-pointer"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground rounded transition-colors cursor-pointer"
               title="Clear search"
             >
               <X className="w-4 h-4" />
@@ -341,7 +345,7 @@ export default function CombosTab() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as "name" | "price")}
-            className="bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none cursor-pointer"
+            className="bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none cursor-pointer"
           >
             <option value="name">Sort: Name</option>
             <option value="price">Sort: Price</option>
@@ -353,7 +357,7 @@ export default function CombosTab() {
         </div>
       </div>
 
-      <div className="bg-[#111111] border border-[#262626] rounded-xl overflow-hidden shadow-xl">
+      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-xl">
         {loading ? (
           <div className="h-72 flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -384,54 +388,58 @@ export default function CombosTab() {
           </div>
         ) : (
           <>
-            <div className="md:hidden divide-y divide-[#262626]/60">
+            {/* Mobile list */}
+            <div className="md:hidden divide-y divide-border/60">
               {paginatedCombos.map((combo) => (
                 <div key={combo.id} className="flex items-center gap-3 p-3">
-                  <div className="relative w-14 h-10 flex-shrink-0 bg-black/20 rounded border border-[#262626] overflow-hidden">
+                  <div className="relative w-14 h-10 flex-shrink-0 bg-black/20 rounded border border-border overflow-hidden">
                     {combo.image_url ? (
                       <Image src={combo.image_url} alt={combo.title} fill sizes="56px" className="object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center"><Layers className="w-4 h-4 text-muted-foreground" /></div>
                     )}
                   </div>
-                  <div className="flex-1 min-w-0 space-y-1">
-                    <p className="text-white font-bold text-xs leading-tight truncate">{combo.title}</p>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-xs font-black text-white">Ôé╣{combo.discounted_price}</span>
-                      {combo.original_price && <span className="text-[10px] text-muted-foreground line-through">Ôé╣{combo.original_price}</span>}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-foreground font-bold text-sm leading-tight truncate">{combo.title}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm font-black text-foreground">{"\u20B9"}{combo.discounted_price}</span>
+                      {combo.original_price && (
+                        <span className="text-xs text-muted-foreground line-through">{"\u20B9"}{combo.original_price}</span>
+                      )}
                       {combo.discount_details && (
                         <span className="text-[10px] font-black bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/20">{combo.discount_details}</span>
                       )}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    <button onClick={() => handleToggleVisible(combo)} className={`p-2.5 rounded transition-all cursor-pointer ${pendingToggleId === combo.id ? "text-amber-400 bg-amber-500/10" : combo.visible ? "text-emerald-400" : "text-muted-foreground"}`}>
+                    <button onClick={() => handleToggleVisible(combo)} className={`p-2 rounded transition-all cursor-pointer ${pendingToggleId === combo.id ? "text-amber-400 bg-amber-500/10" : combo.visible ? "text-emerald-400" : "text-muted-foreground"}`}>
                       {pendingToggleId === combo.id ? <AlertTriangle className="w-4 h-4" /> : combo.visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                     </button>
-                    <button onClick={() => openEditModal(combo)} className="p-2.5 text-muted-foreground hover:text-primary rounded transition-all cursor-pointer"><Edit2 className="w-4 h-4" /></button>
-                    <button onClick={() => { setComboToDelete(combo); setDeleteError(null); setDeleteOpen(true); }} className="p-2.5 text-muted-foreground hover:text-red-400 rounded transition-all cursor-pointer"><Trash2 className="w-4 h-4" /></button>
+                    <button onClick={() => openEditModal(combo)} className="p-2 text-muted-foreground hover:text-primary rounded transition-all cursor-pointer"><Edit2 className="w-4 h-4" /></button>
+                    <button onClick={() => { setComboToDelete(combo); setDeleteError(null); setDeleteOpen(true); }} className="p-2 text-muted-foreground hover:text-red-400 rounded transition-all cursor-pointer"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </div>
               ))}
             </div>
 
+            {/* Desktop table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-[#262626] bg-black/10 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                  <tr className="border-b border-border bg-black/10 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                     <th className="py-4 px-6 w-16">Image</th>
                     <th className="py-4 px-6">Title</th>
-                    <th className="py-4 px-6 w-28">Price</th>
+                    <th className="py-4 px-6 w-32">Price</th>
                     <th className="py-4 px-6 w-24">Discount</th>
                     <th className="py-4 px-6 w-28 text-center">Visibility</th>
                     <th className="py-4 px-6 w-28 text-center">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#262626]/60 text-sm">
+                <tbody className="divide-y divide-border/60 text-sm">
                   {paginatedCombos.map((combo) => (
                     <tr key={combo.id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-3 px-6">
-                        <div className="relative w-12 h-8 bg-black/20 rounded border border-[#262626] overflow-hidden">
+                        <div className="relative w-12 h-8 bg-black/20 rounded border border-border overflow-hidden">
                           {combo.image_url ? (
                             <Image src={combo.image_url} alt={combo.title} fill sizes="48px" className="object-cover" />
                           ) : (
@@ -440,16 +448,16 @@ export default function CombosTab() {
                         </div>
                       </td>
                       <td className="py-3 px-6">
-                        <p className="font-bold text-white max-w-sm truncate" title={combo.title}>{combo.title}</p>
+                        <p className="font-bold text-foreground max-w-sm truncate" title={combo.title}>{combo.title}</p>
                       </td>
                       <td className="py-3 px-6">
-                        <p className="font-black text-white">Ôé╣{combo.discounted_price}</p>
-                        {combo.original_price && <p className="text-xs text-muted-foreground line-through">Ôé╣{combo.original_price}</p>}
+                        <p className="font-black text-foreground">{"\u20B9"}{combo.discounted_price}</p>
+                        {combo.original_price && <p className="text-xs text-muted-foreground line-through">{"\u20B9"}{combo.original_price}</p>}
                       </td>
                       <td className="py-3 px-6">
                         {combo.discount_details ? (
                           <span className="text-xs font-black bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded border border-blue-500/20">{combo.discount_details}</span>
-                        ) : <span className="text-xs text-muted-foreground">ÔÇö</span>}
+                        ) : <span className="text-xs text-muted-foreground">-</span>}
                       </td>
                       <td className="py-3 px-6 text-center">
                         <button
@@ -457,7 +465,7 @@ export default function CombosTab() {
                           className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer min-h-[36px] ${
                             pendingToggleId === combo.id
                               ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                              : combo.visible ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "bg-gray-500/10 text-muted-foreground border border-gray-500/20 hover:text-white"
+                              : combo.visible ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "bg-gray-500/10 text-muted-foreground border border-gray-500/20 hover:text-foreground"
                           }`}
                         >
                           {pendingToggleId === combo.id ? (
@@ -484,14 +492,14 @@ export default function CombosTab() {
         )}
 
         {!loading && filteredCombos.length > 0 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#262626] px-4 py-3 bg-black/5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border px-4 py-3 bg-black/5">
             <p className="text-xs text-muted-foreground">
-              Showing <span className="font-semibold text-white">{(currentPage - 1) * itemsPerPage + 1}</span>ÔÇô<span className="font-semibold text-white">{Math.min(currentPage * itemsPerPage, filteredCombos.length)}</span> of <span className="font-semibold text-white">{filteredCombos.length}</span>
+              Showing <span className="font-semibold text-foreground">{showStart}</span>-<span className="font-semibold text-foreground">{showEnd}</span> of <span className="font-semibold text-foreground">{filteredCombos.length}</span>
             </p>
             <div className="flex items-center gap-2">
-              <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} className="p-2.5 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"><ChevronLeft className="w-4 h-4" /></button>
-              <span className="text-xs text-muted-foreground min-w-[80px] text-center">Page <span className="font-bold text-white">{currentPage}</span> of {totalPages}</span>
-              <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} className="p-2.5 border border-[#262626] rounded-lg bg-[#050505]/50 text-muted-foreground hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"><ChevronRight className="w-4 h-4" /></button>
+              <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} className="p-2.5 border border-border rounded-lg bg-background text-muted-foreground hover:text-foreground hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"><ChevronLeft className="w-4 h-4" /></button>
+              <span className="text-xs text-muted-foreground min-w-[80px] text-center">Page <span className="font-bold text-foreground">{currentPage}</span> of {totalPages}</span>
+              <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} className="p-2.5 border border-border rounded-lg bg-background text-muted-foreground hover:text-foreground hover:border-primary disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"><ChevronRight className="w-4 h-4" /></button>
             </div>
           </div>
         )}
@@ -499,14 +507,14 @@ export default function CombosTab() {
 
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full sm:max-w-lg bg-[#111111] border border-[#262626] sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] animate-fadeIn">
-            <div className="px-6 py-4 border-b border-[#262626] flex items-center justify-between flex-shrink-0">
-              <h3 className="text-lg font-bold text-white">{modalMode === "add" ? "Add Combo Deal" : "Edit Combo Deal"}</h3>
-              <button onClick={() => setModalOpen(false)} className="p-1 text-muted-foreground hover:text-white transition-colors cursor-pointer"><X className="w-5 h-5" /></button>
+          <div className="w-full sm:max-w-lg bg-card border border-border sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] animate-fadeIn">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between flex-shrink-0">
+              <h3 className="text-lg font-bold text-foreground">{modalMode === "add" ? "Add Combo Deal" : "Edit Combo Deal"}</h3>
+              <button onClick={() => setModalOpen(false)} className="p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="flex-1 flex flex-col min-h-0 overflow-hidden">
-              <div className="flex-1 overflow-y-auto p-6 space-y-5">
+            <form onSubmit={handleFormSubmit} className="flex-1 flex flex-col min-h-0">
+              <div className="flex-1 overflow-y-auto min-h-0 p-6 space-y-5">
                 {formError && (
                   <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-4 py-3 rounded-lg leading-relaxed">
                     <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -520,7 +528,7 @@ export default function CombosTab() {
                     type="text" required value={formData.title}
                     onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                     placeholder="e.g. Fighting Combo"
-                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none placeholder:text-muted-foreground/50"
                   />
                 </div>
 
@@ -530,7 +538,7 @@ export default function CombosTab() {
                     rows={2} value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     placeholder="e.g. Best fighting bundle including 5 top-rated Steam games"
-                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600 resize-none"
+                    className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none placeholder:text-muted-foreground/50 resize-none"
                   />
                 </div>
 
@@ -540,7 +548,7 @@ export default function CombosTab() {
                     type="text" value={formData.curiosity_cue}
                     onChange={(e) => setFormData(prev => ({ ...prev, curiosity_cue: e.target.value }))}
                     placeholder="e.g. Grab these 5 fighting games before this offer ends!"
-                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none placeholder:text-muted-foreground/50"
                   />
                 </div>
 
@@ -549,8 +557,8 @@ export default function CombosTab() {
                   <input
                     type="text" value={formData.value_anchor}
                     onChange={(e) => setFormData(prev => ({ ...prev, value_anchor: e.target.value }))}
-                    placeholder="e.g. Ôé╣1799 worth of games for just Ôé╣199"
-                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                    placeholder="e.g. 1799 worth of games for just 199"
+                    className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none placeholder:text-muted-foreground/50"
                   />
                 </div>
 
@@ -559,8 +567,8 @@ export default function CombosTab() {
                   <div
                     onDragEnter={handleDrag} onDragOver={handleDrag} onDragLeave={handleDrag} onDrop={handleDrop}
                     onClick={() => document.getElementById("combo-file-upload")?.click()}
-                    className={`border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative overflow-hidden h-36 bg-[#050505]/20 ${
-                      dragActive ? "border-primary bg-primary/5" : "border-[#262626] hover:border-primary/50"
+                    className={`border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative overflow-hidden h-36 bg-background/50 ${
+                      dragActive ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
                     }`}
                   >
                     <input type="file" id="combo-file-upload" accept="image/*" onChange={handleFileInput} className="hidden" />
@@ -576,13 +584,13 @@ export default function CombosTab() {
                         </div>
                         <div className="relative z-10 flex flex-col items-center gap-1">
                           <FileImage className="w-6 h-6 text-primary" />
-                          <p className="text-[10px] text-white font-bold bg-black/60 px-2 py-0.5 rounded-full border border-white/10">Click or drop to change</p>
+                          <p className="text-[10px] text-foreground font-bold bg-black/60 px-2 py-0.5 rounded-full border border-white/10">Click or drop to change</p>
                         </div>
                       </>
                     ) : (
                       <>
                         <Upload className="w-6 h-6 text-muted-foreground" />
-                        <p className="text-[10px] text-gray-300 font-bold">Drag & drop image or click to browse</p>
+                        <p className="text-[10px] text-foreground font-bold">Drag & drop image or click to browse</p>
                       </>
                     )}
                   </div>
@@ -590,7 +598,7 @@ export default function CombosTab() {
                     type="text" value={formData.image_url}
                     onChange={(e) => setFormData(prev => ({ ...prev, image_url: e.target.value }))}
                     placeholder="Or paste image URL"
-                    className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-xs text-white focus:outline-none placeholder:text-gray-600 font-mono"
+                    className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-xs text-foreground focus:outline-none placeholder:text-muted-foreground/50 font-mono"
                   />
                 </div>
 
@@ -601,7 +609,7 @@ export default function CombosTab() {
                       type="number" value={formData.original_price}
                       onChange={(e) => setFormData(prev => ({ ...prev, original_price: e.target.value }))}
                       placeholder="1799"
-                      className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                      className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none placeholder:text-muted-foreground/50"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -610,7 +618,7 @@ export default function CombosTab() {
                       type="number" required value={formData.discounted_price}
                       onChange={(e) => setFormData(prev => ({ ...prev, discounted_price: e.target.value }))}
                       placeholder="199"
-                      className="w-full bg-[#050505]/50 border border-[#262626] focus:border-primary rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary/10 placeholder:text-gray-600"
+                      className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none placeholder:text-muted-foreground/50"
                     />
                   </div>
                 </div>
@@ -620,11 +628,11 @@ export default function CombosTab() {
                   <input
                     type="text" disabled
                     value={autoDiscountBadge || "Enter both prices to calculate"}
-                    className="w-full bg-[#111111] border border-[#262626] rounded-lg px-3 py-2 text-sm text-muted-foreground font-bold"
+                    className="w-full bg-card border border-border rounded-lg px-3 py-2 text-sm text-muted-foreground font-bold"
                   />
                 </div>
 
-                <div className="border-t border-[#262626] pt-5">
+                <div className="border-t border-border pt-5">
                   <GamePicker
                     options={games}
                     value={selectedGameIds}
@@ -634,15 +642,15 @@ export default function CombosTab() {
                   />
                 </div>
 
-                <div className="border-t border-[#262626] pt-5">
-                  <label className="flex items-center gap-2 text-sm text-white cursor-pointer select-none">
-                    <input type="checkbox" checked={formData.visible} onChange={(e) => setFormData(prev => ({ ...prev, visible: e.target.checked }))} className="w-4 h-4 rounded border-[#262626] accent-primary" />
+                <div className="border-t border-border pt-5">
+                  <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer select-none">
+                    <input type="checkbox" checked={formData.visible} onChange={(e) => setFormData(prev => ({ ...prev, visible: e.target.checked }))} className="w-4 h-4 rounded border-border accent-primary" />
                     <span>Visible on storefront</span>
                   </label>
                 </div>
               </div>
 
-              <div className="border-t border-[#262626] p-4 bg-[#111111] flex justify-end gap-3 flex-shrink-0">
+              <div className="border-t border-border p-4 bg-card flex justify-end gap-3 flex-shrink-0">
                 <Button type="button" variant="outline" onClick={() => setModalOpen(false)}>Cancel</Button>
                 <Button type="submit" disabled={formLoading} className="font-black active:scale-[0.98]">
                   {formLoading && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -656,13 +664,13 @@ export default function CombosTab() {
 
       {deleteOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#111111] border border-red-500/20 rounded-2xl shadow-2xl p-6 space-y-6 animate-fadeIn">
+          <div className="w-full max-w-md bg-card border border-red-500/20 rounded-2xl shadow-2xl p-6 space-y-6 animate-fadeIn">
             <div className="flex items-start gap-4">
               <div className="p-3 bg-red-500/10 text-red-400 rounded-lg"><AlertTriangle className="w-6 h-6" /></div>
               <div className="space-y-1">
-                <h3 className="text-lg font-bold text-white">Delete Combo?</h3>
+                <h3 className="text-lg font-bold text-foreground">Delete Combo?</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Delete <span className="text-white font-semibold">"{comboToDelete?.title}"</span> and all its game links? This cannot be undone.
+                  Delete <span className="text-foreground font-semibold">"{comboToDelete?.title}"</span> and all its game links? This cannot be undone.
                 </p>
               </div>
             </div>

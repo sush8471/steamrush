@@ -148,9 +148,9 @@ export function FullscreenMenu() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="flex flex-1 flex-col px-6 pb-8 overflow-y-auto"
+              className="flex flex-1 flex-col min-h-0 px-6"
             >
-              <nav className="flex-1 overflow-y-auto py-4">
+              <nav className="flex-1 overflow-y-auto py-4 min-h-0">
                 <ul className="flex flex-col">
                   {menuItems.map((item, index) => {
                     const isLast = index === menuItems.length - 1;
@@ -175,7 +175,7 @@ export function FullscreenMenu() {
 
               {/* Auth - Mobile Sign In / Sign Out */}
               {!authLoading && (
-                <motion.div variants={itemVariants} className="border-t border-white/10 pt-6">
+                <motion.div variants={itemVariants} className="border-t border-white/10 pt-6 flex-shrink-0">
                   {user ? (
                     <div className="flex flex-col items-center gap-3">
                       <div className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-white border border-white/10">
@@ -216,7 +216,7 @@ export function FullscreenMenu() {
               )}
 
               {/* WhatsApp Contact button */}
-              <motion.div variants={itemVariants} className="flex justify-center pt-6">
+              <motion.div variants={itemVariants} className="flex justify-center pt-6 flex-shrink-0 mt-auto">
                 <a
                   href="https://wa.me/917752805529?text=Hi! I want to buy a game"
                   target="_blank"

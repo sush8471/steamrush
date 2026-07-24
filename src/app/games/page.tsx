@@ -211,7 +211,7 @@ function GameCard({ game, priority = false }: { game: Game; priority?: boolean }
         </h3>
         <div className="flex items-baseline gap-1.5 mt-auto">
           <span className="text-white font-black text-base">
-            {game.price === 0 ? "Free" : `₹${game.price}`}
+            {game.releaseStatus === "upcoming" ? "Upcoming" : game.price === 0 ? "Free" : `₹${game.price}`}
           </span>
           {game.originalPrice && game.originalPrice > game.price ? (
             <span className="text-muted-foreground text-xs line-through">₹{game.originalPrice}</span>

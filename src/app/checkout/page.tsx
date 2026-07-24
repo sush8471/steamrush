@@ -9,7 +9,7 @@ import GamerBhiduNavbar from "@/components/sections/gamerbhidu-navbar";
 import Footer from "@/components/sections/footer";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ShoppingBag, Lock, Pencil } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Lock, Pencil, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CheckoutPage() {
@@ -23,6 +23,14 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState(user?.email ?? "");
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [orderExpanded, setOrderExpanded] = useState(false);
+
+  // Auto-expand on desktop, collapsed on mobile
+  useState(() => {
+    if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+      setOrderExpanded(true);
+    }
+  });
 
   const handleProceed = () => {
     if (cart.length === 0) return;
@@ -192,38 +200,55 @@ export default function CheckoutPage() {
               className="lg:col-span-2"
             >
               <div className="bg-card border border-white/10 rounded-2xl p-6 sticky top-24">
-                <h2 className="text-lg font-semibold text-white mb-5">
-                  Order Summary
-                  <span className="ml-2 text-sm font-normal text-muted-foreground">
-                    ({itemCount} item{itemCount > 1 ? "s" : ""})
-                  </span>
-                </h2>
+                {/* Clickable header */}
+                <button
+                  onClick={() => setOrderExpanded((v) => !v)}
+                  className="w-full flex items-center justify-between mb-5 cursor-pointer select-none"
+                >
+                  <h2 className="text-lg font-semibold text-white">
+                    Order Summary
+                    <span className="ml-2 text-sm font-normal text-muted-foreground">
+                      ({itemCount} item{itemCount > 1 ? "s" : ""})
+                    </span>
+                  </h2>
+                  <ChevronDown
+                    className={`h-5 w-5 text-muted-foreground transition-transform duration-300 ${
+                      orderExpanded ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
 
-                {/* Items list */}
-                <div className="space-y-3 mb-5">
-                  {cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-3">
-                      <div className="relative w-10 h-14 shrink-0 rounded overflow-hidden border border-white/10">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                        />
+                {/* Collapsible items list */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    orderExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="space-y-3 mb-5">
+                    {cart.map((item) => (
+                      <div key={item.id} className="flex items-center gap-3">
+                        <div className="relative w-10 h-14 shrink-0 rounded overflow-hidden border border-white/10">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-white font-medium truncate">{item.name}</p>
+                          {item.originalPrice && (
+                            <p className="text-xs text-muted-foreground line-through">
+                              ₹{item.originalPrice}
+                            </p>
+                          )}
+                        </div>
+                        <span className="text-sm text-white font-semibold shrink-0">
+                          ₹{item.price}
+                        </span>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white font-medium truncate">{item.name}</p>
-                        {item.originalPrice && (
-                          <p className="text-xs text-muted-foreground line-through">
-                            ₹{item.originalPrice}
-                          </p>
-                        )}
-                      </div>
-                      <span className="text-sm text-white font-semibold shrink-0">
-                        ₹{item.price}
-                      </span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
                 {/* Totals */}

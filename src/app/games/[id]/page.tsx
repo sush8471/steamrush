@@ -508,7 +508,7 @@ export default function GameDetailPage() {
                         href={`/games/${sg.slug}`}
                         className="relative flex-shrink-0 w-[180px] lg:w-[200px] group snap-start"
                       >
-                        <div className="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-white/30 transition-all duration-300">
+                        <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-3 ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-white/30 transition-all duration-300">
                           <Image src={sg.image_url} alt={sg.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
                           {sg.discount_percentage && (

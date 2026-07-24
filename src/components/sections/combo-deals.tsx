@@ -2,17 +2,17 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { X, Check, ExternalLink } from "lucide-react";
+import { X, Check, ExternalLink, Clock } from "lucide-react";
 import Link from "next/link";
 import { getCombos, Combo, ComboGame } from "@/lib/local-db";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CarouselNav } from "@/components/ui/carousel-nav";
 import ComboDealSkeleton from "@/components/ui/combo-deal-skeleton";
+import { useCountdown } from "@/hooks/use-countdown";
 
 import { useSteam } from "@/context/SteamContext";
 
 interface ComboData {
-
   id: string;
   title: string;
   description: string | null;
@@ -25,6 +25,7 @@ interface ComboData {
   };
   image: string;
   hasGameList: boolean;
+  dealExpiresAt: string | null;
   games?: ComboGame[];
 }
 
@@ -45,6 +46,7 @@ function transformCombo(combo: Combo): ComboData {
     },
     image: combo.image_url || "",
     hasGameList: (combo.games?.length || 0) > 0,
+    dealExpiresAt: combo.deal_expires_at,
     games: combo.games,
   };
 }
@@ -163,6 +165,24 @@ function GameListDialog({
   );
 }
 
+function CountdownBadge({ expiresAt }: { expiresAt: string | null }) {
+  const { remaining, expired } = useCountdown(expiresAt);
+
+  if (!expiresAt || !remaining) return null;
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  return (
+    <div className="absolute bottom-2 left-2 right-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm border border-white/10 rounded-md px-2.5 py-1.5 shadow-lg">
+      <Clock className="w-3 h-3 text-red-400 shrink-0" />
+      <span className="text-white text-[11px] font-bold tracking-wider tabular-nums">
+        {remaining.days > 0 && `${remaining.days}d `}
+        {pad(remaining.hours)}:{pad(remaining.minutes)}:{pad(remaining.seconds)}
+      </span>
+    </div>
+  );
+}
+
 export default function ComboDealSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [combos, setCombos] = useState<ComboData[]>([]);
@@ -271,6 +291,8 @@ export default function ComboDealSection() {
                       sizes="(max-width: 1024px) 85vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90" />
+
+                    <CountdownBadge expiresAt={combo.dealExpiresAt} />
 
                     {ownedInBundle > 0 && (
                       <div className="absolute top-2 left-2 bg-sky-950/90 border border-sky-500/50 text-sky-300 text-[11px] font-semibold px-2.5 py-1 rounded-md backdrop-blur-sm shadow flex items-center gap-1">

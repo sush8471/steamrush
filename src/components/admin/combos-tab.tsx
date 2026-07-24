@@ -23,6 +23,7 @@ type DbCombo = {
   value_anchor: string | null;
   display_order: number;
   visible: boolean;
+  deal_expires_at: string | null;
   created_at: string;
 };
 
@@ -56,6 +57,7 @@ export default function CombosTab() {
     image_url: "",
     original_price: "",
     discounted_price: "",
+    deal_expires_at: "",
     visible: true,
   });
   const [formError, setFormError] = useState<string | null>(null);
@@ -151,7 +153,7 @@ export default function CombosTab() {
   }, [searchQuery]);
 
   const resetForm = () => {
-    setFormData({ title: "", description: "", curiosity_cue: "", value_anchor: "", image_url: "", original_price: "", discounted_price: "", visible: true });
+    setFormData({ title: "", description: "", curiosity_cue: "", value_anchor: "", image_url: "", original_price: "", discounted_price: "", deal_expires_at: "", visible: true });
     setSelectedGameIds([]);
     setFormError(null);
   };
@@ -166,6 +168,9 @@ export default function CombosTab() {
   const openEditModal = async (combo: DbCombo) => {
     setModalMode("edit");
     setSelectedCombo(combo);
+    const localExpiry = combo.deal_expires_at
+      ? new Date(combo.deal_expires_at).toISOString().slice(0, 16)
+      : "";
     setFormData({
       title: combo.title,
       description: combo.description || "",
@@ -174,6 +179,7 @@ export default function CombosTab() {
       image_url: combo.image_url || "",
       original_price: combo.original_price !== null ? combo.original_price.toString() : "",
       discounted_price: combo.discounted_price.toString(),
+      deal_expires_at: localExpiry,
       visible: combo.visible,
     });
     await loadComboGames(combo.id);
@@ -246,6 +252,9 @@ export default function CombosTab() {
       original_price: origNum,
       discounted_price: discNum,
       discount_details: discBadge,
+      deal_expires_at: formData.deal_expires_at
+        ? new Date(formData.deal_expires_at).toISOString()
+        : null,
       visible: formData.visible,
     };
 
@@ -637,6 +646,17 @@ export default function CombosTab() {
                     value={autoDiscountBadge || "Enter both prices to calculate"}
                     className="w-full bg-card border border-border rounded-lg px-3 py-2 text-sm text-muted-foreground font-bold"
                   />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider">Limited Time Deal Expiry</label>
+                  <input
+                    type="datetime-local"
+                    value={formData.deal_expires_at}
+                    onChange={(e) => setFormData(prev => ({ ...prev, deal_expires_at: e.target.value }))}
+                    className="w-full bg-background border border-border focus:border-primary rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none"
+                  />
+                  <p className="text-[10px] text-muted-foreground">Leave empty for a permanent deal. Combo will auto-hide after expiry.</p>
                 </div>
 
                 <div className="border-t border-border pt-5">

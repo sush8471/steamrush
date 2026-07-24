@@ -282,6 +282,7 @@ export interface Combo {
     value_anchor: string | null;
     display_order: number;
     visible: boolean;
+    deal_expires_at: string | null;
     created_at: string;
     games?: ComboGame[];
 }
@@ -329,19 +330,22 @@ export async function getCombos() {
         return { data: [], error: error.message };
     }
 
-    const combos: Combo[] = (data || []).map((combo: any) => ({
-        ...combo,
-        games: (combo.combo_games || [])
-            .filter((cg: any) => cg.games)
-            .sort((a: any, b: any) => a.display_order - b.display_order)
-            .map((cg: any) => ({
-                id: cg.id,
-                combo_id: cg.combo_id,
-                game_id: cg.game_id,
-                display_order: cg.display_order,
-                game: cg.games,
-            })),
-    }));
+    const now = new Date().toISOString();
+    const combos: Combo[] = (data || [])
+        .filter((combo: any) => !combo.deal_expires_at || combo.deal_expires_at > now)
+        .map((combo: any) => ({
+            ...combo,
+            games: (combo.combo_games || [])
+                .filter((cg: any) => cg.games)
+                .sort((a: any, b: any) => a.display_order - b.display_order)
+                .map((cg: any) => ({
+                    id: cg.id,
+                    combo_id: cg.combo_id,
+                    game_id: cg.game_id,
+                    display_order: cg.display_order,
+                    game: cg.games,
+                })),
+        }));
 
     return { data: combos, error: null };
 }

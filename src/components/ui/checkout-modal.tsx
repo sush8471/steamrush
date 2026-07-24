@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, ShieldCheck, HelpCircle, Copy, Check } from "lucide-react";
+import { X, CheckCircle2, ShieldCheck, HelpCircle, Copy, Check, ChevronDown } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import type { CartItem } from "@/context/CartContext";
 
@@ -36,6 +36,7 @@ export function CheckoutModal({
   const [utrNumber, setUtrNumber] = useState("");
   const [showUtrHelp, setShowUtrHelp] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [orderExpanded, setOrderExpanded] = useState(false);
 
   const itemCount = items.length;
 
@@ -167,19 +168,48 @@ export function CheckoutModal({
 
                 {/* Order items */}
                 <div className="bg-background/50 rounded-lg p-3 space-y-2">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                      <span className="text-muted-foreground truncate mr-2">{item.name}</span>
-                      <span className="text-white font-semibold shrink-0">₹{item.price}</span>
+                  {/* Clickable header */}
+                  <button
+                    type="button"
+                    onClick={() => setOrderExpanded((v) => !v)}
+                    className="w-full flex items-center justify-between cursor-pointer select-none"
+                  >
+                    <span className="text-sm font-bold text-white">
+                      Order ({itemCount} game{itemCount > 1 ? "s" : ""})
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-white font-bold">₹{totalPrice}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 text-muted-foreground transition-transform duration-300 ${
+                          orderExpanded ? "rotate-180" : ""
+                        }`}
+                      />
                     </div>
-                  ))}
+                  </button>
+
+                  {/* Collapsible items */}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      orderExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="pt-2 space-y-2">
+                      {items.map((item) => (
+                        <div key={item.id} className="flex justify-between text-sm">
+                          <span className="text-muted-foreground truncate mr-2">{item.name}</span>
+                          <span className="text-white font-semibold shrink-0">₹{item.price}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   <div className="flex justify-between items-center pt-2 border-t border-white/10">
                     <span className="text-white font-bold">Total</span>
                     <span className="text-xl font-bold text-white">₹{totalPrice}</span>
                   </div>
                 </div>
 
-                {/* Copy order for Instagram */}
+                {/* Copy order */}
                 <button
                   onClick={handleCopyOrder}
                   className="w-full py-2.5 rounded-xl font-bold text-sm bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
@@ -187,7 +217,7 @@ export function CheckoutModal({
                   {copied ? (
                     <><Check className="h-4 w-4 text-green-400" /><span className="text-green-400">Copied!</span></>
                   ) : (
-                    <><Copy className="h-4 w-4" /><span>Copy Order & Send on Instagram</span></>
+                    <><Copy className="h-4 w-4" /><span>Copy Order</span></>
                   )}
                 </button>
 

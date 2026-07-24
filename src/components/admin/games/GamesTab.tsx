@@ -257,6 +257,64 @@ export default function GamesTab() {
     setFetchedTags([]);
   };
 
+  // Sync homepage section mappings when release_status changes
+  const syncHomepageSectionForStatusChange = async (
+    gameId: string,
+    oldStatus: "released" | "upcoming",
+    newStatus: "released" | "upcoming"
+  ) => {
+    try {
+      if (oldStatus === "upcoming" && newStatus === "released") {
+        const { data: section } = await supabase
+          .from("homepage_sections")
+          .select("id")
+          .eq("slug", "upcoming-games")
+          .single();
+
+        if (section) {
+          await supabase
+            .from("section_games")
+            .delete()
+            .eq("section_id", section.id)
+            .eq("game_id", gameId);
+        }
+      } else if (oldStatus === "released" && newStatus === "upcoming") {
+        const { data: section } = await supabase
+          .from("homepage_sections")
+          .select("id")
+          .eq("slug", "upcoming-games")
+          .single();
+
+        if (section) {
+          const { data: existing } = await supabase
+            .from("section_games")
+            .select("id")
+            .eq("section_id", section.id)
+            .eq("game_id", gameId)
+            .maybeSingle();
+
+          if (!existing) {
+            const { data: maxOrder } = await supabase
+              .from("section_games")
+              .select("display_order")
+              .eq("section_id", section.id)
+              .order("display_order", { ascending: false })
+              .limit(1)
+              .maybeSingle();
+
+            await supabase.from("section_games").insert([{
+              section_id: section.id,
+              game_id: gameId,
+              display_order: (maxOrder?.display_order ?? 0) + 10,
+            }]);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to sync homepage section:", err);
+    }
+  };
+
   // Form submit
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -297,6 +355,10 @@ export default function GamesTab() {
         if (!selectedGame) return;
         const { error: updateError } = await supabase.from("games").update(parsedGame).eq("id", selectedGame.id);
         if (updateError) throw updateError;
+
+        if (selectedGame.release_status !== formData.release_status) {
+          await syncHomepageSectionForStatusChange(selectedGame.id, selectedGame.release_status, formData.release_status);
+        }
       }
       setModalOpen(false);
       toast.success(modalMode === "add" ? "Game listing created" : "Game listing updated");
@@ -340,6 +402,7 @@ export default function GamesTab() {
     if (!gameToDelete) return;
     setDeleteLoading(true);
     try {
+      await supabase.from("section_games").delete().eq("game_id", gameToDelete.id);
       const { error: deleteError } = await supabase.from("games").delete().eq("id", gameToDelete.id);
       if (deleteError) throw deleteError;
       setDeleteOpen(false);

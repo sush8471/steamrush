@@ -73,7 +73,7 @@ export function SignInPrompt() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-6 right-6 z-[60] w-[320px] max-w-[calc(100vw-3rem)]"
+          className="fixed bottom-6 right-6 z-[60] w-[260px] max-w-[calc(100vw-3rem)]"
         >
           <div className="relative bg-card border border-border rounded-xl shadow-lg p-4">
             {/* Close */}
@@ -87,13 +87,6 @@ export function SignInPrompt() {
 
             {/* Content */}
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground pr-6">
-                Sign in to save your progress
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                Access your cart, orders, and wishlist from any device.
-              </p>
-
               <button
                 onClick={handleSignIn}
                 className="w-full flex items-center justify-center gap-2 bg-foreground text-background text-sm font-medium py-2.5 rounded-lg hover:opacity-90 transition-opacity"
@@ -105,13 +98,6 @@ export function SignInPrompt() {
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                 </svg>
                 Sign in with Google
-              </button>
-
-              <button
-                onClick={handleDismiss}
-                className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-              >
-                Maybe later
               </button>
             </div>
           </div>

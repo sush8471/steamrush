@@ -170,6 +170,7 @@ export default function ComboDealSection() {
   const [error, setError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedBundle, setSelectedBundle] = useState<ComboData | null>(null);
+  const { ownedAppIds } = useSteam();
 
   const loadCombos = useCallback(async () => {
     try {
@@ -233,8 +234,6 @@ export default function ComboDealSection() {
       </section>
     );
   }
-
-  const { ownedAppIds } = useSteam();
 
   return (
     <>

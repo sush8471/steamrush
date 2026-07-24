@@ -108,10 +108,10 @@ export function FullscreenMenu() {
             animate="visible"
             exit="exit"
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed inset-0 z-[9999] h-screen w-screen bg-[#000000] text-white"
+            className="fixed inset-0 z-[9999] h-screen w-screen bg-[#000000] text-white flex flex-col"
           >
             {/* Header */}
-            <div className="relative flex h-20 items-center px-4">
+            <div               className="relative flex h-20 flex-shrink-0 items-center px-4">
               {/* Close button — top-left */}
               <Button
                 variant="ghost"
@@ -148,7 +148,7 @@ export function FullscreenMenu() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="flex h-[calc(100vh-5rem)] flex-col px-6 pb-8"
+              className="flex flex-1 flex-col px-6 pb-8 overflow-y-auto"
             >
               <nav className="flex-1 overflow-y-auto py-4">
                 <ul className="flex flex-col">
@@ -201,7 +201,7 @@ export function FullscreenMenu() {
                           options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
                         });
                       }}
-                      className="w-full flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white text-sm font-bold py-3.5 rounded-lg transition-all active:scale-[0.99]"
+                      className="flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white text-sm font-bold py-3.5 px-6 rounded-lg transition-all active:scale-[0.99]"
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
